@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض ملفات PDF</title>
+    <link rel="stylesheet" href="cee.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <div>
+        <div class="buttons">
+            <div class="olif" style="justify-content: left;">
+                <div class="logo-1 mmyButton"><img src="image/fpi.png" alt=""> <span class="dis">Text Document</span><div class="ooo" onclick="toggleThumbnails()"></div></div>
+                <button class="icon dis" onclick="toggleThumbnails()"><span class="material-symbols-outlined">menu</span></button>
+                <div id="fileNameDisplay" class="c2"></div>
+            </div>
+
+            <div class="olif">
+                <input type="file" id="pdfInput" accept="application/pdf" style="display: none;">
+                <div class="goo"><input type="text" id="pageInput" style="width: 3ch;" value="0" class="olif-input"><span style="margin-left: 4px;margin-right: 8px;">/</span><span id="pageCount">0</span></div>
+                <span class="lk"></span>
+                <div class="olif" id="" style="width: auto;">
+                    <button class="icon" id="decreaseSize"><span class="material-symbols-outlined">remove</span></button>
+                    <input type="text" id="sizeInput" value="100%" class="olif-input">
+                    <button class="icon" id="increaseSize"><span class="material-symbols-outlined">add</span></button>
+                </div>
+                <span class="lk"></span>
+                <button class="icon" id="toggleSizeButton"><span class="material-symbols-outlined">width</span></button>
+                <button class="icon c2 dis" onclick="rotatePages()"><span class="material-symbols-outlined">rotate_90_degrees_ccw</span></button>
+            </div>
+
+            <div class="olif" style="justify-content: right;">
+                <button class="icon dis" onclick="downloadPDF()"><span class="material-symbols-outlined">download_2</span></button>
+                <button class="icon c2 dis" onclick="printPDF()"><span class="material-symbols-outlined">print</span></button>
+                <div class="dropdown">
+                  <button class="icon c2 clo" id="dropdownButton"><span class="material-symbols-outlined">more_vert</span></button> 
+                    <div id="dropdownMenu" class="dropdown-content">
+                        <input type="file" id="" style="display: none;" accept=".doc,.docx">
+                        <label for="pdfInput" class="mmyButton">Upload file</label>
+                        <label onclick="printPDF()" class="mmyButton dr"><span class="material-symbols-outlined">print</span>Print</label>
+                        <label onclick="downloadPDF()" class="mmyButton dr"><span class="material-symbols-outlined">download_2</span>Download PDF</label>
+                        <hr class="dr">
+                        <label onclick="rotatePages()" class="mmyButton dr"><span class="material-symbols-outlined">rotate_90_degrees_ccw</span>Recycle</label>
+                        <label id="toggleCheck" class="mmyButton"><span id="checkIcon" class="material-symbols-outlined" style="display: none;">check</span>Two page view</label>
+                        <hr>
+                        <label id="" class="mmyButton">Edit file</label>
+                    </div> 
+                </div>
+            </div>
+            <!-- -------- -->
+             <div class="buttons22">
+                <h3 class="c2 olif" style="justify-content: left;">Click to save changes.</h3>
+                <div class="edit-textarea olif">
+                    <textarea name="" id=""></textarea>
+                </div>
+                <div class="olif" style="direction: rtl;justify-content: right;">
+                    <button class="icon c2" id=""><span class="material-symbols-outlined">close</span></button>
+                    <button class="icon" id=""><span class="material-symbols-outlined">check</span></button>
+                </div>
+             </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="thumbnails" id="thumbnails">
+
+        </div>
+        <div id="pdfPreview" class="pdf-preview"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <script>
+
+
+
+
+const pdfInput = document.getElementById('pdfInput');
+const pdfPreview = document.getElementById('pdfPreview');
+const thumbnails = document.getElementById('thumbnails');
+const toggleSizeButton = document.getElementById('toggleSizeButton');
+const fileNameDisplay = document.getElementById('fileNameDisplay');
+const pageCountDisplay = document.getElementById('pageCount');
+const pageInput = document.getElementById('pageInput');
+let pdfDoc = null;
+let isFullSize = false;
+
+// تحميل ملف PDF
+pdfInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === 'application/pdf') {
+        fileNameDisplay.textContent = `${file.name}`;
+        const fileReader = new FileReader();
+        fileReader.onload = function() {
+            const typedArray = new Uint8Array(this.result);
+            renderPDF(typedArray);
+        };
+        fileReader.readAsArrayBuffer(file);
+    }
+});
+
+// رسم PDF
+function renderPDF(typedArray) {
+    const loadingTask = pdfjsLib.getDocument(typedArray);
+    loadingTask.promise.then(pdf => {
+        pdfDoc = pdf;
+        thumbnails.innerHTML = '';
+        pdfPreview.innerHTML = ''; // Clear previous pages
+        pageCountDisplay.textContent = `Page 1 of ${pdf.numPages}`; // Display page count
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            pdf.getPage(pageNum).then(page => {
+                const viewport = page.getViewport({ scale: 2 });
+                const canvas = document.createElement('canvas');
+                canvas.classList.add('pdf-page');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                canvas.id = `page-${pageNum}`;
+                canvas.setAttribute('data-original-width', viewport.width);
+                canvas.setAttribute('data-original-height', viewport.height);
+
+                const context = canvas.getContext('2d');
+                page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+                    const thumbnail = document.createElement('div');
+                    thumbnail.classList.add('thumbnail');
+                    thumbnail.id = `thumbnail-${pageNum}`;
+                    thumbnail.onclick = () => showPage(pageNum);
+                    const img = document.createElement('img');
+                    img.src = canvas.toDataURL();
+                    thumbnail.appendChild(img);
+                    thumbnails.appendChild(thumbnail);
+
+                    pdfPreview.appendChild(canvas); // Add canvas to the preview after thumbnail is created
+                });
+            });
+        }
+    }).catch(error => {
+        console.error('Error loading PDF:', error);
+    });
+}
+
+// عرض الصفحة المحددة
+function showPage(pageNum) {
+    if (!pdfDoc || pageNum < 1 || pageNum > pdfDoc.numPages) {
+        alert('هذه الصفحة غير موجودة!');
+        return;
+    }
+
+    const pdfPreview = document.getElementById('pdfPreview');
+    const selectedCanvas = document.getElementById(`page-${pageNum}`);
+    
+    if (selectedCanvas) {
+        // احصل على موقع الصفحة المحددة
+        const pageRect = selectedCanvas.getBoundingClientRect();
+        const pdfPreviewRect = pdfPreview.getBoundingClientRect();
+        
+        // تحقق مما إذا كانت الصفحة المحددة في حدود عرض الـ PDF
+        if (pageRect.top < pdfPreviewRect.top || pageRect.bottom > pdfPreviewRect.bottom) {
+            // إذا كانت الصفحة خارج الحدود، قم بالتمرير
+            pdfPreview.scrollTo({
+                top: pdfPreview.scrollTop + (pageRect.top - pdfPreviewRect.top),
+                behavior: 'smooth' // تأثير تمرير سلس
+            });
+        }
+
+        // تمييز الصورة المصغرة المحددة
+        const allThumbnails = document.querySelectorAll('.thumbnail');
+        allThumbnails.forEach(thumbnail => thumbnail.classList.remove('selected'));
+
+        const selectedThumbnail = document.getElementById(`thumbnail-${pageNum}`);
+        if (selectedThumbnail) {
+            selectedThumbnail.classList.add('selected');
+        }
+
+        // تحديث إدخال الرقم وعرض عدد الصفحات
+        pageInput.value = pageNum;
+        pageCountDisplay.textContent = `Page ${pageNum} of ${pdfDoc.numPages}`;
+    }
+}
+
+
+
+
+
+// حدث لتغيير الرقم المدخل في صفحة الإدخال
+pageInput.addEventListener('change', () => {
+    const pageNum = parseInt(pageInput.value);
+    const pageHeight = 889; // تحديد ارتفاع الصفحة الثابت
+
+    if (pageNum > 0 && pageNum <= pdfDoc.numPages) {
+        showPage(pageNum);
+        
+        // حساب موضع الصفحة في pdfPreview
+        const pdfPreview = document.getElementById('pdfPreview');
+
+        // استخدام موضع الصفحة المستهدفة لحساب موضع التمرير
+        const targetScrollTop = (pageNum - 1) * pageHeight; // حساب موضع التمرير
+        
+        // تمرير إلى الموضع الصحيح
+        pdfPreview.scrollTo({
+            top: targetScrollTop,
+            behavior: 'smooth' // تأثير تمرير سلس
+        });
+    } else {
+        alert('رقم الصفحة غير صحيح!');
+        pageInput.value = ''; // مسح الإدخال إذا كان رقم الصفحة غير صحيح
+    }
+});
+
+
+// حدث للتمرير بين الصفحات عند التمرير
+pdfPreview.addEventListener('scroll', () => {
+    const pages = document.querySelectorAll('.pdf-page');
+    pages.forEach((page, index) => {
+        const rect = page.getBoundingClientRect();
+        const pdfPreviewRect = pdfPreview.getBoundingClientRect();
+
+        if (rect.top >= pdfPreviewRect.top && rect.bottom <= pdfPreviewRect.bottom) {
+            const allThumbnails = document.querySelectorAll('.thumbnail');
+            allThumbnails.forEach(thumbnail => thumbnail.classList.remove('selected'));
+
+            const selectedThumbnail = allThumbnails[index];
+            if (selectedThumbnail) {
+                selectedThumbnail.classList.add('selected');
+            }
+        }
+    });
+});
+
+// وظيفة لتغيير حجم الصفحات
+function toggleThumbnails() {
+    thumbnails.style.display = thumbnails.style.display === 'none' ? 'block' : 'none';
+}
+
+// وظيفة لتنزيل PDF
+function downloadPDF() {
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(pdfInput.files[0]);
+    link.download = pdfInput.files[0].name;
+    link.click();
+}
+
+// وظيفة لطباعة PDF
+function printPDF() {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = URL.createObjectURL(pdfInput.files[0]);
+    document.body.appendChild(iframe);
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+    document.body.removeChild(iframe);
+}
+
+// وظيفة لتدوير الصفحات 
+function rotatePages() {
+    const pages = document.querySelectorAll('.pdf-page');
+
+    pages.forEach((page) => {
+        let currentRotation = page.getAttribute('data-rotation') || 0;
+        currentRotation = (parseInt(currentRotation) + 90) % 360;
+        page.setAttribute('data-rotation', currentRotation);
+        page.style.transform = `rotate(${currentRotation}deg)`;
+        page.style.transformOrigin = 'center';
+
+        // تأكد من أن الصفحات تبقى بحجم يمكن مشاهدته
+        page.style.margin = '0px auto';
+        page.style.width = 'auto';
+        page.style.height = '100%';
+    });
+}
+
+// وظيفة لإلغاء التدوير
+function resetPageRotation() {
+    const pages = document.querySelectorAll('.pdf-page');
+
+    pages.forEach((page) => {
+        page.setAttribute('data-rotation', 0);
+        page.style.transform = 'none'; // إلغاء التحويل
+        page.style.margin = '0px auto';
+        page.style.width = 'auto';
+        page.style.height = '100%';
+    });
+}
+
+// إضافة حدث للزر toggleSizeButton
+document.getElementById('toggleSizeButton').addEventListener('click', function() {
+    // استدعاء وظيفة إلغاء التدوير
+    resetPageRotation();
+});
+
+
+// حدث لتغيير حجم الصفحات عند الضغط على الزر
+toggleSizeButton.addEventListener('click', () => {
+    const pages = pdfPreview.querySelectorAll('.pdf-page');
+
+    if (isFullSize) {
+        pages.forEach((page) => {
+            page.style.width = 'auto';
+            page.style.height = '100%';
+            page.style.margin = 'auto';
+        });
+        toggleSizeButton.innerHTML = '<span class="material-symbols-outlined">width</span>';
+        
+        // إخفاء "Auto" والعودة إلى النسبة الأصلية
+        sizeInput.value = '100%'; // تعيين القيمة الأصلية
+        currentSizePercentage = 100; // إعادة تعيين النسبة الحالية إلى القيمة الأصلية
+    } else {
+        pages.forEach((page) => {
+            page.style.width = '-webkit-fill-available';
+            page.style.height = 'auto';
+            page.style.margin = '10px';
+        });
+        toggleSizeButton.innerHTML = '<span class="material-symbols-outlined">height</span>';
+        sizeInput.value = 'Auto'; // تحديث خانة الإدخال إلى "Auto"
+    }
+
+    isFullSize = !isFullSize; // تغيير حالة الحجم
+});
+
+
+const increaseSizeButton = document.getElementById('increaseSize');
+const decreaseSizeButton = document.getElementById('decreaseSize');
+const sizeInput = document.getElementById('sizeInput');
+let currentSizePercentage = 100; // القيمة الابتدائية للحجم
+
+// وظيفة لزيادة حجم الصفحات
+increaseSizeButton.addEventListener('click', () => {
+    if (currentSizePercentage < 170) {
+        currentSizePercentage += 10; // زيادة الحجم بمقدار 10%
+        updatePageSizes();
+    }
+});
+
+// وظيفة لتقليل حجم الصفحات
+decreaseSizeButton.addEventListener('click', () => {
+    if (currentSizePercentage > 100) {
+        currentSizePercentage -= 10; // تقليل الحجم بمقدار 10%
+        updatePageSizes();
+    }
+});
+
+// وظيفة لتحديث حجم الصفحات وعرضه في خانة الإدخال
+function updatePageSizes() {
+    const pages = pdfPreview.querySelectorAll('.pdf-page');
+    const baseHeight = 889; // استخدم الارتفاع الأساسي للصفحة (يمكنك تعديله حسب الحاجة)
+    const newHeight = (currentSizePercentage / 100) * baseHeight; // حساب الارتفاع الجديد
+
+    pages.forEach((page) => {
+        page.style.height = `${newHeight}px`; // تحديث الارتفاع لكل صفحة
+        page.style.width = 'auto'; // تأكد من أن العرض تلقائي
+    });
+    
+    sizeInput.value = `${currentSizePercentage}%`; // تحديث خانة الإدخال
+}
+
+// إضافة متغيرات جديدة
+const toggleCheck = document.getElementById('toggleCheck');
+const checkIcon = document.getElementById('checkIcon');
+// const thumbnails = document.getElementById('thumbnails'); // إضافة ديف thumbnails
+let isTwoPagesSideBySide = false;
+
+// حدث عند الضغط على الديف
+toggleCheck.addEventListener('click', () => {
+    const pages = pdfPreview.querySelectorAll('.pdf-page');
+
+    if (isTwoPagesSideBySide) {
+        // العودة إلى الوضع الأصلي
+        pages.forEach((page) => {
+            page.style.display = 'block'
+            page.style.width = 'auto'; // تعيين العرض التلقائي
+            page.style.margin = '0px auto'; // إعادة تعيين الهوامش
+            page.style.height = '889px';
+        });
+        checkIcon.style.display = 'none'; // إخفاء أيقونة check
+        thumbnails.style.display = 'block';
+        thumbnails.style.position = 'static'; // إعادة موضع thumbnails إلى الوضع الأصلي
+    } else {
+        // عرض كل صفحتين بجانب بعض
+        pages.forEach((page, index) => {
+            page.style.display = 'inline-flex'; // تعيين العرض كتلة مدمجة
+            page.style.width = 'calc(40% - 10px)'; // تعيين عرض الصفحة
+            // page.style.margin = '5px'; // إضافة هوامش
+            page.style.height = 'auto';
+        });
+        checkIcon.style.display = 'inline'; // إظهار أيقونة check
+        thumbnails.style.display = 'none';
+        thumbnails.style.height = '-webkit-fill-available';
+        thumbnails.style.position = 'absolute'; // تغيير موضع thumbnails إلى absolute
+    }
+
+    isTwoPagesSideBySide = !isTwoPagesSideBySide; // تغيير الحالة
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const dropdownButton = document.getElementById('dropdownButton');
+const dropdownMenu = document.getElementById('dropdownMenu');
+
+dropdownButton.addEventListener('click', function(event) {
+    event.stopPropagation(); // لمنع الحدث من الانتقال إلى العناصر الأبوية
+    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    dropdownButton.classList.toggle('active');
+});
+
+// إخفاء القائمة فقط عند النقر خارجها إذا كانت معروضة
+document.addEventListener('click', function(event) {
+    if (dropdownMenu.style.display === 'block' && !dropdownMenu.contains(event.target) && !dropdownButton.contains(event.target)) {
+        dropdownMenu.style.display = 'none';
+        dropdownButton.classList.remove('active');
+    }
+});
+
+
+    </script>
+
+
+
+
+<script>
+    // استهداف جميع الأزرار
+    const buttons = document.querySelectorAll('.mmyButton');
+
+buttons.forEach(button => {
+button.addEventListener('mousedown', function(event) {
+   // الحصول على حجم الزر
+   const buttonWidth = button.offsetWidth;
+   const buttonHeight = button.offsetHeight;
+
+   // الحصول على موضع الضغط داخل الزر
+   const mouseX = event.offsetX;
+   const mouseY = event.offsetY;
+
+   // حساب نسبة الموضع بالنسبة للعرض والارتفاع
+   const rotateX = ((mouseY / buttonHeight) - 0.5) * 20; // لتدوير حول محور X
+   const rotateY = ((mouseX / buttonWidth) - 0.5) * +20; // لتدوير حول محور Y
+
+   // تطبيق التحول على الزر
+   button.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+});
+
+button.addEventListener('mouseup', function() {
+   // إعادة تعيين التحول عند رفع الضغط عن الزر
+   button.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)';
+});
+
+button.addEventListener('mouseleave', function() {
+   // إعادة تعيين التحول عند مغادرة الماوس للزر
+   button.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)';
+});
+});
+</script>
+</body>
+</html>
