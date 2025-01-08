@@ -229,28 +229,27 @@ pdfPreview.addEventListener('scroll', () => {
 });
 
 // وظيفة لتغيير حجم الصفحات
-document.addEventListener('DOMContentLoaded', () => {
+function toggleThumbnails() {
     const thumbnails = document.getElementById('thumbnails'); // استهداف العنصر
-    const mediaQuery = window.matchMedia('(max-width: 780px)'); // شرط الحجم
+    const currentDisplay = window.getComputedStyle(thumbnails).display; // الحصول على القيمة الحالية
+    thumbnails.style.display = currentDisplay === 'none' ? 'block' : 'none';
 
-    function handleClickOutside(event) {
-        // التحقق إذا كان العنصر مخفيًا أو تم النقر خارجه
-        if (mediaQuery.matches && thumbnails.style.display === 'block' && !thumbnails.contains(event.target)) {
-            thumbnails.style.display = 'none'; // إخفاء العنصر
-        }
+    // إذا تم فتح thumbnails، أضف مستمع للنقر على المستند
+    if (thumbnails.style.display === 'block') {
+        document.addEventListener('click', handleOutsideClick);
     }
+}
 
-    // إضافة الحدث عند الضغط على أي مكان في الصفحة
-    document.addEventListener('click', handleClickOutside);
+function handleOutsideClick(event) {
+    const thumbnails = document.getElementById('thumbnails');
+    const isInsideClick = thumbnails.contains(event.target); // التحقق إذا كانت النقرة داخل thumbnails
 
-    // إذا كنت تريد التبديل بين الظهور والإخفاء (مع زر):
-    const toggleButton = document.getElementById('toggleButton'); // الزر (مثال)
-    if (toggleButton) {
-        toggleButton.addEventListener('click', () => {
-            thumbnails.style.display = thumbnails.style.display === 'none' ? 'block' : 'none';
-        });
+    // تحقق من حجم الشاشة وإخفاء thumbnails إذا كانت النقرة خارجها
+    if (!isInsideClick && window.matchMedia('(max-width: 780px)').matches) {
+        thumbnails.style.display = 'none';
+        document.removeEventListener('click', handleOutsideClick); // إزالة المستمع بعد الإخفاء
     }
-});
+}
         
 
 // وظيفة لتنزيل PDF
