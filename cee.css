@@ -345,5 +345,11 @@
             margin: 0;
             width: max-content;
         }
+        body .cod {
+            display: none;
+        }
+        body .dropdown-content div, label:active {
+            background-color: rgba(255, 255, 255, 0.233);
+        }
             
     }
