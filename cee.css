@@ -338,7 +338,7 @@
         body .c2 {
             display: none;
         }
-        .icon,body .logo-1,.dropdown-content div, label {
+        .icon,body .logo-1,.thumbnail,.dropdown-content div, label {
             cursor: context-menu;
         }
         body .goo {
