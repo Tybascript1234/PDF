@@ -330,4 +330,8 @@
             margin: 5px;
             width: 100%;
         }
+        body .logo-1 {
+            display: none;
+        }
+            
     }
