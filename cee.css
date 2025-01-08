@@ -331,7 +331,7 @@
             width: 100%;
         }
         body .logo-1 {
-            
+            margin: 0;
         }
         body .c2 {
             display: none;
