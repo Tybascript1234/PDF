@@ -235,6 +235,20 @@ function toggleThumbnails() {
     thumbnails.style.display = currentDisplay === 'none' ? 'block' : 'none';
 }
 
+// إخفاء العنصر عند النقر خارج الديف للشاشات بحجم 780px أو أقل
+document.addEventListener('click', function(event) {
+    const thumbnails = document.getElementById('thumbnails'); // استهداف العنصر
+    
+    // التحقق من حجم الشاشة
+    if (window.innerWidth <= 780) {
+        // التحقق مما إذا كان النقر خارج العنصر
+        if (!thumbnails.contains(event.target) && event.target.id !== 'toggleButton') {
+            thumbnails.style.display = 'none'; // إخفاء العنصر
+        }
+    }
+});
+        
+
 // وظيفة لتنزيل PDF
 function downloadPDF() {
     const link = document.createElement('a');
