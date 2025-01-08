@@ -331,6 +331,7 @@
             scrollbar-width: none;
             box-shadow: 0 -2px 8px rgba(0, 0, 0, .09), 0 4px 8px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .3), 0 2px 6px rgba(0, 0, 0, .15);
             width: 254px;
+            z-index: 50;
         }
         body .pdf-preview canvas {
             height: auto;
