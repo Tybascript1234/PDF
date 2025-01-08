@@ -340,7 +340,8 @@
             cursor: context-menu;
         }
         body .goo {
-            margin: none;
+            margin: 0;
+            width: max-content;
         }
             
     }
