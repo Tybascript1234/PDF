@@ -38,8 +38,8 @@
     .pdf-preview canvas {
     display: block;
     margin: 0px auto;
-    outline: solid 1px #0000001f;
-    /* box-shadow: 0px 3px 7px #00000045; */
+    /*outline: solid 1px #0000001f; */
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 2px 3px 0px #25292e1f;
     height: 889px;
     background-size: cover;
     }
