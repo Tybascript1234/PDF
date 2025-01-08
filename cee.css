@@ -332,6 +332,7 @@
         }
         body .logo-1 {
             margin: 0;
+            display: block;
         }
         body .c2 {
             display: none;
