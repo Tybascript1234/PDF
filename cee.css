@@ -336,7 +336,7 @@
         body .c2 {
             display: none;
         }
-        html botton,div {
+        .icon,.dropdown-content div, label {
             cursor: context-menu;
         }
             
