@@ -334,7 +334,7 @@
         }
         body .pdf-preview canvas {
             height: auto;
-            margin: 5px;
+            margin: 16px 8px;
             width: -webkit-fill-available;
         }
         body .logo-1 {
