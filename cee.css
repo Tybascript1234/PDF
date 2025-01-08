@@ -191,7 +191,7 @@
     background-color: #ffffffa6;
     }
     .clo.active {
-    background-color: rgb(255 255 255 / 24%); /* لون الزر عند الضغط */
+    background-color: #656e7b1a; /* لون الزر عند الضغط */
     }
     .dropdown {
     position: relative;
