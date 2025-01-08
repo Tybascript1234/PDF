@@ -355,7 +355,7 @@
             display: none;
         }
         body .dropdown-content div, label:active {
-            background-color: rgba(255, 255, 255, 0.233);
+            background-color: #818b981a;
         }
             
     }
