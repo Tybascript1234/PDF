@@ -252,7 +252,7 @@
     }
     .goo { 
     align-items: center;
-    color: #fff;
+    /* color: #fff; */
     direction: ltr;
     display: flex;
     justify-content: left;
