@@ -229,33 +229,37 @@ pdfPreview.addEventListener('scroll', () => {
 });
 
 // وظيفة لتغيير حجم الصفحات
-// استهداف العنصر
-const thumbnails = document.getElementById('thumbnails');
-
-// وظيفة الإظهار/الإخفاء باستخدام الزر
+// تعريف الوظيفة لإظهار أو إخفاء العنصر
 function toggleThumbnails() {
-    const currentDisplay = window.getComputedStyle(thumbnails).display; // الحصول على حالة العرض الحالية
+    const thumbnails = document.getElementById('thumbnails'); // استهداف العنصر
+    const currentDisplay = window.getComputedStyle(thumbnails).display; // الحصول على القيمة الحالية
     thumbnails.style.display = currentDisplay === 'none' ? 'block' : 'none';
-
-    // إذا تم فتح thumbnails، أضف مستمعًا للنقر خارج العنصر
-    if (thumbnails.style.display === 'block') {
-        document.addEventListener('click', handleOutsideClick);
-    } else {
-        // إذا تم إخفاء العنصر عبر الزر، أزل مستمع النقر
-        document.removeEventListener('click', handleOutsideClick);
-    }
 }
 
-// وظيفة إخفاء العنصر عند الضغط خارجه في وضع الهاتف فقط
-function handleOutsideClick(event) {
-    const isInsideClick = thumbnails.contains(event.target); // التحقق إذا كانت النقرة داخل thumbnails
-    const isMobile = window.matchMedia('(max-width: 780px)').matches; // التحقق إذا كان العرض أقل من 780px
+// إضافة الأحداث
+document.addEventListener('DOMContentLoaded', function () {
+    const button = document.getElementById('toggleButton'); // الزر الذي يتحكم في العرض
+    const thumbnails = document.getElementById('thumbnails'); // العنصر الذي سيتم إخفاؤه أو عرضه
 
-    if (!isInsideClick && isMobile) {
-        thumbnails.style.display = 'none';
-        document.removeEventListener('click', handleOutsideClick); // إزالة المستمع بعد الإخفاء
-    }
-}
+    button.addEventListener('click', function () {
+        // عند الضغط على الزر، تبديل العرض
+        toggleThumbnails();
+    });
+
+    document.addEventListener('click', function (event) {
+        // التحقق من حجم الشاشة
+        if (window.innerWidth <= 780) {
+            // إذا كان النقر خارج العنصر والزر، قم بإخفاء العنصر
+            if (
+                thumbnails.style.display === 'block' &&
+                !thumbnails.contains(event.target) &&
+                event.target !== button
+            ) {
+                thumbnails.style.display = 'none';
+            }
+        }
+    });
+});
         
 
 // وظيفة لتنزيل PDF
