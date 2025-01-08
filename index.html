@@ -20,13 +20,13 @@
                 <input type="file" id="pdfInput" accept="application/pdf" style="display: none;">
                 <div class="goo"><input type="text" id="pageInput" style="width: 3ch;" value="0" class="olif-input"><span style="margin-left: 4px;margin-right: 8px;">/</span><span id="pageCount">0</span></div>
                 <span class="lk"></span>
-                <div class="olif" id="" style="width: auto;">
+                <div class="olif c2" id="" style="width: auto;">
                     <button class="icon" id="decreaseSize"><span class="material-symbols-outlined">remove</span></button>
                     <input type="text" id="sizeInput" value="100%" class="olif-input">
                     <button class="icon" id="increaseSize"><span class="material-symbols-outlined">add</span></button>
                 </div>
-                <span class="lk"></span>
-                <button class="icon" id="toggleSizeButton"><span class="material-symbols-outlined">width</span></button>
+                <span class="lk c2"></span>
+                <button class="icon c2" id="toggleSizeButton"><span class="material-symbols-outlined">width</span></button>
                 <button class="icon c2 dis" onclick="rotatePages()"><span class="material-symbols-outlined">rotate_90_degrees_ccw</span></button>
             </div>
 
@@ -40,9 +40,9 @@
                         <label for="pdfInput" class="mmyButton">Upload file</label>
                         <label onclick="printPDF()" class="mmyButton dr"><span class="material-symbols-outlined">print</span>Print</label>
                         <label onclick="downloadPDF()" class="mmyButton dr"><span class="material-symbols-outlined">download_2</span>Download PDF</label>
-                        <hr class="dr">
-                        <label onclick="rotatePages()" class="mmyButton dr"><span class="material-symbols-outlined">rotate_90_degrees_ccw</span>Recycle</label>
-                        <label id="toggleCheck" class="mmyButton"><span id="checkIcon" class="material-symbols-outlined" style="display: none;">check</span>Two page view</label>
+                        <hr class="dr" style="display: none;">
+                        <label onclick="rotatePages()" class="mmyButton dr c2"><span class="material-symbols-outlined">rotate_90_degrees_ccw</span>Recycle</label>
+                        <label id="toggleCheck" class="mmyButton c2"><span id="checkIcon" class="material-symbols-outlined" style="display: none;">check</span>Two page view</label>
                         <hr>
                         <label id="" class="mmyButton">Edit file</label>
                     </div> 
