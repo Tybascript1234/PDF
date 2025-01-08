@@ -221,7 +221,7 @@
     text-decoration: none;
     }
     .dropdown-content div,label:hover {
-    background-color: rgba(255, 255, 255, 0.233);
+        background-color: #818b981a;
     }
     .dropdown-content div,label:active {
 
