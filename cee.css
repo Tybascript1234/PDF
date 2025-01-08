@@ -339,5 +339,8 @@
         .icon,.dropdown-content div, label {
             cursor: context-menu;
         }
+        body .goo {
+            margin: none;
+        }
             
     }
