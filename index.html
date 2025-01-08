@@ -121,17 +121,48 @@ function renderPDF(typedArray) {
                 canvas.setAttribute('data-original-height', viewport.height);
 
                 const context = canvas.getContext('2d');
-                page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
-                    const thumbnail = document.createElement('div');
-                    thumbnail.classList.add('thumbnail');
-                    thumbnail.id = `thumbnail-${pageNum}`;
-                    thumbnail.onclick = () => showPage(pageNum);
-                    const img = document.createElement('img');
-                    img.src = canvas.toDataURL();
-                    thumbnail.appendChild(img);
-                    thumbnails.appendChild(thumbnail);
+                const textLayerDiv = document.createElement('div');
+                textLayerDiv.classList.add('textLayer');
+                textLayerDiv.style.position = 'absolute';
+                textLayerDiv.style.top = '0';
+                textLayerDiv.style.left = '0';
+                textLayerDiv.style.height = `${viewport.height}px`;
+                textLayerDiv.style.width = `${viewport.width}px`;
+                textLayerDiv.style.pointerEvents = 'none';
+                
+                const container = document.createElement('div');
+                container.style.position = 'relative';
+                container.appendChild(canvas);
+                container.appendChild(textLayerDiv);
+                
+                pdfPreview.appendChild(container);
 
-                    pdfPreview.appendChild(canvas); // Add canvas to the preview after thumbnail is created
+                page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+                    page.getTextContent().then(textContent => {
+                        pdfjsLib.renderTextLayer({
+                            textContent,
+                            container: textLayerDiv,
+                            viewport,
+                            textDivs: [],
+                        });
+
+                        page.getAnnotations().then(annotations => {
+                            annotations.forEach(annotation => {
+                                if (annotation.subtype === 'Link' && annotation.url) {
+                                    const link = document.createElement('a');
+                                    link.href = annotation.url;
+                                    link.target = '_blank';
+                                    link.style.position = 'absolute';
+                                    link.style.left = `${annotation.rect[0]}px`;
+                                    link.style.top = `${viewport.height - annotation.rect[3]}px`;
+                                    link.style.width = `${annotation.rect[2] - annotation.rect[0]}px`;
+                                    link.style.height = `${annotation.rect[3] - annotation.rect[1]}px`;
+                                    link.style.backgroundColor = 'rgba(0,0,255,0.1)'; // Optional: Highlight link area
+                                    textLayerDiv.appendChild(link);
+                                }
+                            });
+                        });
+                    });
                 });
             });
         }
