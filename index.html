@@ -229,22 +229,26 @@ pdfPreview.addEventListener('scroll', () => {
 });
 
 // وظيفة لتغيير حجم الصفحات
-function toggleThumbnails() {
+document.addEventListener('DOMContentLoaded', () => {
     const thumbnails = document.getElementById('thumbnails'); // استهداف العنصر
-    const currentDisplay = window.getComputedStyle(thumbnails).display; // الحصول على القيمة الحالية
-    thumbnails.style.display = currentDisplay === 'none' ? 'block' : 'none';
-}
+    const mediaQuery = window.matchMedia('(max-width: 780px)'); // شرط الحجم
 
-// إخفاء العنصر عند النقر خارج الديف للشاشات بحجم 780px أو أقل
-document.addEventListener('click', function(event) {
-    const thumbnails = document.getElementById('thumbnails'); // استهداف العنصر
-    
-    // التحقق من حجم الشاشة
-    if (window.innerWidth <= 780) {
-        // التحقق مما إذا كان النقر خارج العنصر
-        if (!thumbnails.contains(event.target) && event.target.id !== 'toggleButton') {
+    function handleClickOutside(event) {
+        // التحقق إذا كان العنصر مخفيًا أو تم النقر خارجه
+        if (mediaQuery.matches && thumbnails.style.display === 'block' && !thumbnails.contains(event.target)) {
             thumbnails.style.display = 'none'; // إخفاء العنصر
         }
+    }
+
+    // إضافة الحدث عند الضغط على أي مكان في الصفحة
+    document.addEventListener('click', handleClickOutside);
+
+    // إذا كنت تريد التبديل بين الظهور والإخفاء (مع زر):
+    const toggleButton = document.getElementById('toggleButton'); // الزر (مثال)
+    if (toggleButton) {
+        toggleButton.addEventListener('click', () => {
+            thumbnails.style.display = thumbnails.style.display === 'none' ? 'block' : 'none';
+        });
     }
 });
         
