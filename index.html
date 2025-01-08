@@ -229,23 +229,29 @@ pdfPreview.addEventListener('scroll', () => {
 });
 
 // وظيفة لتغيير حجم الصفحات
+// استهداف العنصر
+const thumbnails = document.getElementById('thumbnails');
+
+// وظيفة الإظهار/الإخفاء باستخدام الزر
 function toggleThumbnails() {
-    const thumbnails = document.getElementById('thumbnails'); // استهداف العنصر
-    const currentDisplay = window.getComputedStyle(thumbnails).display; // الحصول على القيمة الحالية
+    const currentDisplay = window.getComputedStyle(thumbnails).display; // الحصول على حالة العرض الحالية
     thumbnails.style.display = currentDisplay === 'none' ? 'block' : 'none';
 
-    // إذا تم فتح thumbnails، أضف مستمع للنقر على المستند
+    // إذا تم فتح thumbnails، أضف مستمعًا للنقر خارج العنصر
     if (thumbnails.style.display === 'block') {
         document.addEventListener('click', handleOutsideClick);
+    } else {
+        // إذا تم إخفاء العنصر عبر الزر، أزل مستمع النقر
+        document.removeEventListener('click', handleOutsideClick);
     }
 }
 
+// وظيفة إخفاء العنصر عند الضغط خارجه في وضع الهاتف فقط
 function handleOutsideClick(event) {
-    const thumbnails = document.getElementById('thumbnails');
     const isInsideClick = thumbnails.contains(event.target); // التحقق إذا كانت النقرة داخل thumbnails
+    const isMobile = window.matchMedia('(max-width: 780px)').matches; // التحقق إذا كان العرض أقل من 780px
 
-    // تحقق من حجم الشاشة وإخفاء thumbnails إذا كانت النقرة خارجها
-    if (!isInsideClick && window.matchMedia('(max-width: 780px)').matches) {
+    if (!isInsideClick && isMobile) {
         thumbnails.style.display = 'none';
         document.removeEventListener('click', handleOutsideClick); // إزالة المستمع بعد الإخفاء
     }
