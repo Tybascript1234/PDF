@@ -335,7 +335,7 @@
         body .pdf-preview canvas {
             height: auto;
             margin: 5px;
-            width: 100%;
+            width: -webkit-fill-available;
         }
         body .logo-1 {
             margin: 0;
