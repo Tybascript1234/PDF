@@ -436,36 +436,44 @@ document.addEventListener('click', function(event) {
 
 
 <script>
-    // استهداف جميع الأزرار
-    const buttons = document.querySelectorAll('.mmyButton');
+// استهداف جميع الأزرار
+const buttons = document.querySelectorAll('.mmyButton');
 
 buttons.forEach(button => {
-button.addEventListener('mousedown', function(event) {
-   // الحصول على حجم الزر
-   const buttonWidth = button.offsetWidth;
-   const buttonHeight = button.offsetHeight;
+    // إضافة أحداث اللمس والفأرة
+    const handleStart = function(event) {
+        event.preventDefault(); // منع السلوك الافتراضي (لمنع التمرير أثناء اللمس)
 
-   // الحصول على موضع الضغط داخل الزر
-   const mouseX = event.offsetX;
-   const mouseY = event.offsetY;
+        // الحصول على حجم الزر
+        const buttonWidth = button.offsetWidth;
+        const buttonHeight = button.offsetHeight;
 
-   // حساب نسبة الموضع بالنسبة للعرض والارتفاع
-   const rotateX = ((mouseY / buttonHeight) - 0.5) * 20; // لتدوير حول محور X
-   const rotateY = ((mouseX / buttonWidth) - 0.5) * +20; // لتدوير حول محور Y
+        // الحصول على موضع الضغط داخل الزر
+        const touch = event.touches ? event.touches[0] : event; // لللمس أو الفأرة
+        const mouseX = touch.clientX - button.getBoundingClientRect().left;
+        const mouseY = touch.clientY - button.getBoundingClientRect().top;
 
-   // تطبيق التحول على الزر
-   button.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-});
+        // حساب نسبة الموضع بالنسبة للعرض والارتفاع
+        const rotateX = ((mouseY / buttonHeight) - 0.5) * 20; // لتدوير حول محور X
+        const rotateY = ((mouseX / buttonWidth) - 0.5) * 20; // لتدوير حول محور Y
 
-button.addEventListener('mouseup', function() {
-   // إعادة تعيين التحول عند رفع الضغط عن الزر
-   button.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)';
-});
+        // تطبيق التحول على الزر
+        button.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    };
 
-button.addEventListener('mouseleave', function() {
-   // إعادة تعيين التحول عند مغادرة الماوس للزر
-   button.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)';
-});
+    const handleEnd = function() {
+        // إعادة تعيين التحول عند رفع الضغط عن الزر أو انتهاء اللمس
+        button.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)';
+    };
+
+    // إضافة الأحداث
+    button.addEventListener('mousedown', handleStart);
+    button.addEventListener('mouseup', handleEnd);
+    button.addEventListener('mouseleave', handleEnd);
+
+    button.addEventListener('touchstart', handleStart);
+    button.addEventListener('touchend', handleEnd);
+    button.addEventListener('touchcancel', handleEnd);
 });
 </script>
 </body>
