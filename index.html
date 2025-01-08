@@ -231,7 +231,8 @@ pdfPreview.addEventListener('scroll', () => {
 // وظيفة لتغيير حجم الصفحات
 function toggleThumbnails() {
     const thumbnails = document.getElementById('thumbnails'); // استهداف العنصر
-    thumbnails.style.display = thumbnails.style.display === 'none' ? 'block' : 'none';
+    const currentDisplay = window.getComputedStyle(thumbnails).display; // الحصول على القيمة الحالية
+    thumbnails.style.display = currentDisplay === 'none' ? 'block' : 'none';
 }
 
 // وظيفة لتنزيل PDF
