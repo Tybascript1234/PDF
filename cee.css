@@ -298,6 +298,12 @@
     .dr {
         display: none;
     }
+    .mmyButton {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        will-change: transform; /* تحسين الأداء */
+        backface-visibility: hidden; /* تقليل البكسلة */
+        transform-style: preserve-3d; /* الحفاظ على التحويل ثلاثي الأبعاد */
+    }
 
 
 
