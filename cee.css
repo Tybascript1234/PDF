@@ -248,6 +248,7 @@
     width: 5ch;
     }
     .olif-input:focus {
+    border: solid 1px #0089ff;
     outline: 2px solid #a8cdff;
     }
     .goo { 
