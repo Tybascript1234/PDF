@@ -333,5 +333,11 @@
         body .logo-1 {
             display: none;
         }
+        body .c2 {
+            display: none;
+        }
+        html botton,div {
+            cursor: context-menu;
+        }
             
     }
