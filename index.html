@@ -444,7 +444,8 @@ const buttons = document.querySelectorAll('.mmyButton');
 buttons.forEach(button => {
     // إضافة أحداث اللمس والفأرة
     const handleStart = function(event) {
-        event.preventDefault(); // منع السلوك الافتراضي (لمنع التمرير أثناء اللمس)
+        // تغيير لون الخلفية أثناء النقر
+        button.style.background = 'rgba(255, 255, 255, 0.233)';
 
         // الحصول على حجم الزر
         const buttonWidth = button.offsetWidth;
@@ -464,8 +465,9 @@ buttons.forEach(button => {
     };
 
     const handleEnd = function() {
-        // إعادة تعيين التحول عند رفع الضغط عن الزر أو انتهاء اللمس
+        // إعادة تعيين التحول والخلفية عند انتهاء الضغط أو اللمس
         button.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)';
+        button.style.background = ''; // إزالة اللون المضاف
     };
 
     // إضافة الأحداث
@@ -476,6 +478,12 @@ buttons.forEach(button => {
     button.addEventListener('touchstart', handleStart);
     button.addEventListener('touchend', handleEnd);
     button.addEventListener('touchcancel', handleEnd);
+
+    // التأكد من عدم إلغاء وظيفة الزر الأساسية
+    button.addEventListener('click', function(event) {
+        console.log(`Button "${button.textContent}" clicked!`); // فقط للتجربة
+        // يمكن تنفيذ أي وظيفة أخرى هنا.
+    });
 });
 </script>
 </body>
