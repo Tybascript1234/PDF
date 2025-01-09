@@ -9,6 +9,97 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
+
+    <!-- الإعلانات -->
+        <div class="loka" id="dynamic-div" style="display: none;">
+            <div class="loka-1">
+                <div class="coo">
+                    <button class="icon"><span class="material-symbols-outlined">info</span></button>
+                    <div>
+                        <button>تواصل واتساب</button>
+                        <button>حول الإعلانات</button>
+                    </div>
+                </div>
+                <div>اعلان مدفوع</div>
+                <div><span id="timer">4</span> ثواني</div>
+            </div>
+            <a id="dynamic-link" href="">
+                <div class="loka-div">
+                    <img id="dynamic-image" src="" alt="">
+                </div>
+            </a>
+            <div class="loka-2"><span id="progress-bar"></span></div>
+        </div>
+
+        <!-- <script>
+            // الاعلانات
+            const dynamicDiv = document.getElementById('dynamic-div');
+    const timerSpan = document.getElementById('timer');
+    const progressBar = document.getElementById('progress-bar');
+    const dynamicImage = document.getElementById('dynamic-image');
+    const dynamicLink = document.getElementById('dynamic-link');
+
+    // Array of images and links
+    const dynamicContent = [
+        { image: '1.jpg', link: 'https://example.com/page1' },
+        { image: '2.jpg', link: 'https://example.com/page2' },
+        { image: '3.jpg', link: 'https://example.com/page3' }
+    ];
+
+    let currentIndex = 0;
+
+    function showDynamicDiv() {
+        // Update content with the next image and link
+        const content = dynamicContent[currentIndex];
+        dynamicImage.src = content.image;
+        dynamicLink.href = content.link;
+
+        // Cycle through the array
+        currentIndex = (currentIndex + 1) % dynamicContent.length;
+
+        // Reset timer and progress bar
+        timerSpan.textContent = 4;
+        progressBar.style.width = '0';
+        progressBar.setAttribute('data-progress', '0%');
+
+        // Show the div
+        dynamicDiv.style.display = 'flex';
+
+        // Animate progress bar and update progress text
+        let progress = 0;
+        const progressInterval = setInterval(() => {
+            progress += 25;
+            progressBar.style.width = `${progress}%`;
+            progressBar.setAttribute('data-progress', `${progress}%`);
+            if (progress >= 100) {
+                clearInterval(progressInterval);
+            }
+        }, 1000);
+
+        // Countdown timer
+        let remainingTime = 4;
+        const timerInterval = setInterval(() => {
+            remainingTime--;
+            timerSpan.textContent = remainingTime;
+            if (remainingTime <= 0) {
+                clearInterval(timerInterval);
+                hideDynamicDiv();
+            }
+        }, 1000);
+    }
+
+    function hideDynamicDiv() {
+        dynamicDiv.style.display = 'none';
+    }
+
+    // Show the div every 10 minutes (600000 ms)
+    setInterval(showDynamicDiv, 600000);
+
+    // Initial display for testing
+    showDynamicDiv();
+        </script> -->
+    <!-- ------------------------------- -->
+
     <div style="position: sticky; top: 0; z-index: 100;">
         <div class="buttons">
             <div class="olif" style="justify-content: left;">
