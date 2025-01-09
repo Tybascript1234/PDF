@@ -50,7 +50,7 @@
     width: fit-content;
     cursor: pointer;
     margin-bottom: 47px;
-    border: 1px solid #ffffff63;
+    border: 1px solid #ffffff;
     border-radius: 0;
     /* overflow: hidden; */
     display: inline-block;
@@ -94,6 +94,7 @@
     } */
     .thumbnail.selected {
         outline: 5px solid #a8cdff; /* لون الحدود للصفحة المحددة */
+        border-color: #d1d9e000;
     }
     .thumbnail.selected img {
         filter: brightness(1);
@@ -174,10 +175,17 @@
     }
     .material-symbols-outlined {
     font-variation-settings:
-    'FILL' 3,
+    'FILL' 0,
     'wght' 400,
     'GRAD' 0,
     'opsz' 24
+    }
+    .icon .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 3,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
     }
     .c2 {
     margin-left: 5px;
@@ -187,10 +195,10 @@
     height: 20px;
     width: 1px;
     margin: 0 8px;
-    background-color: #ffffffa6;
+    background-color: #d1d9e0;
     }
     .clo.active {
-    background-color: #656e7b1a; /* لون الزر عند الضغط */
+    background-color: #656e7b1f; /* لون الزر عند الضغط */
     }
     .dropdown {
     position: relative;
