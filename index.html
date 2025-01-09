@@ -575,7 +575,7 @@ document.getElementById('shareFileButton').addEventListener('click', async () =>
         const lastModified = new Date(file.lastModified).toLocaleString(); // آخر تعديل
 
         // عرض المعلومات في رسالة
-        alert(`اسم الملف: ${fileName}\nحجم الملف: ${fileSize} KB\nرابط الملف: ${fileURL}\nآخر تعديل: ${lastModified}`);
+        alert(` ملف  ${fileName}\nالحجم ${fileSize} KB\nالمسار  ${fileURL}\nآخر تعديل في  ${lastModified}`);
     } else {
         alert('لم يتم تحميل أي ملف!');
     }
