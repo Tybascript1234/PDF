@@ -45,7 +45,11 @@
                         <label onclick="rotatePages()" class="mmyButton dr c2"><span class="material-symbols-outlined">rotate_90_degrees_ccw</span>Recycle</label>
                         <label id="toggleCheck" class="mmyButton cod"><span id="checkIcon" class="material-symbols-outlined" style="display: none;">check</span>Two page view</label>
                         <hr>
-                        <label id="" class="mmyButton">Edit file</label>
+                        <label class="mmyButton" id="shareFileButton"><span class="material-symbols-outlined">share</span>Share file</label>
+                        <label class="mmyButton" id="copyTextButton"><span class="material-symbols-outlined">content_copy</span>Copy file text</label>
+                        <label class="mmyButton" id="downloadImagesZipButton"><span class="material-symbols-outlined">folder_zip</span>Download file pages</label>
+                        <hr>
+                        <label id="fileInfoButton" class="mmyButton">File information</label>
                     </div> 
                 </div>
             </div>
@@ -71,6 +75,8 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script>
 
 
@@ -185,12 +191,19 @@ function showPage(pageNum) {
 
 // حدث لتغيير الرقم المدخل في صفحة الإدخال
 pageInput.addEventListener('change', () => {
-    const pageNum = parseInt(pageInput.value);
+    // تحويل الأرقام العربية إلى أرقام إنجليزية
+    const normalizeNumber = (num) => {
+        return num.replace(/[٠١٢٣٤٥٦٧٨٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+    };
+
+    // تطبيع قيمة الإدخال
+    const input = normalizeNumber(pageInput.value);
+    const pageNum = parseInt(input);
     const pageHeight = 889; // تحديد ارتفاع الصفحة الثابت
 
     if (pageNum > 0 && pageNum <= pdfDoc.numPages) {
         showPage(pageNum);
-        
+
         // حساب موضع الصفحة في pdfPreview
         const pdfPreview = document.getElementById('pdfPreview');
 
@@ -264,10 +277,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // وظيفة لتنزيل PDF
 function downloadPDF() {
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(pdfInput.files[0]);
-    link.download = pdfInput.files[0].name;
-    link.click();
+    const pdfInput = document.getElementById('pdfInput');
+    
+    if (pdfInput.files.length === 0) {
+        alert("Please select a PDF file first.");
+        return;
+    }
+    
+    const confirmDownload = confirm("Are you sure you want to download the PDF?");
+    if (confirmDownload) {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(pdfInput.files[0]);
+        link.download = pdfInput.files[0].name;
+        link.click();
+    }
 }
 
 // وظيفة لطباعة PDF
@@ -420,6 +443,147 @@ toggleCheck.addEventListener('click', () => {
 
     isTwoPagesSideBySide = !isTwoPagesSideBySide; // تغيير الحالة
 });
+
+document.getElementById('copyTextButton').addEventListener('click', async () => {
+    if (!pdfDoc) {
+        alert('لم يتم تحميل ملف PDF بعد!');
+        return;
+    }
+
+    const allText = [];
+    for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+        const page = await pdfDoc.getPage(pageNum);
+        const textContent = await page.getTextContent();
+
+        // فرز النصوص حسب الإحداثيات Y ثم X
+        const textItems = textContent.items.map(item => ({
+            str: item.str,
+            x: item.transform[4],
+            y: item.transform[5],
+        }));
+
+        textItems.sort((a, b) => {
+            // ترتيب النصوص حسب الإحداثيات Y ثم X
+            if (b.y === a.y) return a.x - b.x;
+            return b.y - a.y;
+        });
+
+        // معالجة النصوص العربية بطريقة صحيحة
+        const lines = [];
+        let currentY = null;
+        let line = [];
+
+        textItems.forEach(item => {
+            if (currentY === null || Math.abs(currentY - item.y) > 5) {
+                if (line.length > 0) {
+                    lines.push(line);
+                }
+                line = [];
+                currentY = item.y;
+            }
+            line.push(item.str);
+        });
+
+        if (line.length > 0) {
+            lines.push(line);
+        }
+
+        // عكس الكلمات في كل سطر لتناسب النص العربي
+        const pageText = lines
+            .map(line => line.reverse().join(' ')) // عكس الكلمات في كل سطر
+            .join('\n'); // فصل الأسطر
+
+        allText.push(`صفحة ${pageNum}:\n${pageText}`);
+    }
+
+    const finalText = allText.join('\n\n');
+
+    // نسخ النصوص إلى الحافظة
+    navigator.clipboard.writeText(finalText).then(() => {
+        alert('تم نسخ النصوص بدقة لجميع الصفحات إلى الحافظة!');
+    }).catch(err => {
+        console.error('خطأ أثناء النسخ:', err);
+        alert('حدث خطأ أثناء نسخ النصوص!');
+    });
+});
+
+
+// زر تحميل جميع الصفحات كصور في ملف ZIP
+document.getElementById('downloadImagesZipButton').addEventListener('click', async () => {
+    if (!pdfDoc) {
+        alert('لم يتم تحميل ملف PDF بعد!');
+        return;
+    }
+
+    const confirmDownload = confirm("هل أنت متأكد أنك تريد تحميل جميع الصفحات كصور في ملف ZIP؟");
+    if (confirmDownload) {
+        const zip = new JSZip();
+        for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+            const page = await pdfDoc.getPage(pageNum);
+            const viewport = page.getViewport({ scale: 2 });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            const dataUrl = canvas.toDataURL('image/png');
+            zip.file(`page-${pageNum}.png`, dataUrl.split(',')[1], { base64: true });
+        }
+
+        zip.generateAsync({ type: 'blob' }).then(blob => {
+            saveAs(blob, 'pdf_pages.zip');
+        });
+    }
+});
+
+// زر مشاركة الملف
+document.getElementById('shareFileButton').addEventListener('click', async () => {
+        const pdfInput = document.getElementById('pdfInput'); // افتراض أن ملف PDF يتم تحميله من هنا
+        if (!pdfInput || !pdfInput.files[0]) {
+            alert('لم يتم تحميل ملف PDF للمشاركة!');
+            return;
+        }
+
+        // التحقق من دعم Web Share API
+        if (navigator.canShare && navigator.canShare({ files: [pdfInput.files[0]] })) {
+            try {
+                await navigator.share({
+                    title: 'مشاركة ملف PDF',
+                    text: 'تفقد هذا الملف الرائع!',
+                    files: [pdfInput.files[0]],
+                });
+                alert('تمت مشاركة الملف بنجاح!');
+            } catch (error) {
+                console.error('حدث خطأ أثناء مشاركة الملف:', error);
+                alert('تعذر مشاركة الملف.');
+            }
+        } else {
+            alert('المشاركة غير مدعومة على هذا الجهاز!');
+        }
+    });
+
+    document.getElementById('fileInfoButton').addEventListener('click', () => {
+    // تحديد الملف المُحمّل
+    const fileInput = document.getElementById('pdfInput');
+    const file = fileInput.files[0];
+
+    if (file) {
+        const fileSize = (file.size / 1024).toFixed(2); // حجم الملف بالـ KB
+        const fileName = file.name;
+        const fileURL = URL.createObjectURL(file); // رابط الملف المؤقت
+        const lastModified = new Date(file.lastModified).toLocaleString(); // آخر تعديل
+
+        // عرض المعلومات في رسالة
+        alert(`اسم الملف: ${fileName}\nحجم الملف: ${fileSize} KB\nرابط الملف: ${fileURL}\nآخر تعديل: ${lastModified}`);
+    } else {
+        alert('لم يتم تحميل أي ملف!');
+    }
+});
+
+
+
+
 
 
 
