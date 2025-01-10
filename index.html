@@ -350,7 +350,7 @@ pdfPreview.addEventListener('scroll', () => {
 function toggleThumbnails() {
             const thumbnails = document.getElementById('thumbnails');
             const currentDisplay = window.getComputedStyle(thumbnails).display;
-            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const isMobile = window.matchMedia('(max-width: 800px)').matches;
 
             if (currentDisplay === 'none' || thumbnails.classList.contains('hidden')) {
                 thumbnails.style.display = 'block';
