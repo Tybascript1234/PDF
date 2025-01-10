@@ -464,7 +464,7 @@
             display: none;
             height: -webkit-fill-available;
             scrollbar-width: none;
-            box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 2px 0px 3px 0px #25292e1f;
+            box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 18px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
             width: 254px;
             z-index: 50;
         }
