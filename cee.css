@@ -247,9 +247,10 @@
         text-align: left;
         overflow: hidden;
     }
-    .dropdown-content img {
+    .dropdown-content svg {
         left: 0;
         height: 21px;
+        width: max-content;
         margin-left: 9px;
         position: absolute;
     }
