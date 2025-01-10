@@ -67,6 +67,7 @@
     filter: brightness(1);
     }
     .thumbnail::before {
+    color: #59636e;
     content: counter(myCounter) "";
     position: absolute;
     font-weight: bold;
