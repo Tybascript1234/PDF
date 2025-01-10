@@ -439,6 +439,9 @@
             width: 254px;
             z-index: 50;
         }
+        body .pdf-preview {
+            height: auto;
+        } 
         body .pdf-preview canvas {
             height: auto;
             margin: 8px 8px;
