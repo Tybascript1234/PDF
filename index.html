@@ -346,11 +346,69 @@ pdfPreview.addEventListener('scroll', () => {
 
 // وظيفة لتغيير حجم الصفحات
 // تعريف الوظيفة لإظهار أو إخفاء العنصر
+
 function toggleThumbnails() {
-    const thumbnails = document.getElementById('thumbnails'); // استهداف العنصر
-    const currentDisplay = window.getComputedStyle(thumbnails).display; // الحصول على القيمة الحالية
-    thumbnails.style.display = currentDisplay === 'none' ? 'block' : 'none';
-}
+            const thumbnails = document.getElementById('thumbnails');
+            const currentDisplay = window.getComputedStyle(thumbnails).display;
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+            if (currentDisplay === 'none' || thumbnails.classList.contains('hidden')) {
+                thumbnails.style.display = 'block';
+                setTimeout(() => {
+                    thumbnails.classList.remove('hidden');
+                }, 10);
+            } else {
+                thumbnails.classList.add('hidden');
+                const animationDuration = isMobile ? 300 : 0;
+                setTimeout(() => {
+                    thumbnails.style.display = 'none';
+                }, animationDuration);
+            }
+        }
+
+        function enableSwipeToClose(element) {
+            let startX = 0;
+            let endX = 0;
+
+            element.addEventListener('touchstart', (event) => {
+                startX = event.touches[0].clientX;
+            });
+
+            element.addEventListener('touchmove', (event) => {
+                endX = event.touches[0].clientX;
+                const deltaX = endX - startX;
+                if (deltaX < 0) {
+                    element.style.transform = `translateX(${deltaX}px)`;
+                }
+            });
+
+            element.addEventListener('touchend', () => {
+                const isMobile = window.matchMedia('(max-width: 768px)').matches;
+                const animationDuration = isMobile ? 300 : 0;
+
+                if (startX - endX > 50) {
+                    element.classList.add('hidden');
+                    setTimeout(() => {
+                        element.style.display = 'none';
+                        element.style.transform = '';
+                    }, animationDuration);
+                } else {
+                    element.style.transform = '';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const thumbnails = document.getElementById('thumbnails');
+            if (thumbnails) {
+                enableSwipeToClose(thumbnails);
+            }
+
+            const toggleButton = document.getElementById('toggleButton');
+            if (toggleButton) {
+                toggleButton.addEventListener('click', toggleThumbnails);
+            }
+        });
 
 // إضافة الأحداث
 document.addEventListener('DOMContentLoaded', function () {
