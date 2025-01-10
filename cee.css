@@ -511,5 +511,15 @@
                 
             }
         }
+        #thumbnails {
+            transition: transform 0.3s ease, opacity 0.3s ease; /* انتقال سلس */
+            will-change: transform, opacity;
+        }
+        
+        #thumbnails.hidden {
+            transform: translateX(-100%); /* إزاحة العنصر بالكامل إلى اليسار */
+            opacity: 0; /* شفافية العنصر */
+            pointer-events: none; /* تعطيل التفاعل أثناء الإخفاء */
+        }
             
     }
