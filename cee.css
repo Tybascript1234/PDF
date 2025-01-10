@@ -231,6 +231,7 @@
         background-color: #818b981a;
     }
     .dropdown-content div,label a {
+        width: max-width;
         height: 16px;
         text-align: left;
         overflow: hidden;
