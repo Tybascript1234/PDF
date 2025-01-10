@@ -180,6 +180,10 @@
     .icon span {
     font-size: 20px;
     }
+    .icon svg {
+        width: 22px;
+        height: 22px;
+    }
     .material-symbols-outlined {
     font-variation-settings:
     'FILL' 0,
