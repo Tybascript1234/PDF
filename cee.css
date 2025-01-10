@@ -7,6 +7,11 @@
         margin: 0;
         font-size: 14px;
     }
+    ul {
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+    }
     hr {
     padding: 0;
     margin: 5px 0;
@@ -100,6 +105,7 @@
         filter: brightness(1);
     }
     .thumbnails {
+        animation: rre 0.3s ease forwards;
         overflow-y: scroll;
         background-color: #f6f8fa;
         text-align: -webkit-center;
@@ -204,16 +210,20 @@
     position: relative;
     }
     .dropdown-content {
-    overflow: hidden;
-    z-index: 10;
-    display: none;
-    position: fixed;
-    right: 10px;
-    padding: 8px 0;
-    width: 175px;
-    border-radius: 4px;
-    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
-    background-color: rgb(255 255 255);
+        animation: popup 0.3s ease forwards;
+        overflow: auto;
+        scrollbar-width: none;
+        z-index: 10;
+        display: none;
+        position: fixed;
+        right: 10px;
+        padding: 8px 0;
+        width: 175px;
+        border-radius: 4px;
+        box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+        background-color: rgb(255 255 255);
+        max-height: -webkit-fill-available;
+        margin-bottom: 8px;
     }
     .dropdown-content div,label {
         user-select: none;
@@ -411,6 +421,25 @@
         width: 100%;
     }
 
+    @keyframes popup {
+        0% {
+            margin-top: -16px;
+            box-shadow: none;
+        }
+        100% {
+            box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+        }
+    }
+    @keyframes rre {
+        0% {
+            margin-left: -300px;
+            box-shadow: none;
+        }
+        100% {
+            
+        }
+    }
+
 
 
 
@@ -466,6 +495,15 @@
         }
         body .dropdown-content div, label:active {
             background-color: #818b981a;
+        }
+        @keyframes rre {
+            0% {
+                margin-left: -255px;
+                box-shadow: none;
+            }
+            100% {
+                
+            }
         }
             
     }
