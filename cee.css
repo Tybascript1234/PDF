@@ -251,10 +251,11 @@
         text-align: left;
         overflow: hidden;
     }
-    .dropdown-content svg {
+    .dropdown-content o {
         left: 0;
         height: 21px;
-        width: max-content;
+        width: 21px;
+        background-size: cover;
         margin-left: 9px;
         position: absolute;
     }
