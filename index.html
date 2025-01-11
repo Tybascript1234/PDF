@@ -373,7 +373,7 @@ function toggleThumbnails() {
                 const isMobile = window.matchMedia('(max-width: 768px)').matches;
                 const animationDuration = isMobile ? 300 : 0;
 
-                if (startX - endX > 50) {
+                if (startX - endX > 0) {
                     element.classList.add('hidden');
                     setTimeout(() => {
                         element.style.display = 'none';
