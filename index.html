@@ -126,7 +126,7 @@
                 <button class="icon dis" onclick="downloadPDF()"><span class="material-symbols-outlined">download_2</span></button>
                 <button class="icon c2 dis" onclick="printPDF()"><span class="material-symbols-outlined">print</span></button>
                 <div class="dropdown">
-                  <button class="icon c2 clo" id="dropdownButton" style="display: flex;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg></button>
+                  <button class="icon c2 clo" id="dropdownButton" style="display: flex;position:relative; z-index: 30;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg></button>
                     <div id="dropdownMenu" class="dropdown-content">
                         <ul>
                             <input type="file" id="" style="display: none;" accept=".doc,.docx">
@@ -162,19 +162,16 @@
 
     <div class="container">
         <div class="thumbnails" id="thumbnails">
-
+            
         </div>
-        <div id="pdfPreview" class="pdf-preview"></div>
+        <div id="pdfPreview" class="pdf-preview hidden"></div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
     <script>
-
-
-
-
  const pdfInput = document.getElementById('pdfInput');
 const pdfPreview = document.getElementById('pdfPreview');
 const thumbnails = document.getElementById('thumbnails');
