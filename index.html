@@ -346,7 +346,7 @@ function toggleThumbnails() {
                 }, 10);
             } else {
                 thumbnails.classList.add('hidden');
-                const animationDuration = isMobile ? 300 : 0;
+                const animationDuration = isMobile ? 100 : 0;
                 setTimeout(() => {
                     thumbnails.style.display = 'none';
                 }, animationDuration);
@@ -371,7 +371,7 @@ function toggleThumbnails() {
 
             element.addEventListener('touchend', () => {
                 const isMobile = window.matchMedia('(max-width: 768px)').matches;
-                const animationDuration = isMobile ? 300 : 0;
+                const animationDuration = isMobile ? 100 : 0;
 
                 if (startX - endX > 200) {
                     element.classList.add('hidden');
