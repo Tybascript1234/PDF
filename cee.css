@@ -514,7 +514,7 @@ margin-right: 8px;
         }
     }
     #thumbnails {
-        transition: transform 0.3s ease, opacity 0.3s ease; /* انتقال سلس */
+        transition: transform 0.1s ease, opacity 0.1s ease; /* انتقال سلس */
         will-change: transform, opacity;
     }
     
