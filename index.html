@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="cee.css">
     <!-- <link rel="stylesheet" href="mood.css"> -->
     <link rel="icon" href="fpi.png">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
@@ -101,7 +102,7 @@
         </script> -->
     <!-- ------------------------------- -->
 
-    <div style="position: sticky; top: 0; z-index: 100;">
+    <div style="position: fixed; top: 0; z-index: 100;width: 100%;">
         <div class="buttons">
             <div class="olif" style="justify-content: left;">
                 <div class="logo-1 mmyButton"><img src="fpie.png" alt=""> <span class="dis">Text Document</span><div class="" style="display: none;" onclick="toggleThumbnails()"></div></div>
@@ -142,7 +143,7 @@
                             <label class="mmyButton" id="copyTextButton"><span class="material-symbols-outlined c2">content_copy</span><o class="dr" style="background-image: url(3719119.png);"></o><a>Copy file text</a></label>
                             <label class="mmyButton" id="downloadImagesZipButton"><span class="material-symbols-outlined c2">folder_zip</span><o class="dr" style="background-image: url(12180408.png);"></o><a title="Download file pages">Download file..</a></label>
                             <hr>
-                            <label class="mmyButton"><span class="material-symbols-outlined c2">settings</span><o class="dr" style="background-image: url(Settings.png);"></o><a>Settings</a></label>
+                            <label class="mmyButton openModalBtn" data-target="modal1"><span class="material-symbols-outlined c2">settings</span><o class="dr" style="background-image: url(Settings.png);"></o><a>Settings</a></label>
                             <label id="fileInfoButton" class="mmyButton"><a>File information</a></label>
                         </ul>
                     </div> 
@@ -169,10 +170,37 @@
         <div id="pdfPreview" class="pdf-preview hidden"></div>
     </div>
 
+    <!-- window-check -->
+     <div id="modal1" class="cox xoo">
+     <div class="window-check modal">
+        <div class="om"><co>Settings</co><button class="closeModalBtn"><span class="material-symbols-outlined"> arrow_forward </span></button></div>
+        <hr style="margin-top: 0;">
+        <div class="window-check-div">
+            <a class="recole"><span>Night mode</span> <div class="toggle-switch"></div></a>
+            <a class="recole showButton" data-target="popup1"><span>History</span></a>
+            <a class="recole"><span>Auto save</span>  <div class="toggle-switch" id=""></div></a>
+        </div>
+
+        <!-- History -->
+         <div class="History window-check popup" id="popup1">
+            <div class="om"><co>History</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined"> arrow_forward </span></button></div>
+            <hr style="margin-top: 0;">
+            <div id="fileListContainer">
+                <div id="fileList"></div>
+            </div>
+         </div>
+     </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     
     <script src="script.js"></script>
+
+
+    <script>
+        
+    </script>
 </body>
 </html>
