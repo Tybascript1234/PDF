@@ -62,6 +62,73 @@ function renderPDF(typedArray) {
     });
 }
 
+
+function initializeScrollSync() {
+    const pdfPreview = document.getElementById('pdfPreview');
+    const thumbnails = document.getElementById('thumbnails');
+
+    pdfPreview.addEventListener('scroll', () => {
+        const pageCanvases = pdfPreview.querySelectorAll('canvas');
+        let currentPage = 1;
+
+        // تحديد الصفحة المرئية بناءً على التمرير
+        pageCanvases.forEach((canvas, index) => {
+            const rect = canvas.getBoundingClientRect();
+            if (rect.top >= 0 && rect.top < window.innerHeight) {
+                currentPage = index + 1;
+            }
+        });
+
+        // تحديث التحديد في الصور المصغرة
+        updateThumbnailSelection(currentPage);
+    });
+
+    // إضافة حدث النقر على الصور المصغرة
+    thumbnails.addEventListener('click', (event) => {
+        const thumbnail = event.target.closest('.thumbnail');
+        if (!thumbnail) return; // إذا لم يتم النقر على صورة مصغرة، تجاهل
+        const pageNum = parseInt(thumbnail.id.replace('thumbnail-', ''), 10);
+
+        // تحديث التحديد عند النقر
+        updateThumbnailSelection(pageNum);
+
+        // التمرير إلى الصفحة المحددة في الـ PDF
+        showPage(pageNum);
+    });
+}
+
+// وظيفة لتحديث التحديد
+function updateThumbnailSelection(currentPage) {
+    const thumbnails = document.getElementById('thumbnails');
+    const thumbnailElements = thumbnails.querySelectorAll('.thumbnail');
+
+    thumbnailElements.forEach((thumbnail, index) => {
+        if (index + 1 === currentPage) {
+            thumbnail.classList.add('selected');
+            // تمرير الصور المصغرة إلى الصفحة الحالية
+            thumbnails.scrollTo({
+                top: thumbnail.offsetTop - thumbnails.offsetHeight / 2,
+                behavior: 'smooth',
+            });
+        } else {
+            thumbnail.classList.remove('selected');
+        }
+    });
+}
+
+// استدعاء الوظيفة عند تحميل المستند
+document.addEventListener('DOMContentLoaded', () => {
+    initializeScrollSync();
+});
+
+
+// استدعاء الوظيفة عند تحميل المستند
+document.addEventListener('DOMContentLoaded', () => {
+    initializeScrollSync();
+});
+
+
+
 // عرض الصفحة المحددة
 function showPage(pageNum) {
     if (!pdfDoc || pageNum < 1 || pageNum > pdfDoc.numPages) {
@@ -555,6 +622,12 @@ document.getElementById('shareFileButton').addEventListener('click', async () =>
     }
 });
 
+// الحفظ التقائي
+
+
+
+
+
 
 
 
@@ -641,3 +714,103 @@ buttons.forEach(button => {
         console.log(`Button "${button.textContent}" clicked!`); // فقط للتجربة
     });
 });
+
+
+
+
+// ---------------------------------------------
+
+// جلب جميع الأزرار التي تفتح النوافذ
+const openModalBtns = document.querySelectorAll('.openModalBtn');
+
+// جلب جميع الأزرار التي تغلق النوافذ
+const closeModalBtns = document.querySelectorAll('.closeModalBtn');
+
+// فتح النوافذ عند النقر على الأزرار
+openModalBtns.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.getAttribute('data-target');
+    const targetModal = document.getElementById(targetId);
+    targetModal.classList.remove('xoo');
+  });
+});
+
+// إغلاق النوافذ عند النقر على أزرار الإغلاق
+closeModalBtns.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const modal = btn.closest('.cox');
+    // إضافة الكلاس لإخفاء النافذة
+    modal.classList.add('xoo');
+    // إخفاء أي عنصر داخلي يحتوي على class popup
+    const popups = modal.querySelectorAll('.popup');
+    popups.forEach((popup) => {
+      popup.style.display = 'none';
+    });
+  });
+});
+
+// منع التفاعل مع العناصر خارج النافذة المنبثقة
+const coxs = document.querySelectorAll('.cox');
+coxs.forEach((cox) => {
+  cox.addEventListener('click', (e) => {
+    if (e.target === cox) {
+      cox.classList.add('xoo');
+      // إخفاء أي عنصر داخلي يحتوي على class popup
+      const popups = cox.querySelectorAll('.popup');
+      popups.forEach((popup) => {
+        popup.style.display = 'none';
+      });
+    }
+  });
+});
+
+// ---------------------------------------------
+
+
+
+// دالة الإغلاق باستخدام onclick
+function closePopup(button) {
+    const popup = button.closest('.popup'); // العثور على العنصر الأب (div) ذو الكلاس .popup
+    if (popup) {
+      popup.style.display = 'none'; // إخفاء العنصر
+    }
+  }
+  
+  window.addEventListener('load', () => {
+    // ------------------------------
+    // جميع أزرار الإظهار
+    const showButtons = document.querySelectorAll('.showButton');
+  
+    // إضافة حدث لكل زر إظهار
+    showButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-target'); // الحصول على ID العنصر المستهدف
+        const targetPopup = document.getElementById(targetId); // العثور على العنصر
+        if (targetPopup) {
+          targetPopup.style.display = 'block'; // إظهار العنصر
+        }
+      });
+    });
+  
+    // ---------------------
+    // الحصول على كل العناصر التي تحمل كلاس toggle-switch
+    const toggleSwitches = document.querySelectorAll('.toggle-switch');
+  
+    // استعادة الحالة من localStorage عند تحميل الصفحة
+    toggleSwitches.forEach((toggleSwitch, index) => {
+      const isActive = localStorage.getItem(`toggleState-${index}`) === 'true'; // قراءة الحالة من LocalStorage
+      if (isActive) {
+        toggleSwitch.classList.add('active'); // استعادة الحالة
+      }
+  
+      // إضافة حدث النقر لكل عنصر
+      toggleSwitch.addEventListener('click', () => {
+        toggleSwitch.classList.toggle('active'); // تبديل الحالة
+        const isActive = toggleSwitch.classList.contains('active'); // التحقق من الحالة الحالية
+        localStorage.setItem(`toggleState-${index}`, isActive); // حفظ الحالة في LocalStorage
+      });
+    });
+    // ---------------------
+  });
+  
+  
