@@ -21,6 +21,10 @@ ul {
 button {
     cursor: pointer;
 }
+a {
+    color: #4f4f4f;
+    text-decoration: none;
+}
 hr {
 padding: 0;
 margin: 5px 0;
@@ -330,7 +334,6 @@ align-items: center;
 margin-right: 8px;
 }
 .logo-1 img {
-    filter: brightness(0.2);
     height: 24px;
     margin-right: 5px;
 }
@@ -476,7 +479,8 @@ margin-right: 8px;
     box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
 }
 .window-check co {
-    margin: 10px 24px;
+    margin: 0px 24px;
+    padding: 20px 0;
     display: block;
     opacity: .8;
 }
