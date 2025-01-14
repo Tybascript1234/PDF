@@ -504,6 +504,13 @@ margin-right: 8px;
 .recole:hover {
     background-color: #818b9809;
 }
+z {
+    user-select: none;
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 21px;
+    border: solid 1px #0069ff;
+}
 .file-item {
     width: -webkit-fill-available;
     margin: 8px;
@@ -574,7 +581,43 @@ body .History {
     position: absolute;
     z-index: 50;
 }
-
+.kold {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding: 0 16px;
+}
+.kold label {
+    padding: 0 20px;
+    /* width: 80px; */
+    justify-content: center;
+    /* padding: initial; */
+    flex: none;
+    border-radius: 8px;
+    margin-right: 8px;
+    border: solid 1px #ccc;
+    margin-bottom: 8px;
+}
+.kold select {
+    border: none;
+    background: #7b889a21;
+    padding: 0px 6px;
+    border-radius: 8px;
+    outline: none;
+}
+.kold input {
+    margin: 0 8px;
+}
+.kold button {
+    background: #1f90ff;
+    color: white;
+    font-family: system-ui;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    padding: 0 19px;
+    margin-right: 8px;
+}
 
 
 
@@ -667,9 +710,10 @@ body .History {
 
 /* --------------------------------------------------------------------------------------------------- */
 .toggle-switch {
+    outline: solid 1px #acacac;
     width: 46px;
     height: 22px;
-    background-color: #ccc;
+    background-color: #e7e7e7;
     border-radius: 25px;
     position: relative;
     transition: 0.3s;
@@ -688,6 +732,7 @@ body .History {
     left: 4px;
     transition: 0.2s;
     display: block;
+    box-shadow: 0px 1px 3px #00000040;
   }
 
 .toggle-switch:hover::before {
@@ -704,6 +749,7 @@ body .History {
 
   .toggle-switch.active {
     background-color: #3a8cf7;
+    outline-color: #ffffff00;
   }
 
   .toggle-switch.active::before {
