@@ -793,74 +793,85 @@ function closePopup(button) {
     });
   
     // ---------------------
-    
-    // الحصول على كل العناصر
+    // الحصول على كل العناصر التي تحمل كلاس toggle-switch
     const toggleSwitches = document.querySelectorAll('.toggle-switch');
-
+  
+    // استعادة الحالة من localStorage عند تحميل الصفحة
     toggleSwitches.forEach((toggleSwitch, index) => {
-      let isDragging = false;
-      let startX = 0;
-
-      // استعادة الحالة من localStorage
-      const isActive = localStorage.getItem(`toggleState-${index}`) === 'true';
+      const isActive = localStorage.getItem(`toggleState-${index}`) === 'true'; // قراءة الحالة من LocalStorage
       if (isActive) {
-        toggleSwitch.classList.add('active');
+        toggleSwitch.classList.add('active'); // استعادة الحالة
       }
-
-      // تحديث الحالة عند النقر
-      const toggleState = () => {
-        if (!isDragging) {
-          toggleSwitch.classList.toggle('active');
-          const isActive = toggleSwitch.classList.contains('active');
-          localStorage.setItem(`toggleState-${index}`, isActive);
-        }
-      };
-
-      toggleSwitch.addEventListener('click', toggleState);
-
-      // بدء السحب (للماوس واللمس)
-      const startDrag = (e) => {
-        isDragging = true;
-        startX = e.touches ? e.touches[0].clientX : e.clientX; // دعم اللمس
-        toggleSwitch.style.transition = 'none'; // إزالة الانتقال أثناء السحب
-      };
-
-      // أثناء السحب (للماوس واللمس)
-      const moveDrag = (e) => {
-        if (isDragging) {
-          const currentX = e.touches ? e.touches[0].clientX : e.clientX; // دعم اللمس
-          const rect = toggleSwitch.getBoundingClientRect();
-          const midPoint = rect.left + rect.width / 2;
-
-          if (currentX > midPoint) {
-            toggleSwitch.classList.add('active');
-          } else {
-            toggleSwitch.classList.remove('active');
-          }
-        }
-      };
-
-      // إنهاء السحب (للماوس واللمس)
-      const endDrag = () => {
-        if (isDragging) {
-          isDragging = false;
-          toggleSwitch.style.transition = 'background-color 0.3s ease'; // إعادة الانتقال
-          const isActive = toggleSwitch.classList.contains('active');
-          localStorage.setItem(`toggleState-${index}`, isActive);
-        }
-      };
-
-      // إضافة أحداث الماوس
-      toggleSwitch.addEventListener('mousedown', startDrag);
-      document.addEventListener('mousemove', moveDrag);
-      document.addEventListener('mouseup', endDrag);
-
-      // إضافة أحداث اللمس
-      toggleSwitch.addEventListener('touchstart', startDrag);
-      document.addEventListener('touchmove', moveDrag);
-      document.addEventListener('touchend', endDrag);
+  
+      // إضافة حدث النقر لكل عنصر
+      toggleSwitch.addEventListener('click', () => {
+        toggleSwitch.classList.toggle('active'); // تبديل الحالة
+        const isActive = toggleSwitch.classList.contains('active'); // التحقق من الحالة الحالية
+        localStorage.setItem(`toggleState-${index}`, isActive); // حفظ الحالة في LocalStorage
+      });
     });
     // ---------------------
   });
   
   
+
+
+
+
+//   ------------------------
+document.addEventListener("DOMContentLoaded", function () {
+    const responsiveDiv = document.getElementById("responsiveDiv");
+    let touchTimer;
+
+    // وظيفة لإظهار الديف
+    function showDiv() {
+        responsiveDiv.classList.add("visible");
+    }
+
+    // وظيفة لإخفاء الديف
+    function hideDiv() {
+        responsiveDiv.classList.remove("visible");
+    }
+
+    // التحقق من العرض عند تحميل الصفحة
+    function checkScreenWidth() {
+        if (window.innerWidth > 800) {
+            showDiv(); // إظهار الديف
+        } else {
+            hideDiv(); // إخفاء الديف
+        }
+    }
+
+    // عند تغيير حجم الشاشة
+    window.addEventListener("resize", checkScreenWidth);
+
+    // عند لمس الشاشة
+    document.addEventListener("touchstart", function (event) {
+        // إذا كان العرض أكبر من 800، لا تفعل شيئًا
+        if (window.innerWidth > 800) {
+            return;
+        }
+
+        // إذا كان الهدف هو الديف نفسه أو أي عنصر داخله، لا تفعل شيئًا
+        if (responsiveDiv.contains(event.target)) {
+            return;
+        }
+
+        // إذا كان الديف ظاهراً، قم بإخفائه
+        if (responsiveDiv.classList.contains("visible")) {
+            hideDiv();
+            clearTimeout(touchTimer);
+        } else {
+            // إذا كان الديف مخفياً، انتظر لمدة ثانيتين ثم أظهره
+            touchTimer = setTimeout(showDiv, 1000); // الانتظار لمدة 2 ثانية
+        }
+    });
+
+    // عند إزالة اللمس
+    document.addEventListener("touchend", function () {
+        clearTimeout(touchTimer); // إلغاء المؤقت إذا تم رفع اللمس قبل انقضاء الوقت
+    });
+
+    // التحقق من العرض عند التحميل
+    checkScreenWidth();
+});
