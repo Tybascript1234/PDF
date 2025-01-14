@@ -622,6 +622,114 @@ document.getElementById('shareFileButton').addEventListener('click', async () =>
     }
 });
 
+
+// العلامة المائية
+
+let watermarkImage = null; // لتخزين صورة العلامة المائية
+let watermarkSize = 100; // حجم العلامة المائية الافتراضي
+let watermarkOpacity = 0.2; // شفافية العلامة المائية الافتراضية (من 0 إلى 1)
+
+const watermarkInput = document.getElementById('watermarkInput');
+const watermarkSizeSelect = document.getElementById('watermarkSizeSelect');
+const watermarkOpacityInput = document.getElementById('watermarkOpacityInput');
+const applyWatermarkButton = document.getElementById('applyWatermarkButton');
+const removeWatermarkButton = document.getElementById('removeWatermarkButton');
+
+let savedPages = []; // لحفظ المحتوى الأصلي للصفحات
+
+// تحميل صورة العلامة المائية
+watermarkInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image')) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            watermarkImage = new Image();
+            watermarkImage.src = reader.result;
+            watermarkImage.onload = function() {
+                // عند تحميل الصورة الجديدة، سيتم استبدال الصورة القديمة
+                applyWatermark(); // إعادة تطبيق العلامة المائية مع الصورة الجديدة
+            };
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// تغيير حجم العلامة المائية
+watermarkSizeSelect.addEventListener('change', (e) => {
+    watermarkSize = parseInt(e.target.value, 10);
+});
+
+// تغيير شفافية العلامة المائية
+watermarkOpacityInput.addEventListener('input', (e) => {
+    watermarkOpacity = e.target.value / 100; // من 1 إلى 100 إلى نطاق 0 إلى 1
+});
+
+// حفظ المحتوى الأصلي للصفحات
+function savePageContent() {
+    const pages = document.querySelectorAll('.pdf-page');
+    savedPages = []; // إعادة تعيين المحتوى المحفوظ
+    pages.forEach((page) => {
+        const canvas = page.getContext('2d');
+        const pageWidth = page.width;
+        const pageHeight = page.height;
+        // حفظ المحتوى في صورة مؤقتة
+        const imageData = canvas.getImageData(0, 0, pageWidth, pageHeight);
+        savedPages.push(imageData);
+    });
+}
+
+// تطبيق العلامة المائية
+function applyWatermark() {
+    if (!watermarkImage) {
+        alert('الرجاء تحميل صورة العلامة المائية أولاً.');
+        return;
+    }
+
+    savePageContent(); // حفظ المحتوى الأصلي قبل إضافة العلامة المائية
+
+    const pages = document.querySelectorAll('.pdf-page');
+    pages.forEach((page, index) => {
+        const canvas = page.getContext('2d');
+        const pageWidth = page.width;
+        const pageHeight = page.height;
+
+        // إعادة رسم المحتوى الأصلي
+        canvas.putImageData(savedPages[index], 0, 0);
+
+        // إضافة العلامة المائية خلف النص والصور
+        canvas.globalAlpha = watermarkOpacity; // ضبط الشفافية
+        canvas.drawImage(
+            watermarkImage,
+            (pageWidth - watermarkSize) / 2, // وضع العلامة في منتصف الصفحة
+            (pageHeight - watermarkSize) / 2, // وضع العلامة في منتصف الصفحة
+            watermarkSize, // حجم العلامة
+            watermarkSize // حجم العلامة
+        );
+        canvas.globalAlpha = 1; // إعادة الشفافية الافتراضية
+    });
+}
+
+// إزالة العلامة المائية (إعادة الرسم بدون العلامة المائية)
+removeWatermarkButton.addEventListener('click', () => {
+    // مسح العلامة المائية من صورة التحميل
+    watermarkImage = null;
+
+    // إعادة رسم المحتوى الأصلي للصفحات بدون العلامة المائية
+    const pages = document.querySelectorAll('.pdf-page');
+    pages.forEach((page, index) => {
+        const canvas = page.getContext('2d');
+        // إعادة رسم المحتوى الأصلي بدون أي تعديل
+        const pageWidth = page.width;
+        const pageHeight = page.height;
+
+        // إعادة رسم المحتوى الأصلي لكل صفحة
+        canvas.putImageData(savedPages[index], 0, 0);
+    });
+
+    alert("تم إزالة العلامة المائية.");
+});
+
+
 // الحفظ التقائي
 
 
@@ -793,23 +901,72 @@ function closePopup(button) {
     });
   
     // ---------------------
-    // الحصول على كل العناصر التي تحمل كلاس toggle-switch
-    const toggleSwitches = document.querySelectorAll('.toggle-switch');
-  
-    // استعادة الحالة من localStorage عند تحميل الصفحة
-    toggleSwitches.forEach((toggleSwitch, index) => {
-      const isActive = localStorage.getItem(`toggleState-${index}`) === 'true'; // قراءة الحالة من LocalStorage
-      if (isActive) {
-        toggleSwitch.classList.add('active'); // استعادة الحالة
+// الحصول على كل العناصر
+const toggleSwitches = document.querySelectorAll('.toggle-switch');
+
+toggleSwitches.forEach((toggleSwitch, index) => {
+  let isDragging = false;
+  let startX = 0;
+
+  // استعادة الحالة من localStorage
+  const isActive = localStorage.getItem(`toggleState-${index}`) === 'true';
+  if (isActive) {
+    toggleSwitch.classList.add('active');
+  }
+
+  // تحديث الحالة عند النقر
+  const toggleState = () => {
+    if (!isDragging) {
+      toggleSwitch.classList.toggle('active');
+      const isActive = toggleSwitch.classList.contains('active');
+      localStorage.setItem(`toggleState-${index}`, isActive);
+    }
+  };
+
+  toggleSwitch.addEventListener('click', toggleState);
+
+  // بدء السحب (للماوس واللمس)
+  const startDrag = (e) => {
+    isDragging = true;
+    startX = e.touches ? e.touches[0].clientX : e.clientX; // دعم اللمس
+    toggleSwitch.style.transition = 'none'; // إزالة الانتقال أثناء السحب
+  };
+
+  // أثناء السحب (للماوس واللمس)
+  const moveDrag = (e) => {
+    if (isDragging) {
+      const currentX = e.touches ? e.touches[0].clientX : e.clientX; // دعم اللمس
+      const rect = toggleSwitch.getBoundingClientRect();
+      const midPoint = rect.left + rect.width / 2;
+
+      if (currentX > midPoint) {
+        toggleSwitch.classList.add('active');
+      } else {
+        toggleSwitch.classList.remove('active');
       }
-  
-      // إضافة حدث النقر لكل عنصر
-      toggleSwitch.addEventListener('click', () => {
-        toggleSwitch.classList.toggle('active'); // تبديل الحالة
-        const isActive = toggleSwitch.classList.contains('active'); // التحقق من الحالة الحالية
-        localStorage.setItem(`toggleState-${index}`, isActive); // حفظ الحالة في LocalStorage
-      });
-    });
+    }
+  };
+
+  // إنهاء السحب (للماوس واللمس)
+  const endDrag = () => {
+    if (isDragging) {
+      isDragging = false;
+      toggleSwitch.style.transition = 'background-color 0.3s ease'; // إعادة الانتقال
+      const isActive = toggleSwitch.classList.contains('active');
+      localStorage.setItem(`toggleState-${index}`, isActive);
+    }
+  };
+
+  // إضافة أحداث الماوس
+  toggleSwitch.addEventListener('mousedown', startDrag);
+  document.addEventListener('mousemove', moveDrag);
+  document.addEventListener('mouseup', endDrag);
+
+  // إضافة أحداث اللمس
+  toggleSwitch.addEventListener('touchstart', startDrag);
+  document.addEventListener('touchmove', moveDrag);
+  document.addEventListener('touchend', endDrag);
+});
     // ---------------------
   });
   
