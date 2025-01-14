@@ -818,60 +818,60 @@ function closePopup(button) {
 
 
 
-//   ------------------------
-document.addEventListener("DOMContentLoaded", function () {
-    const responsiveDiv = document.getElementById("responsiveDiv");
-    let touchTimer;
+// //   ------------------------
+// document.addEventListener("DOMContentLoaded", function () {
+//     const responsiveDiv = document.getElementById("responsiveDiv");
+//     let touchTimer;
 
-    // وظيفة لإظهار الديف
-    function showDiv() {
-        responsiveDiv.classList.add("visible");
-    }
+//     // وظيفة لإظهار الديف
+//     function showDiv() {
+//         responsiveDiv.classList.add("visible");
+//     }
 
-    // وظيفة لإخفاء الديف
-    function hideDiv() {
-        responsiveDiv.classList.remove("visible");
-    }
+//     // وظيفة لإخفاء الديف
+//     function hideDiv() {
+//         responsiveDiv.classList.remove("visible");
+//     }
 
-    // التحقق من العرض عند تحميل الصفحة
-    function checkScreenWidth() {
-        if (window.innerWidth > 800) {
-            showDiv(); // إظهار الديف
-        } else {
-            hideDiv(); // إخفاء الديف
-        }
-    }
+//     // التحقق من العرض عند تحميل الصفحة
+//     function checkScreenWidth() {
+//         if (window.innerWidth > 800) {
+//             showDiv(); // إظهار الديف
+//         } else {
+//             hideDiv(); // إخفاء الديف
+//         }
+//     }
 
-    // عند تغيير حجم الشاشة
-    window.addEventListener("resize", checkScreenWidth);
+//     // عند تغيير حجم الشاشة
+//     window.addEventListener("resize", checkScreenWidth);
 
-    // عند لمس الشاشة
-    document.addEventListener("touchstart", function (event) {
-        // إذا كان العرض أكبر من 800، لا تفعل شيئًا
-        if (window.innerWidth > 800) {
-            return;
-        }
+//     // عند لمس الشاشة
+//     document.addEventListener("touchstart", function (event) {
+//         // إذا كان العرض أكبر من 800، لا تفعل شيئًا
+//         if (window.innerWidth > 800) {
+//             return;
+//         }
 
-        // إذا كان الهدف هو الديف نفسه أو أي عنصر داخله، لا تفعل شيئًا
-        if (responsiveDiv.contains(event.target)) {
-            return;
-        }
+//         // إذا كان الهدف هو الديف نفسه أو أي عنصر داخله، لا تفعل شيئًا
+//         if (responsiveDiv.contains(event.target)) {
+//             return;
+//         }
 
-        // إذا كان الديف ظاهراً، قم بإخفائه
-        if (responsiveDiv.classList.contains("visible")) {
-            hideDiv();
-            clearTimeout(touchTimer);
-        } else {
-            // إذا كان الديف مخفياً، انتظر لمدة ثانيتين ثم أظهره
-            touchTimer = setTimeout(showDiv, 1000); // الانتظار لمدة 2 ثانية
-        }
-    });
+//         // إذا كان الديف ظاهراً، قم بإخفائه
+//         if (responsiveDiv.classList.contains("visible")) {
+//             hideDiv();
+//             clearTimeout(touchTimer);
+//         } else {
+//             // إذا كان الديف مخفياً، انتظر لمدة ثانيتين ثم أظهره
+//             touchTimer = setTimeout(showDiv, 1000); // الانتظار لمدة 2 ثانية
+//         }
+//     });
 
-    // عند إزالة اللمس
-    document.addEventListener("touchend", function () {
-        clearTimeout(touchTimer); // إلغاء المؤقت إذا تم رفع اللمس قبل انقضاء الوقت
-    });
+//     // عند إزالة اللمس
+//     document.addEventListener("touchend", function () {
+//         clearTimeout(touchTimer); // إلغاء المؤقت إذا تم رفع اللمس قبل انقضاء الوقت
+//     });
 
-    // التحقق من العرض عند التحميل
-    checkScreenWidth();
-});
+//     // التحقق من العرض عند التحميل
+//     checkScreenWidth();
+// });
