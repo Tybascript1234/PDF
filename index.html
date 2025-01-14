@@ -177,17 +177,27 @@
         <hr style="margin-top: 0;">
         <div class="window-check-div">
             <a class="recole"><span>Night mode</span> <div class="toggle-switch"></div></a>
-            <a class="recole showButton" data-target="popup1"><span>History</span></a>
-            <a class="recole"><span>Auto save</span>  <div class="toggle-switch" id=""></div></a>
+            <a class="recole showButton" data-target="popup1"><span>Add watermark</span><z>New</z></a>
+            <a class="recole"><span>Auto save</span>  <div class="toggle-switch" id=""></div></a>           
         </div>
 
         <!-- History -->
          <div class="History window-check popup" id="popup1">
-            <div class="om"><co>History</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined"> arrow_forward </span></button></div>
+            <div class="om"><co>Add watermark</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined"> arrow_forward </span></button></div>
             <hr style="margin-top: 0;">
-            <div id="fileListContainer">
-                <div id="fileList"></div>
-            </div>
+                <div class="kold">
+                    <label for="watermarkInput">Upload image</label>
+                    <input type="file" id="watermarkInput" accept="image/*" style="display: none;">
+                    <select id="watermarkSizeSelect">
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="300">300</option>
+                        <option value="400">400</option>
+                    </select>
+                    <input type="range" id="watermarkOpacityInput" min="1" max="100" value="100">
+                    <button id="applyWatermarkButton"> Activation </button>
+                    <button id="removeWatermarkButton"> Cancel </button>
+                </div> 
          </div>
      </div>
     </div>
