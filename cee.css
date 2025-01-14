@@ -607,10 +607,13 @@ body .History {
         scrollbar-width: none;
         box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 18px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
         width: 254px;
-        z-index: 50;
+        z-index: 1500;
+        margin-top: 0;
     }
     body .pdf-preview {
         height: auto;
+        margin-top: 0;
+        height: 100%;
     } 
     body .pdf-preview canvas {
         height: auto;
@@ -711,3 +714,9 @@ body .History {
     right: 4px;
     left: auto;
   }
+  #responsiveDiv {
+    display: none;
+  }
+#responsiveDiv.visible {
+    display: block; /* عرض الديف عند إضافة الكلاس */
+}
