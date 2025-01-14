@@ -793,7 +793,8 @@ function closePopup(button) {
     });
   
     // ---------------------
-      // الحصول على كل العناصر
+    
+    // الحصول على كل العناصر
     const toggleSwitches = document.querySelectorAll('.toggle-switch');
 
     toggleSwitches.forEach((toggleSwitch, index) => {
@@ -806,26 +807,28 @@ function closePopup(button) {
         toggleSwitch.classList.add('active');
       }
 
-      // إضافة حدث النقر
-      toggleSwitch.addEventListener('click', () => {
+      // تحديث الحالة عند النقر
+      const toggleState = () => {
         if (!isDragging) {
           toggleSwitch.classList.toggle('active');
           const isActive = toggleSwitch.classList.contains('active');
           localStorage.setItem(`toggleState-${index}`, isActive);
         }
-      });
+      };
 
-      // بدء السحب
-      toggleSwitch.addEventListener('mousedown', (e) => {
+      toggleSwitch.addEventListener('click', toggleState);
+
+      // بدء السحب (للماوس واللمس)
+      const startDrag = (e) => {
         isDragging = true;
-        startX = e.clientX;
+        startX = e.touches ? e.touches[0].clientX : e.clientX; // دعم اللمس
         toggleSwitch.style.transition = 'none'; // إزالة الانتقال أثناء السحب
-      });
+      };
 
-      // أثناء السحب
-      document.addEventListener('mousemove', (e) => {
+      // أثناء السحب (للماوس واللمس)
+      const moveDrag = (e) => {
         if (isDragging) {
-          const currentX = e.clientX;
+          const currentX = e.touches ? e.touches[0].clientX : e.clientX; // دعم اللمس
           const rect = toggleSwitch.getBoundingClientRect();
           const midPoint = rect.left + rect.width / 2;
 
@@ -835,17 +838,27 @@ function closePopup(button) {
             toggleSwitch.classList.remove('active');
           }
         }
-      });
+      };
 
-      // إنهاء السحب
-      document.addEventListener('mouseup', () => {
+      // إنهاء السحب (للماوس واللمس)
+      const endDrag = () => {
         if (isDragging) {
           isDragging = false;
           toggleSwitch.style.transition = 'background-color 0.3s ease'; // إعادة الانتقال
           const isActive = toggleSwitch.classList.contains('active');
           localStorage.setItem(`toggleState-${index}`, isActive);
         }
-      });
+      };
+
+      // إضافة أحداث الماوس
+      toggleSwitch.addEventListener('mousedown', startDrag);
+      document.addEventListener('mousemove', moveDrag);
+      document.addEventListener('mouseup', endDrag);
+
+      // إضافة أحداث اللمس
+      toggleSwitch.addEventListener('touchstart', startDrag);
+      document.addEventListener('touchmove', moveDrag);
+      document.addEventListener('touchend', endDrag);
     });
     // ---------------------
   });
