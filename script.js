@@ -23,6 +23,9 @@ pdfInput.addEventListener('change', (e) => {
 });
 
 // رسم PDF
+// رسم PDF
+// رسم PDF
+// رسم PDF
 function renderPDF(typedArray) {
     const loadingTask = pdfjsLib.getDocument(typedArray);
     loadingTask.promise.then(pdf => {
@@ -30,6 +33,9 @@ function renderPDF(typedArray) {
         thumbnails.innerHTML = '';
         pdfPreview.innerHTML = ''; // Clear previous pages
         pageCountDisplay.textContent = `Page 1 of ${pdf.numPages}`; // Display page count
+
+        let firstThumbnailSet = false; // متغير لتحديد أول صورة مصغرة
+        let pageNumOrder = []; // لتخزين ترتيب الصفحات
 
         for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
             pdf.getPage(pageNum).then(page => {
@@ -44,23 +50,193 @@ function renderPDF(typedArray) {
 
                 const context = canvas.getContext('2d');
                 page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
-                    const thumbnail = document.createElement('div');
-                    thumbnail.classList.add('thumbnail');
-                    thumbnail.id = `thumbnail-${pageNum}`;
-                    thumbnail.onclick = () => showPage(pageNum);
-                    const img = document.createElement('img');
-                    img.src = canvas.toDataURL();
-                    thumbnail.appendChild(img);
-                    thumbnails.appendChild(thumbnail);
+                    // إنشاء عنصر canvas للصورة المصغرة
+                    const thumbnailCanvas = document.createElement('canvas');
+                    thumbnailCanvas.classList.add('thumbnail');
+                    thumbnailCanvas.id = `thumbnail-${pageNum}`;
+                    thumbnailCanvas.width = viewport.width / 4; // تصغير العرض
+                    thumbnailCanvas.height = viewport.height / 4; // تصغير الارتفاع
+                    thumbnailCanvas.onclick = () => showPage(pageNum);
 
-                    pdfPreview.appendChild(canvas); // Add canvas to the preview after thumbnail is created
+                    // إذا كانت هذه هي أول صورة مصغرة، أضف التحديد
+                    if (!firstThumbnailSet) {
+                        thumbnailCanvas.classList.add('selected'); // إضافة التحديد
+                        firstThumbnailSet = true;
+                    }
+
+                    // رسم الصورة المصغرة على canvas
+                    const thumbnailContext = thumbnailCanvas.getContext('2d');
+                    thumbnailContext.drawImage(canvas, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height);
+
+                    // إنشاء div لرقم الصفحة ووضعه أسفل الصورة المصغرة
+                    const pageNumDiv = document.createElement('div');
+                    pageNumDiv.classList.add('page-number');
+                    pageNumDiv.textContent = ` ${pageNum}`;
+
+                    // إضافة الـ canvas للصورة المصغرة إلى الـ div
+                    const thumbnailWrapper = document.createElement('div');
+                    thumbnailWrapper.classList.add('thumbnail-wrapper');
+                    thumbnailWrapper.appendChild(thumbnailCanvas);
+                    thumbnailWrapper.appendChild(pageNumDiv);
+
+                    // إضافة الصورة المصغرة مع الرقم إلى thumbnails
+                    thumbnails.appendChild(thumbnailWrapper);
+
+                    // إضافة الصفحة الكاملة إلى pdfPreview
+                    pdfPreview.appendChild(canvas);
+
+                    // تخزين ترتيب الصفحات
+                    pageNumOrder.push(pageNum);
+
+                    // مراقبة التمرير لتحديد العناصر
+                    observeScrollSync();
                 });
             });
         }
+
+        // التأكد من ترتيب الصفحات في thumbnails
+        reorderThumbnails(pageNumOrder);
     }).catch(error => {
         console.error('Error loading PDF:', error);
     });
 }
+
+// وظيفة لمزامنة ترتيب الصور المصغرة مع الصفحات
+function reorderThumbnails(pageNumOrder) {
+    const thumbnailsContainer = document.getElementById('thumbnails');
+    const allThumbnails = Array.from(thumbnailsContainer.querySelectorAll('.thumbnail-wrapper'));
+
+    // ترتيب الصور المصغرة بناءً على ترتيب الصفحات
+    pageNumOrder.forEach((pageNum) => {
+        const thumbnailWrapper = allThumbnails.find(wrapper => {
+            return wrapper.querySelector('.thumbnail').id === `thumbnail-${pageNum}`;
+        });
+
+        if (thumbnailWrapper) {
+            thumbnailsContainer.appendChild(thumbnailWrapper);
+        }
+    });
+}
+
+// وظيفة مزامنة الصور المصغرة مع الصفحة الحالية
+function observeScrollSync() {
+    const previewElement = document.getElementById('pdfPreview');
+    const thumbnailsElement = document.getElementById('thumbnails');
+
+    previewElement.addEventListener('scroll', () => {
+        const pages = document.querySelectorAll('.pdf-page');
+        let currentPage = 1;
+
+        // تحقق من الصفحة التي تظهر حاليًا
+        pages.forEach((page, index) => {
+            const rect = page.getBoundingClientRect();
+            if (rect.top >= 0 && rect.top < window.innerHeight) {
+                currentPage = index + 1;
+            }
+        });
+
+        // تحديث التحديد في thumbnails
+        document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+            thumbnail.classList.remove('selected');
+        });
+
+        const currentThumbnail = document.getElementById(`thumbnail-${currentPage}`);
+        if (currentThumbnail) {
+            currentThumbnail.classList.add('selected');
+            currentThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تحريك thumbnail إلى العرض
+        }
+
+        // التحقق من التمرير إلى أعلى الصفحة في وضع الهاتف
+        if (window.innerWidth <= 768 && previewElement.scrollTop === 0) {
+            const firstThumbnail = document.getElementById('thumbnail-1');
+            if (firstThumbnail) {
+                firstThumbnail.classList.add('selected');
+                firstThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // إلغاء تحديد أي صورة أخرى عند الوصول إلى أول صفحة
+            document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+                if (thumbnail !== firstThumbnail) {
+                    thumbnail.classList.remove('selected');
+                }
+            });
+        }
+    });
+
+    // تأكد من التحديد في وضع الهاتف عند التحميل الأول
+    checkInitialPageInMobile();
+}
+
+
+function checkInitialPageInMobile() {
+    const previewElement = document.getElementById('pdfPreview');
+    const pages = document.querySelectorAll('.pdf-page');
+
+    if (window.innerWidth <= 768) {
+        // تحقق من الصفحة الأولى عند التحميل الأول
+        const rect = pages[0].getBoundingClientRect();
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+            const firstThumbnail = document.getElementById('thumbnail-1');
+            if (firstThumbnail) {
+                firstThumbnail.classList.add('selected');
+                firstThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    }
+}
+
+// وظيفة عرض صفحة معينة
+function showPage(pageNum) {
+    const pageCanvas = document.getElementById(`page-${pageNum}`);
+    if (pageCanvas) {
+        pageCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+
+// مراقبة التمرير لتحديد الصفحة المرئية
+function observePages() {
+    const pages = document.querySelectorAll('.pdf-page');
+    const observer = new IntersectionObserver(
+        entries => {
+            entries.forEach(entry => {
+                const pageNum = parseInt(entry.target.id.replace('page-', ''), 10);
+                if (entry.isIntersecting) {
+                    // إزالة التحديد عن جميع الصفحات
+                    pages.forEach(page => page.classList.remove('selected'));
+                    // إضافة التحديد للصفحة الحالية
+                    entry.target.classList.add('selected');
+
+                    // مزامنة التحديد مع الصور المصغرة
+                    document
+                        .querySelectorAll('.thumbnail-wrapper')
+                        .forEach(wrapper => wrapper.classList.remove('selected'));
+                    document
+                        .querySelector(`#thumbnail-${pageNum}`)
+                        .parentElement.classList.add('selected');
+                }
+            });
+        },
+        {
+            root: null, // مراقبة ضمن الإطار الكامل
+            threshold: 0.3 // يعتبر الصفحة مرئية إذا كان 30% منها داخل العرض
+        }
+    );
+
+    pages.forEach(page => observer.observe(page));
+}
+
+// التحقق من وضع الهاتف عند تغيير حجم الشاشة
+window.addEventListener('resize', () => {
+    if (window.innerWidth <= 768) {
+        const firstPage = document.querySelector('.pdf-page');
+        if (firstPage) {
+            firstPage.classList.add('selected');
+        }
+    }
+});
+
+
 
 
 function initializeScrollSync() {
