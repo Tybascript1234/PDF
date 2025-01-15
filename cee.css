@@ -60,44 +60,55 @@ box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 2px 3px 
 height: 889px;
 background-size: cover;
 }
+.thumbnail-wrapper {
+    position: relative;
+    height: 217px;
+    width: max-content;
+}
+.thumbnail-wrapper::before {
+    position: absolute;
+    content: '';
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.page-number {
+    user-select: none;
+    font-size: 15px;
+    font-weight: bold;
+    color: #59636e;
+}
 .thumbnail {
 counter-increment: myCounter;
 position: relative;
 height: 152px;
 width: fit-content;
 cursor: pointer;
-margin-bottom: 47px;
-border: 1px solid #ffffff;
+margin-bottom: 18px;
+border: 1px solid #ffffff00;
 border-radius: 0;
 /* overflow: hidden; */
 display: inline-block;
 transition: border 0.3s;
 display: flex;
 justify-content: center;
+z-index: 7;
 }
-.thumbnail:hover img {
+.thumbnail-wrapper:hover .thumbnail {
 filter: brightness(1);
 }
-.thumbnail::before {
-color: #59636e;
-content: counter(myCounter) "";
-position: absolute;
-font-weight: bold;
-bottom: -30px;
-font-size: 15px;
-/* margin-top: 0px; */
-display: inline-block;
-}
-.thumbnail img {
+.thumbnail-wrapper .thumbnail {
 filter: brightness(0.9);
 }
 .thumbnail:hover {
     outline: 5px solid #b5d5ff00;
 }
-.thumbnail img {
+/* .thumbnail-wrapper .thumbnail {
     user-select: none;
     height: 100%;
-}
+} */
 /* .thumbnail::before {
     position: absolute;
     z-index: 5;
@@ -111,10 +122,11 @@ filter: brightness(0.9);
     filter: contrast(0.9);
 } */
 .thumbnail.selected {
+    filter: brightness(1);
     outline: 5px solid #a8cdff; /* لون الحدود للصفحة المحددة */
     border-color: #d1d9e000;
 }
-.thumbnail.selected img {
+.thumbnail-wrapper.selected .thumbnail {
     filter: brightness(1);
 }
 .thumbnails {
@@ -509,7 +521,8 @@ z {
     padding: 4px 10px;
     font-size: 12px;
     border-radius: 21px;
-    border: solid 1px #0069ff;
+    border: solid 1px #5da0ff;
+    background: #f4f8ff;
 }
 .file-item {
     width: -webkit-fill-available;
@@ -602,6 +615,7 @@ body .History {
     border: none;
     background: #7b889a21;
     padding: 0px 6px;
+    height: 37px;
     border-radius: 8px;
     outline: none;
 }
@@ -699,10 +713,18 @@ body .History {
         pointer-events: none; /* تعطيل التفاعل أثناء الإخفاء */
     }
     .window-check {
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-        box-shadow: none;
+        width: -webkit-fill-available;
+        height: -webkit-fill-available;
+        margin: 16px;
+        /* border-radius: 0; */
+        /* box-shadow: none; */
+        top: auto;
+        left: auto;
+        transform: none;
+    }
+    body .History {
+        top: 0;
+        margin: 0;
     }
         
 }
@@ -761,4 +783,14 @@ body .History {
   }
 #responsiveDiv.visible {
     display: block; /* عرض الديف عند إضافة الكلاس */
+}
+
+.cons {
+    margin: auto;
+    font-family: system-ui;
+    margin-top: 16px;
+    display: block;
+    width: max-content;
+    text-align: center;
+    user-select: none;
 }
