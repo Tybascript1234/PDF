@@ -184,7 +184,12 @@
         <!-- History -->
          <div class="History window-check popup" id="popup1">
             <div class="om"><co>Add watermark</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined"> arrow_forward </span></button></div>
-            <hr style="margin-top: 0;">
+                <hr style="margin-top: 0;">
+                <span class="cons"> 
+                    تحذير لا تضع علامة مائية على ملف
+                    <br>
+                    ليس لك لتجنب اختراق سياسة الخصوصية
+                </span>
                 <div class="kold">
                     <label for="watermarkInput">Upload image</label>
                     <input type="file" id="watermarkInput" accept="image/*" style="display: none;">
@@ -193,11 +198,14 @@
                         <option value="200">200</option>
                         <option value="300">300</option>
                         <option value="400">400</option>
+                        <option value="600">600</option>
+                        <option value="800">800</option>
                     </select>
                     <input type="range" id="watermarkOpacityInput" min="1" max="100" value="100">
                     <button id="applyWatermarkButton"> Activation </button>
                     <button id="removeWatermarkButton"> Cancel </button>
                 </div> 
+                
          </div>
      </div>
     </div>
