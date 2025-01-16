@@ -757,18 +757,19 @@ body .History {
     }
     .window-check {
         width: -webkit-fill-available;
-        /* height: -webkit-fill-available; */
-        margin: 0 16px;
+        height: -webkit-fill-available;
+        margin: 116px 16px;
         /* border-radius: 0; */
         /* box-shadow: none; */
-        /* top: auto; */
+        top: auto;
         left: auto;
         /* transform: none; */
-        transform: translate(0%, -50%);
+        transform: none;
     }
     body .History {
         margin: 0;
         height: 100%;
+        top: 0;
     }
         
 }
