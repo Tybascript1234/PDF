@@ -600,6 +600,9 @@ z {
     width: 100%;
     height: 100%;
     z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #f6f8fa7d;
 }
 @keyframes option {
@@ -757,8 +760,9 @@ body .History {
     }
     .window-check {
         width: -webkit-fill-available;
-        height: -webkit-fill-available;
-        margin: 116px 16px;
+        max-height: -webkit-fill-available;
+        height: 700px;
+        margin: 16px 16px;
         /* border-radius: 0; */
         /* box-shadow: none; */
         top: auto;
