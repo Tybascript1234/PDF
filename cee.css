@@ -768,6 +768,7 @@ body .History {
     }
     body .History {
         margin: 0;
+        height: 100%;
     }
         
 }
