@@ -487,14 +487,20 @@ margin-right: 8px;
     z-index: 5000;
     top: 50%;
     left: 50%;
+    scrollbar-width: none;
     transform: translate(-50%, -50%);
+    max-height: -webkit-fill-available;
     box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
 }
 .window-check co {
     margin: 0px 24px;
-    padding: 20px 0;
-    display: block;
+    padding: 0px 0;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    font-family: system-ui;
     opacity: .8;
+    font-weight: 600;
 }
 .window-check-div {
     overflow: hidden;
@@ -512,9 +518,20 @@ margin-right: 8px;
     margin-bottom: 0;
     border: none;
     border-radius: 8px;
+    font-family: system-ui;
 }
 .recole:hover {
     background-color: #818b9809;
+}
+.recole .material-symbols-outlined {
+    transition: ease 0.3s;
+    font-size: 18px;
+    margin-left: 18px;
+}
+.recole:active .material-symbols-outlined {
+    transition: ease 0.1s;
+    margin-left: 10px;
+    transform: rotateY(30deg);
 }
 z {
     user-select: none;
@@ -542,10 +559,16 @@ z {
     background-color: #818b9809;
 }
 .om {
+    animation: option 0.3s ease forwards;
+    top: 0;
+    z-index: 20;
+    background: white;
+    position: sticky;
     padding-right: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 0px 1px 0px #d1d9e0;
 }
 .om button {
     opacity: .8;
@@ -562,8 +585,9 @@ z {
     transition: ease 0.3s;
 }
 .om button:active span {
+    transition: ease 0.1s;
     margin-left: 8px;
-    /* transition: ease 0.1s; */
+    transform: rotateY(30deg);
 }
 .xoo {
     display: none;
@@ -593,14 +617,19 @@ body .History {
     display: none;
     position: absolute;
     z-index: 50;
+    width: 100%;
+    height: 100%;
+    scrollbar-width: none;
 }
 .kold {
     display: flex;
     flex-wrap: wrap;
     margin-top: 16px;
     padding: 0 16px;
+    justify-content: center;
 }
 .kold label {
+    font-family: sans-serif;
     padding: 0 20px;
     /* width: 80px; */
     justify-content: center;
@@ -610,6 +639,7 @@ body .History {
     margin-right: 8px;
     border: solid 1px #ccc;
     margin-bottom: 8px;
+    font-size: 13px;
 }
 .kold select {
     border: none;
@@ -623,14 +653,27 @@ body .History {
     margin: 0 8px;
 }
 .kold button {
-    background: #1f90ff;
-    color: white;
+    transition: ease 0.2s;
     font-family: system-ui;
     height: 40px;
-    border: none;
-    border-radius: 4px;
+    border-radius: 30px;
     padding: 0 19px;
     margin-right: 8px;
+    border: solid 1px #5da0ff;
+    background: #f4f8ff;
+    font-size: 13px;
+    font-family: sans-serif;
+}
+.kold button:hover {
+    background: #e8f0ff;
+}
+#removeWatermarkButton {
+    border: #0000;
+    background-color: #0089ff;
+    color: white;
+}
+#removeWatermarkButton:hover {
+    background-color: #0079e4;
 }
 
 
@@ -714,16 +757,16 @@ body .History {
     }
     .window-check {
         width: -webkit-fill-available;
-        height: -webkit-fill-available;
-        margin: 16px;
+        /* height: -webkit-fill-available; */
+        margin: 0 16px;
         /* border-radius: 0; */
         /* box-shadow: none; */
-        top: auto;
+        /* top: auto; */
         left: auto;
-        transform: none;
+        /* transform: none; */
+        transform: translate(0%, -50%);
     }
     body .History {
-        top: 0;
         margin: 0;
     }
         
@@ -735,7 +778,7 @@ body .History {
     outline: solid 1px #acacac;
     width: 46px;
     height: 22px;
-    background-color: #e7e7e7;
+    background-color: #f7f7f7;
     border-radius: 25px;
     position: relative;
     transition: 0.3s;
@@ -747,7 +790,7 @@ body .History {
   .toggle-switch::before {
     content: '';
     padding: 7px;
-    background-color: #fff;
+    background-color: #616161;
     border-radius: 50%;
     position: absolute;
     /* top: 2.9px; */
@@ -777,6 +820,7 @@ body .History {
   .toggle-switch.active::before {
     right: 4px;
     left: auto;
+    background-color: white;
   }
   #responsiveDiv {
     display: none;
@@ -793,4 +837,36 @@ body .History {
     width: max-content;
     text-align: center;
     user-select: none;
+}
+
+
+
+
+/* Lang */
+body .links-Translate-search {
+    margin-right: 12px;
+    margin-left: 12px;
+}
+body .links-Translate-div {
+    animation: option 0.3s ease forwards;
+    width: auto;
+    box-shadow: none;
+    border-radius: 0;
+}
+body #translation_buttons {
+    height: -webkit-fill-available;
+    max-height: -webkit-fill-available;
+}
+body .Translate-div {
+    padding: 0 12px;
+    height: 40px;
+    border-radius: 0;
+    width: 100%;
+    margin: 0;
+}
+body .links-Translate-search {
+    padding: 8px 1px;
+}
+body .Fy0Xbe  {
+    margin-right: 10px;
 }
