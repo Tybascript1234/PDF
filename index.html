@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عرض ملفات PDF</title>
+    <title class="notranslate">عرض ملفات PDF</title>
     <link rel="stylesheet" href="cee.css">
     <!-- <link rel="stylesheet" href="mood.css"> -->
     <link rel="icon" href="Text Docudent-svg.svg">
@@ -105,9 +105,9 @@
     <div style="position: fixed; top: 0; z-index: 100;width: 100%;">
         <div class="buttons">
             <div class="olif" style="justify-content: left;">
-                <a href=""><div class="logo-1 mmyButton"><img src="KR.png" alt=""> <span class="dis">Text Document</span><div class="" style="display: none;" onclick="toggleThumbnails()"></div></div></a>
+                <a href=""><div class="logo-1 mmyButton"><img src="KR.png" alt=""> <span class="dis notranslate">Text Document</span><div class="" style="display: none;" onclick="toggleThumbnails()"></div></div></a>
                 <button class="icon" onclick="toggleThumbnails()"><svg xmlns="http://www.w3.org/2000/svg" height="20px" style="width: 20px;height: 20px;" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></button>
-                <div id="fileNameDisplay" class="c2"></div>
+                <div id="fileNameDisplay" class="c2 notranslate"></div>
             </div>
 
             <div class="olif">
@@ -115,42 +115,42 @@
                 <div class="goo"><input type="text" id="pageInput" style="width: 3ch;" value="0" class="olif-input"><span style="margin-left: 4px;margin-right: 8px;">/</span><span id="pageCount">0</span></div>
                 <span class="lk c2"></span>
                 <div class="olif c2" id="" style="width: auto;margin: 0;">
-                    <button class="icon" id="decreaseSize"><span class="material-symbols-outlined">remove</span></button>
+                    <button class="icon" id="decreaseSize"><span class="material-symbols-outlined notranslate">remove</span></button>
                     <input type="text" id="sizeInput" value="100%" class="olif-input">
-                    <button class="icon" id="increaseSize"><span class="material-symbols-outlined">add</span></button>
+                    <button class="icon" id="increaseSize"><span class="material-symbols-outlined notranslate">add</span></button>
                 </div>
                 <span class="lk c2"></span>
-                <button class="icon c2" id="toggleSizeButton" style="margin: 0;"><span class="material-symbols-outlined">width</span></button>
-                <button class="icon c2 dis" onclick="rotatePages()" style="margin: 0;"><span class="material-symbols-outlined">rotate_90_degrees_ccw</span></button>
+                <button class="icon c2 notranslate" id="toggleSizeButton" style="margin: 0;"><span class="material-symbols-outlined">width</span></button>
+                <button class="icon c2 dis" onclick="rotatePages()" style="margin: 0;"><span class="material-symbols-outlined notranslate">rotate_90_degrees_ccw</span></button>
             </div>
 
             <div class="olif" style="justify-content: right;">
-                <button class="icon dis" onclick="downloadPDF()"><span class="material-symbols-outlined">download_2</span></button>
-                <button class="icon c2 dis" onclick="printPDF()"><span class="material-symbols-outlined">print</span></button>
+                <button class="icon dis" onclick="downloadPDF()"><span class="material-symbols-outlined notranslate">download_2</span></button>
+                <button class="icon c2 dis" onclick="printPDF()"><span class="material-symbols-outlined notranslate">print</span></button>
                 <div class="dropdown">
                   <button class="icon c2 clo" id="dropdownButton" style="display: flex;position:relative; z-index: 30;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg></button>
                     <div id="dropdownMenu" class="dropdown-content">
                         <ul>
                             <input type="file" id="" style="display: none;" accept=".doc,.docx">
                             <label for="pdfInput" class="mmyButton"><a>Upload file</a></label>
-                            <label onclick="printPDF()" class="mmyButton dr"><span class="material-symbols-outlined c2">print</span><o class="dr" style="background-image: url(684906.png);"></o><a>Print</a></label>
-                            <label onclick="downloadPDF()" class="mmyButton dr"><span class="material-symbols-outlined c2">download_2</span><o class="dr" style="background-image: url(6574477.png);"></o><a>Download PDF</a></label>
+                            <label onclick="printPDF()" class="mmyButton dr"><span class="material-symbols-outlined notranslate c2">print</span><o class="dr" style="background-image: url(684906.png);"></o><a>Print</a></label>
+                            <label onclick="downloadPDF()" class="mmyButton dr"><span class="material-symbols-outlined notranslate c2">download_2</span><o class="dr" style="background-image: url(6574477.png);"></o><a>Download PDF</a></label>
                             <hr class="dr" style="display: none;">
-                            <label onclick="rotatePages()" class="mmyButton dr c2"><span class="material-symbols-outlined">rotate_90_degrees_ccw</span><a>Recycle</a></label>
-                            <label id="toggleCheck" class="mmyButton cod"><span id="checkIcon" class="material-symbols-outlined" style="display: none;">check</span><a>Two page view</a></label>
+                            <label onclick="rotatePages()" class="mmyButton dr c2"><span class="material-symbols-outlined notranslate">rotate_90_degrees_ccw</span><a>Recycle</a></label>
+                            <label id="toggleCheck" class="mmyButton cod"><span id="checkIcon" class="material-symbols-outlined notranslate" style="display: none;">check</span><a>Two page view</a></label>
                             <hr>
-                            <label class="mmyButton" id="shareFileButton"><span class="material-symbols-outlined c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
-                            <label class="mmyButton" id="copyTextButton"><span class="material-symbols-outlined c2">content_copy</span><o class="dr" style="background-image: url(3719119.png);"></o><a>Copy file text</a></label>
-                            <label class="mmyButton" id="downloadImagesZipButton"><span class="material-symbols-outlined c2">folder_zip</span><o class="dr" style="background-image: url(12180408.png);"></o><a title="Download file pages">Download file..</a></label>
+                            <label class="mmyButton" id="shareFileButton"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
+                            <label class="mmyButton" id="copyTextButton"><span class="material-symbols-outlined notranslate c2">content_copy</span><o class="dr" style="background-image: url(3719119.png);"></o><a>Copy file text</a></label>
+                            <label class="mmyButton" id="downloadImagesZipButton"><span class="material-symbols-outlined notranslate c2">folder_zip</span><o class="dr" style="background-image: url(12180408.png);"></o><a title="Download file pages">Download file..</a></label>
                             <hr>
-                            <label class="mmyButton openModalBtn" data-target="modal1"><span class="material-symbols-outlined c2">settings</span><o class="dr" style="background-image: url(Settings.png);"></o><a>Settings</a></label>
+                            <label class="mmyButton openModalBtn" data-target="modal1"><span class="material-symbols-outlined notranslate c2">settings</span><o class="dr" style="background-image: url(Settings.png);"></o><a>Settings</a></label>
                             <label id="fileInfoButton" class="mmyButton"><a>File information</a></label>
                         </ul>
                     </div> 
                 </div>
             </div>
             <!-- -------- -->
-             <div class="buttons22">
+             <div class="buttons22 notranslate">
                 <h3 class="c2 olif" style="justify-content: left;">Click to save changes.</h3>
                 <div class="edit-textarea olif">
                     <textarea name="" id=""></textarea>
@@ -173,17 +173,20 @@
     <!-- window-check -->
      <div id="modal1" class="cox xoo">
      <div class="window-check modal">
-        <div class="om"><co>Settings</co><button class="closeModalBtn"><span class="material-symbols-outlined"> arrow_forward </span></button></div>
+        <div class="om"><co>الإعدادات</co><button class="closeModalBtn"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button></div>
         <hr style="margin-top: 0;">
         <div class="window-check-div">
-            <a class="recole"><span>Night mode</span> <div class="toggle-switch"></div></a>
-            <a class="recole showButton" data-target="popup1"><span>Add watermark</span><z>New</z></a>
-            <a class="recole"><span>Auto save</span>  <div class="toggle-switch" id=""></div></a>           
+            <a class="recole" target="_blank" href="https://tybascript1234.github.io/settings/page1.html" data-target=""><span class="material-symbols-outlined notranslate"> arrow_back_ios </span><span>اشترك معنا</span></a>   
+            <a class="recole"><div class="toggle-switch"></div> <span>الوضع اليلي</span></a>
+            <a class="recole showButton" data-target="popup1"><z>جديد</z> <span>انشئ علامة نائية</span></a>
+            <a class="recole"><div class="toggle-switch" id=""></div> <span>الحفظ التلقائي</span></a> 
+            <a class="recole showButton" data-target="popup2"><span class="material-symbols-outlined notranslate"> arrow_back_ios </span><span>سياسة الخصوصية</span></a>   
+            <a class="recole showButton" data-target="popup3"><span class="material-symbols-outlined notranslate"> arrow_back_ios </span><span>الترجمة</span></a>        
         </div>
 
         <!-- History -->
          <div class="History window-check popup" id="popup1">
-            <div class="om"><co>Add watermark</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined"> arrow_forward </span></button></div>
+            <div class="om"><co>انشئ علامة مائية</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button></div>
                 <hr style="margin-top: 0;">
                 <span class="cons"> 
                     تحذير لا تضع علامة مائية على ملف
@@ -191,7 +194,7 @@
                     ليس لك لتجنب اختراق سياسة الخصوصية
                 </span>
                 <div class="kold">
-                    <label for="watermarkInput">Upload image</label>
+                    <label for="watermarkInput">رفع صورة</label>
                     <input type="file" id="watermarkInput" accept="image/*" style="display: none;">
                     <select id="watermarkSizeSelect">
                         <option value="100">100</option>
@@ -202,10 +205,24 @@
                         <option value="800">800</option>
                     </select>
                     <input type="range" id="watermarkOpacityInput" min="1" max="100" value="100">
-                    <button id="applyWatermarkButton"> Activation </button>
-                    <button id="removeWatermarkButton"> Cancel </button>
+                    <button id="applyWatermarkButton"> انشئ </button>
+                    <button id="removeWatermarkButton" class="long"> الغاء </button>
                 </div> 
                 
+         </div>
+
+         <!-- سياسة الخصوصية -->
+         <div class="History window-check popup" id="popup2">
+            <div class="om"><co>سياسة الخصوصية</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button></div>
+                <hr style="margin-top: 0;">
+         </div>
+
+         <!-- اللغة -->
+         <div class="History window-check popup" id="popup3">
+            <div class="om"><co>اللغة</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button></div>
+                <hr style="margin-top: 0;">
+                <script src="https://tybascript1234.github.io/Languag/embed.js"></script>
+                <div id="target-container"></div>
          </div>
      </div>
     </div>
