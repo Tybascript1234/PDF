@@ -769,7 +769,7 @@ body .History {
     .window-check {
         width: -webkit-fill-available;
         max-height: -webkit-fill-available;
-        height: 700px;
+        height: 600px;
         margin: 16px 16px;
         /* border-radius: 0; */
         /* box-shadow: none; */
