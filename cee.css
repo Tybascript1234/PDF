@@ -274,7 +274,7 @@ text-decoration: none;
     width: max-width;
     height: 16px;
     text-align: left;
-    overflow: hidden;
+    /*overflow: hidden; */
 }
 .dropdown-content o {
     left: 0;
