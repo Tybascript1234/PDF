@@ -761,7 +761,7 @@ body .History {
     body .c2 {
         display: none;
     }
-    .icon,body .logo-1,.thumbnail,.recole,body .toggle-switch,body button,.dropdown-content div, label {
+    .icon,body .logo-1,.thumbnail,.recole,.copy-text-button,body .toggle-switch,body button,.dropdown-content div, label {
         cursor: context-menu;
     }
     body .goo {
