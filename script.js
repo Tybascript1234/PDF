@@ -132,7 +132,7 @@ function renderPDF(typedArray) {
       });
 
       // تحديث نص الزر
-      toggleButtons.textContent = buttonsVisible ? '' : '';
+      toggleButtons.textContent = buttonsVisible ? 'إخفاء' : 'إظهار';
   });
 
 // وظيفة نسخ النص من صفحة معينة
