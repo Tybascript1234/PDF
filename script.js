@@ -112,6 +112,29 @@ function renderPDF(typedArray) {
     });
 }
 
+  // الحصول على الزر الجديد
+  const toggleButtons = document.getElementById('toggleButtons');
+
+  // حالة إظهار الأزرار
+  let buttonsVisible = true;
+
+  // حدث الضغط على الزر
+  toggleButtons.addEventListener('click', () => {
+      // الحصول على جميع أزرار نسخ النص
+      const copyTextButtons = document.querySelectorAll('.copy-text-button');
+
+      // تبديل حالة الإظهار
+      buttonsVisible = !buttonsVisible;
+
+      // إظهار أو إخفاء الأزرار
+      copyTextButtons.forEach(button => {
+          button.style.display = buttonsVisible ? 'flex' : 'none';
+      });
+
+      // تحديث نص الزر
+      toggleButtons.textContent = buttonsVisible ? '' : '';
+  });
+
 // وظيفة نسخ النص من صفحة معينة
 async function copyTextFromPage(pageNum, copyTextButton) {
     const page = await pdfDoc.getPage(pageNum);
@@ -152,53 +175,75 @@ function reorderThumbnails(pageNumOrder) {
     });
 }
 
-// وظيفة مزامنة الصور المصغرة مع الصفحة الحالية
 function observeScrollSync() {
     const previewElement = document.getElementById('pdfPreview');
     const thumbnailsElement = document.getElementById('thumbnails');
 
+    let isScrolling;
+
     previewElement.addEventListener('scroll', () => {
-        const pages = document.querySelectorAll('.pdf-page');
-        let currentPage = 1;
+        // إلغاء التأخير السابق إذا كان هناك
+        window.cancelAnimationFrame(isScrolling);
 
-        // تحقق من الصفحة التي تظهر حاليًا
-        pages.forEach((page, index) => {
-            const rect = page.getBoundingClientRect();
-            if (rect.top >= 0 && rect.top < window.innerHeight) {
-                currentPage = index + 1;
-            }
-        });
+        // استخدام requestAnimationFrame لتحسين الأداء
+        isScrolling = window.requestAnimationFrame(() => {
+            const pages = document.querySelectorAll('.pdf-page');
+            let currentPage = 1;
 
-        // تحديث التحديد في thumbnails
-        document.querySelectorAll('.thumbnail').forEach(thumbnail => {
-            thumbnail.classList.remove('selected');
-        });
-
-        const currentThumbnail = document.getElementById(`thumbnail-${currentPage}`);
-        if (currentThumbnail) {
-            currentThumbnail.classList.add('selected');
-            currentThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' }); // تحريك thumbnail إلى العرض
-        }
-
-        // التحقق من التمرير إلى أعلى الصفحة في وضع الهاتف
-        if (window.innerWidth <= 768 && previewElement.scrollTop === 0) {
-            const firstThumbnail = document.getElementById('thumbnail-1');
-            if (firstThumbnail) {
-                firstThumbnail.classList.add('selected');
-                firstThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-
-            // إلغاء تحديد أي صورة أخرى عند الوصول إلى أول صفحة
-            document.querySelectorAll('.thumbnail').forEach(thumbnail => {
-                if (thumbnail !== firstThumbnail) {
-                    thumbnail.classList.remove('selected');
+            // تحقق من الصفحة التي تظهر حاليًا
+            pages.forEach((page, index) => {
+                const rect = page.getBoundingClientRect();
+                if (rect.top >= 0 && rect.top < window.innerHeight) {
+                    currentPage = index + 1;
                 }
             });
-        }
+
+            // تحديث التحديد في thumbnails
+            document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+                thumbnail.classList.remove('selected');
+            });
+
+            const currentThumbnail = document.getElementById(`thumbnail-${currentPage}`);
+            if (currentThumbnail) {
+                currentThumbnail.classList.add('selected');
+                currentThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // التحقق من التمرير إلى أعلى الصفحة في وضع الهاتف
+            if (window.innerWidth <= 768 && previewElement.scrollTop === 0) {
+                const firstThumbnail = document.getElementById('thumbnail-1');
+                if (firstThumbnail) {
+                    firstThumbnail.classList.add('selected');
+                    firstThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                // إلغاء تحديد أي صورة أخرى عند الوصول إلى أول صفحة
+                document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+                    if (thumbnail !== firstThumbnail) {
+                        thumbnail.classList.remove('selected');
+                    }
+                });
+            }
+        });
+    });
+
+    // إضافة حدث لمراقبة تغيير التوجيه
+    window.addEventListener('orientationchange', () => {
+        checkInitialPageInMobile();
     });
 
     // تأكد من التحديد في وضع الهاتف عند التحميل الأول
     checkInitialPageInMobile();
+}
+
+function checkInitialPageInMobile() {
+    if (window.innerWidth <= 768) {
+        const firstThumbnail = document.getElementById('thumbnail-1');
+        if (firstThumbnail) {
+            firstThumbnail.classList.add('selected');
+            firstThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
 }
 
 
