@@ -23,16 +23,13 @@ pdfInput.addEventListener('change', (e) => {
 });
 
 // رسم PDF
-// رسم PDF
-// رسم PDF
-// رسم PDF
 function renderPDF(typedArray) {
     const loadingTask = pdfjsLib.getDocument(typedArray);
     loadingTask.promise.then(pdf => {
         pdfDoc = pdf;
         thumbnails.innerHTML = '';
-        pdfPreview.innerHTML = ''; // Clear previous pages
-        pageCountDisplay.textContent = `Page 1 of ${pdf.numPages}`; // Display page count
+        pdfPreview.innerHTML = ''; // مسح الصفحات السابقة
+        pageCountDisplay.textContent = `Page 1 of ${pdf.numPages}`; // عرض عدد الصفحات
 
         let firstThumbnailSet = false; // متغير لتحديد أول صورة مصغرة
         let pageNumOrder = []; // لتخزين ترتيب الصفحات
@@ -82,14 +79,28 @@ function renderPDF(typedArray) {
                     // إضافة الصورة المصغرة مع الرقم إلى thumbnails
                     thumbnails.appendChild(thumbnailWrapper);
 
-                    // إضافة الصفحة الكاملة إلى pdfPreview
-                    pdfPreview.appendChild(canvas);
+                    // إضافة زر نسخ النص إلى الصفحة الكاملة
+                    const copyTextButton = document.createElement('button');
+                    copyTextButton.innerHTML = '<span class="material-symbols-outlined notranslate">content_copy</span>';
+                    copyTextButton.classList.add('copy-text-button');
+                    copyTextButton.style.display = 'none'; // إخفاء الزر افتراضيًا
+                    copyTextButton.onclick = () => copyTextFromPage(pageNum, copyTextButton);
+
+                    // إضافة الصفحة الكاملة وزر نسخ النص إلى pdfPreview
+                    const pageWrapper = document.createElement('div');
+                    pageWrapper.classList.add('page-wrapper');
+                    pageWrapper.appendChild(canvas);
+                    pageWrapper.appendChild(copyTextButton);
+                    pdfPreview.appendChild(pageWrapper);
 
                     // تخزين ترتيب الصفحات
                     pageNumOrder.push(pageNum);
 
                     // مراقبة التمرير لتحديد العناصر
                     observeScrollSync();
+
+                    // مراقبة الصفحات المرئية
+                    observePages();
                 });
             });
         }
@@ -98,6 +109,29 @@ function renderPDF(typedArray) {
         reorderThumbnails(pageNumOrder);
     }).catch(error => {
         console.error('Error loading PDF:', error);
+    });
+}
+
+// وظيفة نسخ النص من صفحة معينة
+async function copyTextFromPage(pageNum, copyTextButton) {
+    const page = await pdfDoc.getPage(pageNum);
+    const textContent = await page.getTextContent();
+
+    const textItems = textContent.items.map(item => item.str);
+    const text = textItems.join(' ');
+
+    // تغيير محتوى الزر إلى "تم النسخ"
+    copyTextButton.innerHTML = '<span class="material-symbols-outlined good notranslate">done</span>';
+
+    // نسخ النص إلى الحافظة
+    navigator.clipboard.writeText(text).then(() => {
+        // إعادة محتوى الزر إلى الحالة الأصلية بعد ثانية واحدة
+        setTimeout(() => {
+            copyTextButton.innerHTML = '<span class="material-symbols-outlined good notranslate">content_copy</span>';
+        }, 1000); // 1000 مللي ثانية = 1 ثانية
+    }).catch(err => {
+        console.error('فشل في نسخ النص:', err);
+        alert('فشل في نسخ النص!');
     });
 }
 
@@ -196,30 +230,23 @@ function showPage(pageNum) {
 
 // مراقبة التمرير لتحديد الصفحة المرئية
 function observePages() {
-    const pages = document.querySelectorAll('.pdf-page');
+    const pages = document.querySelectorAll('.page-wrapper');
     const observer = new IntersectionObserver(
         entries => {
             entries.forEach(entry => {
-                const pageNum = parseInt(entry.target.id.replace('page-', ''), 10);
+                const pageNum = parseInt(entry.target.querySelector('.pdf-page').id.replace('page-', ''), 10);
                 if (entry.isIntersecting) {
-                    // إزالة التحديد عن جميع الصفحات
-                    pages.forEach(page => page.classList.remove('selected'));
-                    // إضافة التحديد للصفحة الحالية
-                    entry.target.classList.add('selected');
-
-                    // مزامنة التحديد مع الصور المصغرة
-                    document
-                        .querySelectorAll('.thumbnail-wrapper')
-                        .forEach(wrapper => wrapper.classList.remove('selected'));
-                    document
-                        .querySelector(`#thumbnail-${pageNum}`)
-                        .parentElement.classList.add('selected');
+                    // إظهار زر نسخ النص للصفحة المرئية
+                    entry.target.querySelector('.copy-text-button').style.display = 'flex';
+                } else {
+                    // إخفاء زر نسخ النص للصفحات غير المرئية
+                    entry.target.querySelector('.copy-text-button').style.display = 'none';
                 }
             });
         },
         {
             root: null, // مراقبة ضمن الإطار الكامل
-            threshold: 0.3 // يعتبر الصفحة مرئية إذا كان 30% منها داخل العرض
+            threshold: 0.5 // يعتبر الصفحة مرئية إذا كان 50% منها داخل العرض
         }
     );
 
