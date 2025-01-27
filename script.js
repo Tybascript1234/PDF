@@ -649,7 +649,7 @@ toggleSizeButton.addEventListener('click', () => {
     } else {
         pages.forEach((page) => {
             page.style.width = '-webkit-fill-available';
-            page.style.height = 'auto';
+            page.style.height = 'max-content';
             page.style.margin = '10px';
         });
         toggleSizeButton.innerHTML = '<span class="material-symbols-outlined">height</span>';
@@ -698,36 +698,32 @@ function updatePageSizes() {
 // إضافة متغيرات جديدة
 const toggleCheck = document.getElementById('toggleCheck');
 const checkIcon = document.getElementById('checkIcon');
-// const thumbnails = document.getElementById('thumbnails'); // إضافة ديف thumbnails
 let isTwoPagesSideBySide = false;
 
-// حدث عند الضغط على الديف
 toggleCheck.addEventListener('click', () => {
-    const pages = pdfPreview.querySelectorAll('.pdf-page');
+    const pageWrappers = document.querySelectorAll('.page-wrapper');
 
     if (isTwoPagesSideBySide) {
         // العودة إلى الوضع الأصلي
-        pages.forEach((page) => {
-            page.style.display = 'block'
-            page.style.width = 'auto'; // تعيين العرض التلقائي
-            page.style.margin = '0px auto'; // إعادة تعيين الهوامش
-            page.style.height = '889px';
+        pageWrappers.forEach((wrapper) => {
+            wrapper.style.display = 'block';
+            wrapper.style.width = 'max-content';
+            wrapper.style.margin = '0';
         });
         checkIcon.style.display = 'none'; // إخفاء أيقونة check
-        thumbnails.style.display = 'block';
+        thumbnails.style.display = 'block'; // إعادة عرض thumbnails
         thumbnails.style.position = 'static'; // إعادة موضع thumbnails إلى الوضع الأصلي
     } else {
         // عرض كل صفحتين بجانب بعض
-        pages.forEach((page, index) => {
-            page.style.display = 'inline-flex'; // تعيين العرض كتلة مدمجة
-            page.style.width = 'calc(40% - 10px)'; // تعيين عرض الصفحة
-            // page.style.margin = '5px'; // إضافة هوامش
-            page.style.height = 'auto';
+        pageWrappers.forEach((wrapper) => {
+            wrapper.style.display = 'inline-flex';
+            wrapper.style.width = 'max-content'; // تعيين عرض الصفحة
+            wrapper.style.margin = '5px';
         });
-        checkIcon.style.display = 'inline'; // إظهار أيقونة check
         thumbnails.style.display = 'none';
         thumbnails.style.height = '-webkit-fill-available';
-        thumbnails.style.position = 'absolute'; // تغيير موضع thumbnails إلى absolute
+        thumbnails.style.position = 'absolute'; // تغيير موضع 
+        checkIcon.style.display = 'inline'; // إظهار أيقونة check
     }
 
     isTwoPagesSideBySide = !isTwoPagesSideBySide; // تغيير الحالة
