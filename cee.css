@@ -171,6 +171,7 @@ background-size: cover;
 .thumbnail-wrapper {
     position: relative;
     height: 217px;
+    max-width: -webkit-fill-available;
     width: max-content;
 }
 .thumbnail-wrapper::before {
@@ -190,19 +191,21 @@ background-size: cover;
 }
 .thumbnail {
 counter-increment: myCounter;
-position: relative;
-height: 152px;
-width: fit-content;
-cursor: pointer;
-margin-bottom: 18px;
-border: 1px solid #ffffff00;
-border-radius: 0;
-/* overflow: hidden; */
-display: inline-block;
-transition: border 0.3s;
-display: flex;
-justify-content: center;
-z-index: 7;
+    position: relative;
+    height: 152px;
+    max-height: -webkit-fill-available;
+    width: fit-content;
+    cursor: pointer;
+    margin-bottom: 18px;
+    border: 1px solid #ffffff00;
+    border-radius: 0;
+    /* overflow: hidden; */
+    display: inline-block;
+    transition: border 0.3s;
+    display: flex;
+    justify-content: center;
+    z-index: 7;
+    max-width: -webkit-fill-available;
 }
 .thumbnail-wrapper:hover .thumbnail {
 filter: brightness(1);
@@ -848,7 +851,7 @@ body .History {
     } 
     body .pdf-preview canvas {
         height: auto;
-        margin: 8px 8px;
+        margin: 8px 0;
         width: -webkit-fill-available;
     }
     body .logo-1 {
@@ -911,6 +914,7 @@ body .History {
     body .page-wrapper {
         height: auto;
         width: -webkit-fill-available;
+        margin: 0 4px;
     }
     body .copy-text-button {
         padding: 8px;
