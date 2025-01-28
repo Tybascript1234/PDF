@@ -37,11 +37,18 @@ body {
     background-color: rgb(255, 255, 255);
     z-index: 9999;
   }
-
+body .auto-size {
+    transition: ease 0.2s;
+    height: auto;
+}
+body .auto-size .copy-text-button {
+    margin-right: 10px;
+}
   .progress-circle {
     position: relative;
     width: 150px;
     height: 150px;
+    margin-bottom: 106px;
   }
 
   .progress-circle .circle {
@@ -57,9 +64,11 @@ body {
 
   .progress-circle .percentage {
     position: absolute;
-    font-size: 1.5rem;
+    font-family: cursive;
+    font-size: 1.3rem;
     font-weight: bold;
     color: #333;
+    margin-top: 200px;
   }
 
   .loader-container.hidden {
@@ -86,8 +95,8 @@ body {
     left: 0;
   }
   .xoxo img {
-    height: 81px;
-    margin-bottom: 4px;
+    height: 71px;
+    margin-bottom: 6px;
   }
   .smole {
     position: absolute;
@@ -916,19 +925,27 @@ body .History {
         margin-right: 30px;
     }
     body .xoxo {
-        width: 94px;
-        height: 94px;
+        width: 84px;
+        height: 84px;
     }
     body .progress-circle {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
         margin-bottom: 50px;
     }
     body .xoxo img {
-        height: 57px;
+        height: 46px;
     }        
-    body .smole {
+    /* body .smole {
         bottom: 20px;
+    } */
+    .progress-circle .percentage {
+        position: absolute;
+        font-family: cursive;
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #333;
+        margin-top: 0;
     }
 }
 
@@ -1007,8 +1024,8 @@ body .History {
     align-items: center;
     position: absolute;
     z-index: 10;
-    top: 10px;
-    right: 10px;
+    top: 0;
+    right: 0;
     padding: 10px;
     background-color: #ffffff;
     color: #6b6b6b;
