@@ -257,5 +257,40 @@
 
     <!-- <script type="module" src="main.js"></script> -->
 
+
+    <div class="wendow loader-container" id="loader-container">
+        <div class="progress-circle">
+            <div class="circle" style="--progress: 0%">
+              <div class="percentage">0%</div>
+              <div class="xoxo"><img src="KR.png" alt=""></div>
+            </div>
+        </div>
+        <div class="smole">All rights reserved to Text Document</div>
+    </div>
+
+    <script>
+          const loaderContainer = document.getElementById('loader-container');
+  const circle = document.querySelector('.circle');
+  const percentage = document.querySelector('.percentage');
+
+  let progress = 0;
+
+  function updateProgress() {
+    if (progress <= 100) {
+      circle.style.setProperty('--progress', `${progress}%`);
+      percentage.textContent = `${progress}%`;
+      progress++;
+      setTimeout(updateProgress, 50); // Adjust the speed here
+    } else {
+      loaderContainer.classList.add('hidden');
+    }
+  }
+
+  window.addEventListener('load', () => {
+    // Start updating the progress only after all content is loaded
+    progress = 0;
+    updateProgress();
+  });
+    </script>
 </body>
 </html>
