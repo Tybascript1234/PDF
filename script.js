@@ -650,7 +650,7 @@ toggleSizeButton.addEventListener('click', () => {
         pages.forEach((page) => {
             page.style.width = '-webkit-fill-available';
             page.style.height = 'max-content';
-            page.style.margin = '10px';
+            page.style.margin = '10px 0';
         });
         toggleSizeButton.innerHTML = '<span class="material-symbols-outlined">height</span>';
         sizeInput.value = 'Auto'; // تحديث خانة الإدخال إلى "Auto"
