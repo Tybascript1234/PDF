@@ -822,34 +822,8 @@ document.getElementById('downloadImagesZipButton').addEventListener('click', asy
     }
 });
 
-// زر مشاركة الملف
-document.getElementById('shareFileButton').addEventListener('click', async () => {
-        const pdfInput = document.getElementById('pdfInput'); // افتراض أن ملف PDF يتم تحميله من هنا
-        if (!pdfInput || !pdfInput.files[0]) {
-            alert('لم يتم تحميل ملف PDF للمشاركة!');
-            return;
-        }
-
-        // التحقق من دعم Web Share API
-        if (navigator.canShare && navigator.canShare({ files: [pdfInput.files[0]] })) {
-            try {
-                await navigator.share({
-                    title: 'مشاركة ملف PDF',
-                    text: 'تفقد هذا الملف الرائع!',
-                    files: [pdfInput.files[0]],
-                });
-                alert('تمت مشاركة الملف بنجاح!');
-            } catch (error) {
-                console.error('حدث خطأ أثناء مشاركة الملف:', error);
-                alert('تعذر مشاركة الملف.');
-            }
-        } else {
-            alert('المشاركة غير مدعومة على هذا الجهاز!');
-        }
-    });
-
-    document.getElementById('fileInfoButton').addEventListener('click', () => {
-    // تحديد الملف المُحمّل
+// دالة عرض معلومات الملف
+function showFileInfo() {
     const fileInput = document.getElementById('pdfInput');
     const file = fileInput.files[0];
 
@@ -859,12 +833,59 @@ document.getElementById('shareFileButton').addEventListener('click', async () =>
         const fileURL = URL.createObjectURL(file); // رابط الملف المؤقت
         const lastModified = new Date(file.lastModified).toLocaleString(); // آخر تعديل
 
-        // عرض المعلومات في رسالة
-        alert(` ملف  ${fileName}\nالحجم ${fileSize} KB\nالمسار  ${fileURL}\nآخر تعديل في  ${lastModified}`);
+        // تعبئة المعلومات في العناصر المناسبة
+        document.getElementById('fileName').textContent = fileName;
+        document.getElementById('fileLastModified').textContent = lastModified;
+        document.getElementById('fileURL').textContent = fileURL;
+        document.getElementById('fileSize').textContent = `${fileSize} KB`;
+
+        // عرض المنبثق
+        document.getElementById('fileInfoModal').style.display = 'flex';
     } else {
         alert('لم يتم تحميل أي ملف!');
     }
-});
+}
+
+// دالة مشاركة الملف
+async function shareFile() {
+    const pdfInput = document.getElementById('pdfInput');
+    if (!pdfInput || !pdfInput.files[0]) {
+        alert('لم يتم تحميل ملف PDF للمشاركة!');
+        return;
+    }
+
+    const file = pdfInput.files[0];
+
+    // التحقق من دعم Web Share API
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+            await navigator.share({
+                title: 'مشاركة ملف PDF',
+                text: 'تفقد هذا الملف الرائع!',
+                files: [file],
+            });
+            // تمت إزالة الرسالة "تمت مشاركة الملف بنجاح!"
+        } catch (error) {
+            console.error('حدث خطأ أثناء مشاركة الملف:', error);
+            alert('تعذر مشاركة الملف.');
+        }
+    } else {
+        alert('المشاركة غير مدعومة على هذا الجهاز!');
+    }
+}
+
+// دالة إغلاق المنبثق
+function closeModal() {
+    document.getElementById('fileInfoModal').style.display = 'none';
+}
+
+// إغلاق المنبثق عند النقر خارج المحتوى
+window.onclick = function (event) {
+    const modal = document.getElementById('fileInfoModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+};
 
 
 // العلامة المائية
