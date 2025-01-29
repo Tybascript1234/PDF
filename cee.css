@@ -101,7 +101,19 @@ body .auto-size .copy-text-button {
   .smole {
     position: absolute;
     bottom: 40px;
-    opacity: .5;
+  }
+  .smole a {
+    opacity: .7;
+  }
+  .smole:hover a {
+    opacity: 1;
+  }
+  .smole span {
+    padding: 5px 8px;
+    border-radius: 8px;
+    background: #4c656d1f;
+    color: #8196a9;
+    margin-left: 4px;
   }
 
 /* wendow// */
@@ -963,6 +975,9 @@ body .History {
         z-index: 10;
         box-shadow: 10px 0px 10px #f6f8fa, 0px 1px 2px #ccc;
         background: #f6f8fa;
+    }
+    body a {
+        cursor: context-menu;
     }
 }
 
