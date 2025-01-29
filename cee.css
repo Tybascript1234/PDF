@@ -1032,6 +1032,7 @@ body .History {
     right: 0;
     padding: 10px;
     background-color: #ffffff;
+    box-shadow: 0px 1px 3px #0000001c;
     color: #6b6b6b;
     border: none;
     border-radius: 5px;
