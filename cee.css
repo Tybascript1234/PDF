@@ -980,12 +980,25 @@ body .History {
         cursor: context-menu;
     }
     body .modal-content {
+        animation: sss 0.3s ease forwards;
         top: auto;
         bottom: 0;
         margin-bottom: 40px;
+        width: -webkit-fill-available;
+        margin: 0;
+        border-radius: 16px 16px 0px 0px;
+        box-shadow: 0px -11px 13px #00000021;
     }
     body .modal-content div  {
         margin: 10px 0;
+    }
+}
+@keyframes sss {
+    0% {
+        margin-bottom: -100px;
+    }
+    100% {
+        
     }
 }
 
