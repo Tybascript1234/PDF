@@ -980,14 +980,15 @@ body .History {
         cursor: context-menu;
     }
     body .modal-content {
-        animation: sss 0.3s ease forwards;
+        animation: sss 0.4s ease forwards;
         top: auto;
         bottom: 0;
         margin-bottom: 40px;
         width: -webkit-fill-available;
         margin: 0;
         border-radius: 16px 16px 0px 0px;
-        box-shadow: 0px -11px 13px #00000021;
+        box-shadow: 0px -11px 13px #00000021, 0px -1px 0px #42515e0d;
+        padding-bottom: 30px;
     }
     body .modal-content div  {
         margin: 10px 0;
@@ -995,7 +996,8 @@ body .History {
 }
 @keyframes sss {
     0% {
-        margin-bottom: -100px;
+        margin-bottom: -150px;
+        opacity: .0;
     }
     100% {
         
@@ -1221,4 +1223,12 @@ body .links-Translate-search input:focus {
 .modal-content div div {
     user-select: all;
     margin: 3px 0;
+    position: relative;
+}
+.modal-content div div::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
 }
