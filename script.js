@@ -1034,13 +1034,22 @@ dropdownButton.addEventListener('click', function(event) {
     dropdownButton.classList.toggle('active');
 });
 
-// إخفاء القائمة فقط عند النقر خارجها إذا كانت معروضة
+// إخفاء القائمة عند النقر خارجها
 document.addEventListener('click', function(event) {
     if (dropdownMenu.style.display === 'block' && !dropdownMenu.contains(event.target) && !dropdownButton.contains(event.target)) {
         dropdownMenu.style.display = 'none';
         dropdownButton.classList.remove('active');
     }
 });
+
+// إخفاء القائمة عند النقر على أي button أو label داخلها
+dropdownMenu.addEventListener('click', function(event) {
+    if (event.target.tagName === 'BUTTON' || event.target.tagName === 'LABEL') {
+        dropdownMenu.style.display = 'none';
+        dropdownButton.classList.remove('active');
+    }
+});
+
 
 
 
