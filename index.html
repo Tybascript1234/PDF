@@ -133,22 +133,36 @@
                         <ul>
                             <input type="file" id="" style="display: none;" accept=".doc,.docx">
                             <label for="pdfInput" class="mmyButton"><a>Upload file</a></label>
-                            <label onclick="printPDF()" class="mmyButton dr"><span class="material-symbols-outlined notranslate c2">print</span><o class="dr" style="background-image: url(684906.png);"></o><a>Print</a></label>
+                            <label onclick="printPDF()" class="mmyButton dr"><span class="material-symbols-outlined notranslate c2">print</span><o class="dr" style="background-image: url(684906.png);"></o><a>Print file</a></label>
                             <label onclick="downloadPDF()" class="mmyButton dr"><span class="material-symbols-outlined notranslate c2">download_2</span><o class="dr" style="background-image: url(6574477.png);"></o><a>Download PDF</a></label>
                             <hr class="dr" style="display: none;">
                             <label onclick="rotatePages()" class="mmyButton dr c2"><span class="material-symbols-outlined notranslate">rotate_90_degrees_ccw</span><a>Recycle</a></label>
                             <label id="toggleCheck" class="mmyButton cod"><span id="checkIcon" class="material-symbols-outlined notranslate" style="display: none;">check</span><a>Two page view</a></label>
                             <hr>
-                            <label class="mmyButton" id="shareFileButton"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
+                            <label class="mmyButton" onclick="shareFile()"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
                             <label class="mmyButton" id="copyTextButton"><span class="material-symbols-outlined notranslate c2">content_copy</span><o class="dr" style="background-image: url(3719119.png);"></o><a>Copy file text</a></label>
                             <label class="mmyButton" id="downloadImagesZipButton"><span class="material-symbols-outlined notranslate c2">folder_zip</span><o class="dr" style="background-image: url(12180408.png);"></o><a title="Download file pages">Download file..</a></label>
                             <hr>
                             <label class="mmyButton openModalBtn" data-target="modal1"><span class="material-symbols-outlined notranslate c2">settings</span><o class="dr" style="background-image: url(Settings.png);"></o><a>Settings</a></label>
-                            <label id="fileInfoButton" class="mmyButton"><a>File information</a></label>
+                            <label onclick="showFileInfo()" class="mmyButton"><a>File information</a></label>
                         </ul>
                     </div> 
                 </div>
             </div>
+
+
+             <!-- المنبثق -->
+    <div id="fileInfoModal" class="modales">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div><strong>اسم الملف</strong><div id="fileName"></div></div>
+            <div><strong>آخر تعديل</strong><div id="fileLastModified"></div></div>
+            <div><strong>رابط الملف</strong><div id="fileURL"></div></div>
+            <div><strong>حجم الملف</strong><div id="fileSize"></div></div>
+        </div>
+    </div>
+
+
             <!-- -------- -->
              <div class="buttons22 notranslate">
                 <h3 class="c2 olif" style="justify-content: left;">Click to save changes.</h3>
