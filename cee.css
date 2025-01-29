@@ -68,7 +68,7 @@ body .auto-size .copy-text-button {
     font-size: 1.3rem;
     font-weight: bold;
     color: #333;
-    margin-top: 200px;
+    /* margin-top: 200px; */
   }
 
   .loader-container.hidden {
@@ -950,6 +950,19 @@ body .History {
         font-weight: bold;
         color: #333;
         margin-top: 0;
+    }
+    .olif:hover #fileNameDisplay {
+        animation: popup 0.3s ease forwards;
+        position: absolute;
+        width: max-content;
+        left: 84px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+        z-index: 10;
+        box-shadow: 10px 0px 10px #f6f8fa, 0px 1px 2px #ccc;
+        background: #f6f8fa;
     }
 }
 
