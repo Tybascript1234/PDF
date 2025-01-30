@@ -1249,6 +1249,30 @@ toggleSwitches.forEach((toggleSwitch, index) => {
 
 
   
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    let toggleButton = document.getElementById("toggleActionButton");
+    let toggleDiv = document.getElementById("contentToggleDiv");
+
+    toggleButton.addEventListener("click", function (event) {
+        if (toggleDiv.style.display === "none" || toggleDiv.style.display === "") {
+            toggleDiv.style.display = "block";
+            toggleButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"/></svg>';
+        } else {
+            toggleDiv.style.display = "none";
+            toggleButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M384 224v184a40 40 0 01-40 40H104a40 40 0 01-40-40V168a40 40 0 0140-40h167.48M336 64h112v112M224 288L440 72" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>';
+        }
+        event.stopPropagation(); 
+    });
+
+    document.addEventListener("click", function (event) {
+        if (toggleDiv.style.display === "block" && event.target !== toggleDiv && event.target !== toggleButton) {
+            toggleDiv.style.display = "none";
+            toggleButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M384 224v184a40 40 0 01-40 40H104a40 40 0 01-40-40V168a40 40 0 0140-40h167.48M336 64h112v112M224 288L440 72" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg>';
+        }
+    });
+});
   
 
 
