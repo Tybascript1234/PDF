@@ -1003,6 +1003,9 @@ body .History {
     body .modal-content div  {
         margin: 10px 0;
     }
+    body .close {
+        cursor: context-menu;
+    } 
 }
 @keyframes sss {
     0% {
