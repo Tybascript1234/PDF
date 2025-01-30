@@ -1196,7 +1196,7 @@ body .links-Translate-search input:focus {
 /* تنسيق المنبثق */
 .modales {
     user-select: none;
-    z-index: 10000;
+    z-index: 12000;
     animation: option 0.3s ease;
     display: none;
     position: fixed;
@@ -1280,7 +1280,7 @@ body .modal-content .ripple {
 
 /* Site ads */
 .Site-ads {
-    animation: popup 0.3s ease forwards;
+    animation: popup 0.3s ease;
     position: fixed;
     user-select: none;
     /* overflow: hidden; */
