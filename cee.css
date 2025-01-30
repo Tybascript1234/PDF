@@ -1197,22 +1197,26 @@ body .links-Translate-search input:focus {
     border-radius: 10px;
     position: absolute;
     top: 0;
+    padding-bottom: 50px;
 }
 
 .close {
-    color: #aaa;
+height: 32px;
+    color: #1f63cd;
+    background: #7daaff33;
     float: right;
-    font-size: 28px;
+    font-size: 12px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
     cursor: pointer;
     position: absolute;
+    font-family: 'Almarai';
     right: 0;
-    top: 0;
-    margin: 4px 10px;
-}
-
-.close:hover {
-    color: black;
+    bottom: 0;
+    padding: 0 16px;
+    border-radius: 25px;
+    margin: 12px 12px;
 }
 
 #fileInfoText {
