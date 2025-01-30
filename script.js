@@ -236,15 +236,15 @@ function observeScrollSync() {
     checkInitialPageInMobile();
 }
 
-function checkInitialPageInMobile() {
-    if (window.innerWidth <= 768) {
-        const firstThumbnail = document.getElementById('thumbnail-1');
-        if (firstThumbnail) {
-            firstThumbnail.classList.add('selected');
-            firstThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }
-}
+// function checkInitialPageInMobile() {
+//     if (window.innerWidth <= 768) {
+//         const firstThumbnail = document.getElementById('thumbnail-1');
+//         if (firstThumbnail) {
+//             firstThumbnail.classList.add('selected');
+//             firstThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
+//         }
+//     }
+// }
 
 
 function checkInitialPageInMobile() {
@@ -363,12 +363,6 @@ function updateThumbnailSelection(currentPage) {
         }
     });
 }
-
-// استدعاء الوظيفة عند تحميل المستند
-document.addEventListener('DOMContentLoaded', () => {
-    initializeScrollSync();
-});
-
 
 // استدعاء الوظيفة عند تحميل المستند
 document.addEventListener('DOMContentLoaded', () => {
@@ -1049,6 +1043,13 @@ dropdownMenu.addEventListener('click', function(event) {
         dropdownButton.classList.remove('active');
     }
 });
+
+// إخفاء القائمة عند النقر بزر الفأرة الأيمن قبل ظهور قائمة المتصفح
+dropdownMenu.addEventListener('contextmenu', function(event) {
+    dropdownMenu.style.display = 'none';
+    dropdownButton.classList.remove('active');
+});
+
 
 
 
