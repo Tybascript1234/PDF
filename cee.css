@@ -177,7 +177,7 @@ display: block;
 margin: 0px auto;
 /*outline: solid 1px #0000001f; */
 box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 2px 3px 0px #25292e1f;
-height: 889px;
+height: 100%;
 background-size: cover;
 }
 .thumbnail-wrapper {
@@ -392,7 +392,10 @@ position: relative;
     text-decoration: none;
     overflow: hidden;
 }
-.dropdown-content div,label:hover {
+.dropdown-content div:hover {
+    background-color: #818b981a;
+}
+.dropdown-content label:hover {
     background-color: #818b981a;
 }
 .dropdown-content div,label::before {
@@ -1007,6 +1010,27 @@ body .History {
     body .close {
         cursor: context-menu;
     } 
+    body .Site-ads {
+        bottom: 0;
+        /* width: 80%; */
+        margin-bottom: 40px;
+        /* width: -webkit-fill-available; */
+        max-width: -webkit-fill-available;
+        margin: 0;
+        border-radius: 16px 16px 0px 0px;
+        /* box-shadow: 0px -11px 13px #00000021, 0px -1px 0px #42515e0d; */
+        /* padding-bottom: 60px; */
+        transform: none;
+        left: 0;
+        right: 0;
+        margin: 0 13px;
+    }
+}
+@media screen and (max-width: 530px) {
+    body .on-open a {
+        max-width: -webkit-fill-available;
+        width: auto;
+    }
 }
 @keyframes sss {
     0% {
@@ -1251,4 +1275,151 @@ body .modal-content .ripple {
     width: 100%;
     height: 100%;
     z-index: 2;
+}
+
+
+/* Site ads */
+.Site-ads {
+    animation: popup 0.3s ease forwards;
+    position: fixed;
+    user-select: none;
+    /* overflow: hidden; */
+    z-index: 1000;
+    width: 580px;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%);
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -1px #25292e0a, 0px 2px 3px 0px #25292e1f;
+    background: white;
+    border-radius: 16px 16px 0px 0px;
+}
+.Site-ads::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    bottom: 0px;
+    left: -23px;
+    padding: 11px;
+    background: #ffffff00;
+    border-radius: 14px 0px 11px 0px;
+    border-right: solid 1px #e7ebee;
+    box-shadow: 14px 6px 0px #ffffff, 0px 1px 0px #ccc;
+}
+.Site-ads xx {
+    position: absolute;
+    right: -13px;
+    bottom: 0;
+    width: 13px;
+    height: 12px;
+    background-image: url(xx.png);
+}
+.Site-ads-list {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-shadow: 0px 1px 0px #e7ebee;
+}
+.Site-img,.Site-ads-open {
+    color: rgb(95, 99, 104);
+    display: flex;
+    align-items: center;
+}
+.Site-img img {
+    height: 21px;
+    margin-right: 10px;
+}
+.Site-ads-open button {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 20px;
+    margin-right: 5px;
+    background: #0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Site-ads-open button:hover {
+    background: #818b981a;
+}
+.Site-ads-open button:focus {
+    background: #818b981a;
+}
+.Site-ads-open button svg {
+    height: 20px;
+    color: rgb(95, 99, 104);
+}
+.Site-ads-div {
+    position: relative;
+    z-index: 2;
+    overflow: auto;
+    max-height: 300px;
+}
+.on-open {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    /* height: 58px; */
+    padding: 0 16px;
+}
+.on-open ion-icon {
+    position: absolute;
+    right: 16px;
+}
+.on-open:hover {
+    background: #818b980c;
+}
+.on-open::before {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    width: -webkit-fill-available;
+    height: 1px;
+    background: #e7ebee;
+    margin-left: 31px;
+}
+.on-open img {
+    
+}
+.on-open span {
+    display: block;
+    font-weight: 600;
+    color: #3d3d3d;
+}
+.on-open a {
+    font-size: 13px;
+    font-family: 'Almarai';
+    width: 430px;
+    display: block;
+}
+.on-img {
+    display: flex;
+    align-items: center;
+    line-height: 1.4;
+    padding: 7px 0;
+    margin-right: 16px;
+}
+.on-img img {
+    width: 21px;
+    margin-right: 11px;
+}
+body .nov::before {
+    content: '';
+    display: none;
+}
+.omyn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    font-family: 'Almarai';
+    font-size: 13px;
+}
+.omyn a {
+    color: #0070ff;
+    font-size: 12px;
 }
