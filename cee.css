@@ -361,6 +361,7 @@ background-color: #656e7b33; /* لون الزر عند الضغط */
 }
 .dropdown {
 position: relative;
+z-index: 10000;
 }
 .dropdown-content {
     animation: popup 0.3s ease forwards;
