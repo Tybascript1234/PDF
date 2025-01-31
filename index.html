@@ -263,55 +263,8 @@
          </div>
      </div>
     </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    
-    <script src="script.js"></script>
-
-    <!-- <script type="module" src="main.js"></script> -->
-
-
-    <div class="wendow loader-container" id="loader-container">
-        <div class="progress-circle">
-            <div class="circle" style="--progress: 0%">
-              <div class="percentage">0%</div>
-              <div class="xoxo"><img src="KR.png" alt=""></div>
-            </div>
-        </div>
-        <div class="smole"><a href="https://creativecloudsit.com/?srsltid=AfmBOor0HoFKYIsC7OtjV7JM-66QCN4O1gHU2dYXnszdUJPhSvLEqhsp">Creative Cloud IT</a> <span>SA</span></div>
-    </div>
-
-    <script>
-          const loaderContainer = document.getElementById('loader-container');
-  const circle = document.querySelector('.circle');
-  const percentage = document.querySelector('.percentage');
-
-  let progress = 0;
-
-  function updateProgress() {
-    if (progress <= 100) {
-      circle.style.setProperty('--progress', `${progress}%`);
-      percentage.textContent = `${progress}%`;
-      progress++;
-      setTimeout(updateProgress, 30); // Adjust the speed here
-    } else {
-      loaderContainer.classList.add('hidden');
-    }
-  }
-
-  window.addEventListener('load', () => {
-    // Start updating the progress only after all content is loaded
-    progress = 0;
-    updateProgress();
-  });
-    </script>
-
-
-
-    <div class="Site-ads">
+         
+         <div class="Site-ads">
         <div class="Site-ads-list">
             <div class="Site-img"><img src="download.png" alt=""><span>Creative Cloud IT</span></div>
             <div class="Site-ads-open">
@@ -357,5 +310,52 @@
         </div>
         <xx></xx>
     </div>
+         
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <script src="script.js"></script>
+
+    <!-- <script type="module" src="main.js"></script> -->
+
+
+    <div class="wendow loader-container" id="loader-container">
+        <div class="progress-circle">
+            <div class="circle" style="--progress: 0%">
+              <div class="percentage">0%</div>
+              <div class="xoxo"><img src="KR.png" alt=""></div>
+            </div>
+        </div>
+        <div class="smole"><a href="https://creativecloudsit.com/?srsltid=AfmBOor0HoFKYIsC7OtjV7JM-66QCN4O1gHU2dYXnszdUJPhSvLEqhsp">Creative Cloud IT</a> <span>SA</span></div>
+    </div>
+
+    <script>
+          const loaderContainer = document.getElementById('loader-container');
+  const circle = document.querySelector('.circle');
+  const percentage = document.querySelector('.percentage');
+
+  let progress = 0;
+
+  function updateProgress() {
+    if (progress <= 100) {
+      circle.style.setProperty('--progress', `${progress}%`);
+      percentage.textContent = `${progress}%`;
+      progress++;
+      setTimeout(updateProgress, 30); // Adjust the speed here
+    } else {
+      loaderContainer.classList.add('hidden');
+    }
+  }
+
+  window.addEventListener('load', () => {
+    // Start updating the progress only after all content is loaded
+    progress = 0;
+    updateProgress();
+  });
+    </script>
+    
 </body>
 </html>
