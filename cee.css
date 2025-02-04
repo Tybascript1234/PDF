@@ -1059,7 +1059,8 @@ body .History {
         max-height: 350px;
         overflow: auto;
         scrollbar-width: none;
-        margin-bottom: 10px;    
+        margin-bottom: 10px;
+        box-shadow: 0px 1px 0px #e7ebee;
     }
 }
 @media screen and (max-width: 530px) {
