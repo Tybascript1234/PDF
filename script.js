@@ -468,7 +468,6 @@ pdfPreview.addEventListener('scroll', () => {
 
 // وظيفة لتغيير حجم الصفحات
 // تعريف الوظيفة لإظهار أو إخفاء العنصر
-
 function toggleThumbnails() {
             const thumbnails = document.getElementById('thumbnails');
             const currentDisplay = window.getComputedStyle(thumbnails).display;
@@ -587,9 +586,10 @@ function printPDF() {
     document.body.removeChild(iframe);
 }
 
-// وظيفة لتدوير الصفحات 
+// وظيفة لتدوير الصفحات والصور المصغرة
 function rotatePages() {
     const pages = document.querySelectorAll('.pdf-page');
+    const thumbnails = document.querySelectorAll('#thumbnails .thumbnail'); // تحديد الصور المصغرة داخل الحاوية
 
     pages.forEach((page) => {
         let currentRotation = page.getAttribute('data-rotation') || 0;
@@ -603,18 +603,14 @@ function rotatePages() {
         page.style.width = 'auto';
         page.style.height = '100%';
     });
-}
 
-// وظيفة لإلغاء التدوير
-function resetPageRotation() {
-    const pages = document.querySelectorAll('.pdf-page');
-
-    pages.forEach((page) => {
-        page.setAttribute('data-rotation', 0);
-        page.style.transform = 'none'; // إلغاء التحويل
-        page.style.margin = '0px auto';
-        page.style.width = 'auto';
-        page.style.height = '100%';
+    // تدوير الصور المصغرة
+    thumbnails.forEach((thumbnail) => {
+        let currentRotation = thumbnail.getAttribute('data-rotation') || 0;
+        currentRotation = (parseInt(currentRotation) + 90) % 360;
+        thumbnail.setAttribute('data-rotation', currentRotation);
+        thumbnail.style.transform = `rotate(${currentRotation}deg)`;
+        thumbnail.style.transformOrigin = 'center';
     });
 }
 
@@ -624,6 +620,24 @@ document.getElementById('toggleSizeButton').addEventListener('click', function()
     resetPageRotation();
 });
 
+// وظيفة لإلغاء التدوير
+function resetPageRotation() {
+    const pages = document.querySelectorAll('.pdf-page');
+    const thumbnails = document.querySelectorAll('#thumbnails .thumbnail'); // تحديد الصور المصغرة داخل الحاوية
+
+    pages.forEach((page) => {
+        page.setAttribute('data-rotation', 0);
+        page.style.transform = 'none'; // إلغاء التحويل
+        page.style.margin = '0px auto';
+        page.style.width = 'auto';
+        page.style.height = '100%';
+    });
+
+    thumbnails.forEach((thumbnail) => {
+        thumbnail.setAttribute('data-rotation', 0);
+        thumbnail.style.transform = 'none'; // إلغاء التحويل
+    });
+}
 
 // حدث لتغيير حجم الصفحات عند الضغط على الزر
 toggleSizeButton.addEventListener('click', () => {
@@ -635,7 +649,7 @@ toggleSizeButton.addEventListener('click', () => {
             page.style.height = '100%';
             page.style.margin = 'auto';
         });
-        toggleSizeButton.innerHTML = '<span class="material-symbols-outlined">width</span>';
+        toggleSizeButton.innerHTML = '<span class="material-symbols-outlined xom">width</span>';
         
         // إخفاء "Auto" والعودة إلى النسبة الأصلية
         sizeInput.value = '100%'; // تعيين القيمة الأصلية
@@ -646,7 +660,7 @@ toggleSizeButton.addEventListener('click', () => {
             page.style.height = 'max-content';
             page.style.margin = '10px 0';
         });
-        toggleSizeButton.innerHTML = '<span class="material-symbols-outlined">height</span>';
+        toggleSizeButton.innerHTML = '<span class="material-symbols-outlined xom">height</span>';
         sizeInput.value = 'Auto'; // تحديث خانة الإدخال إلى "Auto"
     }
 
@@ -817,7 +831,7 @@ document.getElementById('downloadImagesZipButton').addEventListener('click', asy
 });
 
 // دالة عرض معلومات الملف
-function showFileInfo() {
+async function showFileInfo() {
     const fileInput = document.getElementById('pdfInput');
     const file = fileInput.files[0];
 
@@ -827,11 +841,28 @@ function showFileInfo() {
         const fileURL = URL.createObjectURL(file); // رابط الملف المؤقت
         const lastModified = new Date(file.lastModified).toLocaleString(); // آخر تعديل
 
+        // قراءة ملف PDF واستخراج المعلومات
+        const typedArray = new Uint8Array(await file.arrayBuffer());
+        const pdfDoc = await pdfjsLib.getDocument(typedArray).promise;
+        const metadata = await pdfDoc.getMetadata();
+        const info = metadata.info;
+
         // تعبئة المعلومات في العناصر المناسبة
         document.getElementById('fileName').textContent = fileName;
         document.getElementById('fileLastModified').textContent = lastModified;
         document.getElementById('fileURL').textContent = fileURL;
         document.getElementById('fileSize').textContent = `${fileSize} KB`;
+        document.getElementById('fileTitle').textContent = info.Title || '-';
+        document.getElementById('fileAuthor').textContent = info.Author || '-';
+        document.getElementById('fileSubject').textContent = info.Subject || '-';
+        document.getElementById('fileKeywords').textContent = info.Keywords || '-';
+        document.getElementById('fileCreationDate').textContent = info.CreationDate ? new Date(info.CreationDate).toLocaleString() : '-';
+        document.getElementById('fileApplication').textContent = info.Creator || '-';
+        document.getElementById('fileProducer').textContent = info.Producer || '-';
+        document.getElementById('fileVersion').textContent = info.PDFFormatVersion || '-';
+        document.getElementById('filePageCount').textContent = pdfDoc.numPages || '-';
+        document.getElementById('filePageSize').textContent = info.PageSize || '-';
+        document.getElementById('fileFastWebView').textContent = info.IsFastWebView || '-';
 
         // عرض المنبثق
         document.getElementById('fileInfoModal').style.display = 'flex';
@@ -839,6 +870,26 @@ function showFileInfo() {
         alert('لم يتم تحميل أي ملف!');
     }
 }
+
+// دالة إغلاق المنبثق
+function closeModal() {
+    document.getElementById('fileInfoModal').style.display = 'none';
+}
+
+// إغلاق المنبثق عند النقر خارج المحتوى
+window.onclick = function (event) {
+    const modal = document.getElementById('fileInfoModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+};
+
+
+
+
+
+
+
 
 // دالة مشاركة الملف
 async function shareFile() {
@@ -880,6 +931,151 @@ window.onclick = function (event) {
         modal.style.display = 'none';
     }
 };
+
+
+
+// الرسم في الصفحات
+// متغيرات لتتبع حالة الرسم
+let isDrawing = false;
+let currentColor = '#000000'; // اللون الافتراضي
+let currentCanvas = null;
+let currentContext = null;
+let isEraseMode = false; // وضع المسح
+let isColorPickerOpen = false; // تتبع حالة مُحدد الألوان (إضافة هذا السطر)
+
+// زر المسح
+const eraseButton = document.getElementById('eraseButton');
+
+// تفعيل أو إلغاء وضع المسح
+function toggleEraseMode(event) {
+    event.preventDefault(); // منع السلوك الافتراضي للرابط
+
+    isEraseMode = !isEraseMode; // تبديل وضع المسح
+
+    if (isEraseMode) {
+        // تفعيل وضع المسح
+        eraseButton.classList.add('icone');
+        currentColor = '#ffffff'; // تعيين اللون الأبيض للمسح
+    } else {
+        // إلغاء وضع المسح
+        eraseButton.classList.remove('icone');
+        currentColor = '#000000'; // العودة إلى اللون الافتراضي
+    }
+}
+
+// إضافة حدث النقر على زر اختيار اللون والتنزيل
+function handleColorPickerClick(event) {
+    event.preventDefault(); // منع السلوك الافتراضي للرابط
+
+    // فتح مُحدد الألوان فقط دون محاولة التنزيل
+    colorPicker.click();
+}
+
+// إضافة حدث تغيير اللون في مُحدد الألوان
+colorPicker.addEventListener('input', function() {
+    currentColor = this.value; // تعيين اللون المحدد كلون للرسم
+    document.querySelectorAll('#drawingButtons a').forEach(btn => btn.classList.remove('active')); // إزالة التحديد من الأزرار الأخرى
+    isDrawing = true; // تفعيل وضع الرسم
+    isColorPickerOpen = false; // إغلاق مُحدد الألوان بعد الاختيار
+});
+
+// إضافة حدث النقر على الأزرار الأخرى
+document.querySelectorAll('#drawingButtons a:not(#colorPickerButton)').forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.preventDefault(); // منع السلوك الافتراضي للرابط
+        
+        // إزالة class النشط من جميع الأزرار
+        document.querySelectorAll('#drawingButtons a').forEach(btn => btn.classList.remove('active'));
+        
+        // إضافة class النشط للزر الذي تم النقر عليه
+        this.classList.add('active');
+        
+        // تعيين اللون الحالي للرسم
+        currentColor = this.style.backgroundColor;
+        
+        // تفعيل وضع الرسم
+        isDrawing = true;
+    });
+});
+
+// إضافة حدث الرسم على canvas
+pdfPreview.addEventListener('mousedown', function(event) {
+    if ((isDrawing || isEraseMode) && event.target.tagName === 'CANVAS') {
+        currentCanvas = event.target;
+        currentContext = currentCanvas.getContext('2d');
+        currentContext.strokeStyle = currentColor;
+        currentContext.lineWidth = 2;
+        currentContext.lineJoin = 'round';
+        currentContext.lineCap = 'round';
+        currentContext.beginPath();
+        currentContext.moveTo(event.offsetX, event.offsetY);
+        
+        // إضافة أحداث الرسم
+        currentCanvas.addEventListener('mousemove', draw);
+        currentCanvas.addEventListener('mouseup', stopDrawing);
+        currentCanvas.addEventListener('mouseleave', stopDrawing);
+    }
+});
+
+// وظيفة الرسم
+function draw(event) {
+    if (isDrawing || isEraseMode) {
+        currentContext.lineTo(event.offsetX, event.offsetY);
+        currentContext.stroke();
+    }
+}
+
+// إيقاف الرسم
+function stopDrawing() {
+    if (isDrawing || isEraseMode) {
+        currentCanvas.removeEventListener('mousemove', draw);
+        currentCanvas.removeEventListener('mouseup', stopDrawing);
+        currentCanvas.removeEventListener('mouseleave', stopDrawing);
+    }
+}
+
+// إيقاف الرسم عند النقر خارج الأزرار
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('#drawingButtons a') && !event.target.closest('#eraseButton')) {
+        isDrawing = false;
+        document.querySelectorAll('#drawingButtons a').forEach(btn => btn.classList.remove('active'));
+    }
+});
+
+// وظيفة لتنزيل الملف مع الرسومات
+async function downloadPDF() {
+    const pdfInput = document.getElementById('pdfInput');
+    
+    if (pdfInput.files.length === 0) {
+        alert("Please select a PDF file first.");
+        return;
+    }
+    
+    const confirmDownload = confirm("Are you sure you want to download the PDF with drawings?");
+    if (confirmDownload) {
+        const canvases = document.querySelectorAll('.pdf-page');
+        const pdfDoc = await PDFLib.PDFDocument.create();
+        
+        for (let i = 0; i < canvases.length; i++) {
+            const canvas = canvases[i];
+            const image = await pdfDoc.embedPng(canvas.toDataURL());
+            const page = pdfDoc.addPage([canvas.width, canvas.height]);
+            page.drawImage(image, {
+                x: 0,
+                y: 0,
+                width: canvas.width,
+                height: canvas.height,
+            });
+        }
+        
+        const modifiedPdfBytes = await pdfDoc.save();
+        const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'modified_' + pdfInput.files[0].name;
+        link.click();
+    }
+}
 
 
 // العلامة المائية
@@ -1276,6 +1472,9 @@ toggleSwitches.forEach((toggleSwitch, index) => {
   
 
 
+document.addEventListener("touchstart", function (event) {
+    event.target.style.cursor = "context-menu";
+});
 
 
 // //   ------------------------
