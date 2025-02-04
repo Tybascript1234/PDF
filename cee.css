@@ -1259,7 +1259,7 @@ body .links-Translate-search input:focus {
     box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
     width: 30%;
     max-width: 500px;
-    text-align: center;
+    text-align: right;
     border-radius: 10px;
     position: absolute;
     top: 0;
@@ -1270,15 +1270,13 @@ body .close {
     height: 36px;
     color: #1f63cd;
     background: #7daaff33;
+    border: none;
     float: right;
     font-size: 12px;
     font-weight: bold;
     display: flex;
     align-items: center;
-    position: absolute;
     font-family: 'Almarai';
-    right: 0;
-    bottom: 0;
     padding: 0 20px;
     border-radius: 25px;
     margin: 16px;
