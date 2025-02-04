@@ -1023,6 +1023,7 @@ body .History {
         top: auto;
         bottom: 0;
         width: 80%;
+        max-height: -webkit-fill-available;
         margin-bottom: 40px;
         width: -webkit-fill-available;
         margin: 0;
@@ -1055,7 +1056,7 @@ body .History {
         margin-left: 0;
     }
     body .modal-content ul {
-        max-height: 350px;
+        max-height: -webkit-fill-available;
         overflow: auto;
         scrollbar-width: none;
         margin-bottom: 10px;    
