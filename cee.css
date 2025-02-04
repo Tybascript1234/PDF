@@ -1280,6 +1280,7 @@ body .close {
     padding: 0 20px;
     border-radius: 25px;
     margin: 16px;
+    margin-right: 0;
 }
 body .modal-content .ripple {
     background-color: #0058ff33;
