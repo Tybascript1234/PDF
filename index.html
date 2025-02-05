@@ -183,21 +183,21 @@
              <div id="fileInfoModal" class="modales">
                 <div class="modal-content">
                     <ul>
-                        <div><strong>اسم الملف:</strong><div id="fileName"></div></div>
-                        <div><strong>آخر تعديل:</strong><div id="fileLastModified"></div></div>
-                        <div><strong>رابط الملف:</strong><div id="fileURL"></div></div>
-                        <div><strong>حجم الملف:</strong><div id="fileSize"></div></div>
-                        <div><strong>العنوان:</strong><div id="fileTitle"></div></div>
-                        <div><strong>المؤلف:</strong><div id="fileAuthor"></div></div>
-                        <div><strong>الموضوع:</strong><div id="fileSubject"></div></div>
-                        <div><strong>الكلمات المفتاحية:</strong><div id="fileKeywords"></div></div>
-                        <div><strong>تاريخ الإنشاء:</strong><div id="fileCreationDate"></div></div>
-                        <div><strong>التطبيق:</strong><div id="fileApplication"></div></div>
-                        <div><strong>المنتج:</strong><div id="fileProducer"></div></div>
-                        <div><strong>الإصدار:</strong><div id="fileVersion"></div></div>
-                        <div><strong>عدد الصفحات:</strong><div id="filePageCount"></div><span-x>صفحة</span-x></div>
-                        <div><strong>حجم الصفحة:</strong><div id="filePageSize"></div></div>
-                        <div><strong>عرض ويب سريع:</strong><div id="fileFastWebView"></div></div>
+                        <div><strong>اسم الملف</strong><div id="fileName"></div></div>
+                        <div><strong>آخر تعديل</strong><div id="fileLastModified"></div></div>
+                        <div><strong>رابط الملف</strong><div id="fileURL"></div></div>
+                        <div><strong>حجم الملف</strong><div id="fileSize"></div></div>
+                        <div><strong>العنوان</strong><div id="fileTitle"></div></div>
+                        <div><strong>المؤلف</strong><div id="fileAuthor"></div></div>
+                        <div><strong>الموضوع</strong><div id="fileSubject"></div></div>
+                        <div><strong>الكلمات المفتاحية</strong><div id="fileKeywords"></div></div>
+                        <div><strong>تاريخ الإنشاء</strong><div id="fileCreationDate"></div></div>
+                        <div><strong>التطبيق</strong><div id="fileApplication"></div></div>
+                        <div><strong>المنتج</strong><div id="fileProducer"></div></div>
+                        <div><strong>الإصدار</strong><div id="fileVersion"></div></div>
+                        <div><strong>عدد الصفحات</strong><div id="filePageCount"></div><span-x>صفحة</span-x></div>
+                        <div><strong>حجم الصفحة</strong><div id="filePageSize"></div></div>
+                        <div><strong>عرض ويب سريع</strong><div id="fileFastWebView"></div></div>
                     </ul>
                     <button class="close c2 wave-button" onclick="closeModal()">موافق</button>
                 </div>
@@ -218,11 +218,18 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" id="mainDiv">
         <div class="thumbnails" id="thumbnails">
             
         </div>
         <div id="pdfPreview" class="pdf-preview hidden"></div>
+        <div class="pdfPreview notranslate" id="popupDiv">
+            <button class="icon wave-button"><span class="material-symbols-outlined"> sort </span></button>
+            <span class="lk c2" style="margin: 0;"></span>
+            <button class="icon wave-button"><span class="material-symbols-outlined"> arrow_back </span></button>
+            <div class="namber"><span>0</span>/<span style="opacity: .5;">0</span></div>
+            <button class="icon wave-button"><span class="material-symbols-outlined"> arrow_forward </span></button>
+        </div>
     </div>
 
     <!-- window-check -->
