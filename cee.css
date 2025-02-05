@@ -1285,6 +1285,7 @@ body .links-Translate-search input:focus {
 }
 
 .modal-content {
+    font-family: Almarai;
     animation: popup 0.3s ease forwards;
     background-color: #fefefe;
     margin: 40px auto;
@@ -1297,6 +1298,7 @@ body .links-Translate-search input:focus {
     border-radius: 10px;
     position: absolute;
     top: 0;
+    padding-bottom: 0px;
     /* padding-bottom: 60px; */
 }
 
@@ -1315,6 +1317,7 @@ body .close {
     border-radius: 25px;
     margin: 16px;
     margin-right: 0;
+    margin-bottom: 20px;
 }
 body .modal-content .ripple {
     background-color: #0058ff33;
@@ -1327,13 +1330,14 @@ body .modal-content .ripple {
 .modal-content div {
     direction: rtl;
     font-family: Almarai;
-    margin: 10px 21px;
+    margin: 10px 0;
     user-select: text;
     justify-content: right;
     text-align: right;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    /* margin-bottom: 0; */
 }
 .modal-content div div {
     user-select: all;
