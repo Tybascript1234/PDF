@@ -1477,6 +1477,33 @@ document.addEventListener("touchstart", function (event) {
 });
 
 
+
+// mainDiv
+const mainDiv = document.getElementById("mainDiv");
+        const popupDiv = document.getElementById("popupDiv");
+        // إظهار الديف عند النقر بزر الفأرة الأيمن
+        mainDiv.addEventListener("contextmenu", (event) => {
+            event.preventDefault(); // منع القائمة الافتراضية
+            popupDiv.style.opacity = "1"; // إظهار الديف
+            popupDiv.style.transform = "translate(-50%) scale(1)"; // تكبيره إلى الحجم الطبيعي
+        });
+
+        // إخفاء الديف عند النقر في مكان آخر
+        document.addEventListener("mousedown", (event) => {
+            if (!popupDiv.contains(event.target) && event.target !== mainDiv) {
+                popupDiv.style.opacity = "0"; // إخفاء الديف
+                popupDiv.style.transform = "translate(-50%) scale(0.8)"; // تصغيره
+            }
+        });
+
+        // إخفاء الديف عند التمرير داخل ديف #pdfPreview
+        pdfPreview.addEventListener("scroll", () => {
+        popupDiv.style.opacity = "0"; // إخفاء الديف
+        popupDiv.style.transform = "translate(-50%) scale(0.8)"; // تصغيره
+});
+
+
+
 // //   ------------------------
 // document.addEventListener("DOMContentLoaded", function () {
 //     const responsiveDiv = document.getElementById("responsiveDiv");
