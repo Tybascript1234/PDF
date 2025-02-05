@@ -674,6 +674,7 @@ margin-right: 8px;
 
 /* window-check */
 .window-check {
+    user-select: none;
     font-family: Almarai;
     line-height: 1.4;
     overflow-y: auto;
