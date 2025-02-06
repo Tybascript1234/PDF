@@ -946,6 +946,9 @@ body .History {
 
 
 @media screen and (max-width: 800px) {
+    body {
+        user-select: none;
+    }
     body .dis {
         display: none;
     }
