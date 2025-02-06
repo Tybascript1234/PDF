@@ -1117,7 +1117,7 @@ showTextButton.addEventListener('click', async () => {
 
     // إذا كان هناك نصوص، أضفها إلى textDisplay
     if (isTextAvailable) {
-        savedText = allText.join('<br><br>'); // حفظ النص في المتغير
+        savedText = allText.join('<br><br>');
         textDisplay.innerHTML = savedText;
 
         // إضافة حدث لكل زر نسخ
@@ -1136,7 +1136,7 @@ showTextButton.addEventListener('click', async () => {
             });
         });
     } else {
-        textDisplay.innerHTML = '<span class="no-text-message" style="margin: auto; text-align: center; display: block;">لا يوجد نص لعرضه</span>'; // عرض رسالة إذا لم يكن هناك نص
+        textDisplay.innerHTML = '<span class="no-text-message">لا يوجد نص لعرضه</span>'; // عرض رسالة إذا لم يكن هناك نص
     }
 });
 
@@ -1145,7 +1145,7 @@ reloadButton.addEventListener('click', () => {
     if (savedText) {
         textDisplay.innerHTML = savedText; // إعادة النص المحفوظ
     } else {
-        textDisplay.innerHTML = '<span class="no-text-message">لم يتم تحميل النص بعد!</span>'; // إذا لم يتم تحميل النص
+        textDisplay.innerHTML = '<span class="no-text-message" style="margin: auto; text-align: center; display: block;">لم يتم تحميل النص بعد!</span>'; // إذا لم يتم تحميل النص
     }
 });
 
