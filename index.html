@@ -232,12 +232,11 @@
         
         <div class="pdfPreview notranslate" id="popupDiv">
             <fo>جديد</fo>
-            <button class="icon wave-button"><span class="material-symbols-outlined hello"> refresh </span></button>
+            <button class="icon wave-button" id="reloadButton"><span class="material-symbols-outlined hello"> refresh </span></button>
             <span class="lk"></span>
             <button class="icon wave-button openModalBtn" data-target="modal2"><span class="material-symbols-outlined"> sort </span></button>
-            <button class="icon wave-button"><span class="material-symbols-outlined hello"> bookmark </span></button>
             <span class="lk"></span>
-            <button class="pdfuplod wave-button">استخراج النص</button>
+            <button class="pdfuplod wave-button" id="showTextButton">استخراج النص</button>
 
             <!-- <button class="icon wave-button" id="prevFile"><span class="material-symbols-outlined"> arrow_back </span></button>
             <div class="namber"><span id="remainingFiles">0</span>/<span id="fileCount" style="opacity: .5;">0</span></div>
@@ -249,6 +248,7 @@
                 <div class="window-check modal">
                     <div class="om"><co>نص الملف</co><button class="closeModalBtn"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button></div>
                     <hr style="margin-top: 0;">
+                    <div id="textDisplay"></div>
                 </div>
             </div>
         </div>
