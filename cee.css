@@ -1615,19 +1615,29 @@ body .nov::before {
 
 
 /* goob-div */
-.goob-div {
-    font-family: Almarai;
-    animation: popup 0.3s ease forwards;
-    background-color: #fefefe;
-    margin: 40px auto;
-    padding: 20px;
-    /* border: 1px solid #888; */
-    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
-    width: 30%;
-    max-width: 500px;
-    text-align: right;
-    border-radius: 10px;
+#textDisplay {
+    padding: 0px 20px;
+    line-height: 2;
+    cursor: context-menu;
+    overflow-y: scroll;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    overflow-x: hidden;
+    margin-bottom: 5px;
+}
+.text-line {
+    position: relative;
+    user-select: text;
+}
+.copy-btn {
     position: absolute;
-    top: 0;
-    padding-bottom: 0px;
+    top: -57px;
+    right: 0;
+    border-radius: 25px;
+    border: none;
+    color: #59636e;
+    background: #fffffff0;
+}
+.copy-btn span {
+    animation: rect 0.3s ease;
 }
