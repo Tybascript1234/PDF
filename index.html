@@ -160,20 +160,20 @@
                     <div id="dropdownMenu" class="dropdown-content">
                         <ul>
                             <input type="file" id="" style="display: none;" accept=".doc,.docx">
-                            <label for="pdfInput" class="mmyButton"><a>Upload file</a></label>
-                            <label for="" class="mmyButton" id=""><a>Open lenk PDF</a></label>
-                            <label onclick="printPDF()" class="mmyButton dr"><span class="material-symbols-outlined notranslate c2">print</span><o class="dr" style="background-image: url(684906.png);"></o><a>Print file</a></label>
-                            <label onclick="downloadPDF()" class="mmyButton dr"><span class="material-symbols-outlined notranslate c2">download_2</span><o class="dr" style="background-image: url(6574477.png);"></o><a>Download PDF</a></label>
+                            <label for="pdfInput" class="mmyButton wave-button"><a>Upload file</a></label>
+                            <!-- <label for="" class="mmyButton" id=""><a>Open lenk PDF</a></label> -->
+                            <label onclick="printPDF()" class="mmyButton wave-button dr"><span class="material-symbols-outlined notranslate c2">print</span><o class="dr" style="background-image: url(684906.png);"></o><a>Print file</a></label>
+                            <label onclick="downloadPDF()" class="mmyButton wave-button dr"><span class="material-symbols-outlined notranslate c2">download_2</span><o class="dr" style="background-image: url(6574477.png);"></o><a>Download PDF</a></label>
                             <hr class="dr" style="display: none;">
-                            <label onclick="rotatePages()" class="mmyButton dr c2"><span class="material-symbols-outlined notranslate">rotate_90_degrees_ccw</span><a>Recycle</a></label>
-                            <label id="toggleCheck" class="mmyButton cod"><span id="checkIcon" class="material-symbols-outlined notranslate" style="display: none;">check</span><a>Two page view</a></label>
+                            <label onclick="rotatePages()" class="mmyButton wave-button dr c2"><span class="material-symbols-outlined notranslate">rotate_90_degrees_ccw</span><a>Recycle</a></label>
+                            <label id="toggleCheck" class="mmyButton wave-button cod"><span id="checkIcon" class="material-symbols-outlined notranslate" style="display: none;">check</span><a>Two page view</a></label>
                             <hr>
-                            <label class="mmyButton" onclick="shareFile()"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
-                            <label class="mmyButton" id="copyTextButton"><span class="material-symbols-outlined notranslate c2">content_copy</span><o class="dr" style="background-image: url(3719119.png);"></o><a>Copy file text</a></label>
-                            <label class="mmyButton" id="downloadImagesZipButton"><span class="material-symbols-outlined notranslate c2">folder_zip</span><o class="dr" style="background-image: url(12180408.png);"></o><a title="Download file pages">Download file..</a></label>
+                            <label class="mmyButton wave-button" onclick="shareFile()"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
+                            <label class="mmyButton wave-button" id="copyTextButton"><span class="material-symbols-outlined notranslate c2">content_copy</span><o class="dr" style="background-image: url(3719119.png);"></o><a>Copy file text</a></label>
+                            <label class="mmyButton wave-button" id="downloadImagesZipButton"><span class="material-symbols-outlined notranslate c2">folder_zip</span><o class="dr" style="background-image: url(12180408.png);"></o><a title="Download file pages">Download file..</a></label>
                             <hr>
-                            <label class="mmyButton openModalBtn" data-target="modal1"><span class="material-symbols-outlined notranslate c2">settings</span><o class="dr" style="background-image: url(Settings.png);"></o><a>Settings</a></label>
-                            <label onclick="showFileInfo()" class="mmyButton"><a>File information</a></label>
+                            <label class="mmyButton openModalBtn wave-button" data-target="modal1"><span class="material-symbols-outlined notranslate c2">settings</span><o class="dr" style="background-image: url(Settings.png);"></o><a>Settings</a></label>
+                            <label onclick="showFileInfo()" class="mmyButton wave-button"><a>File information</a></label>
                         </ul>
                     </div> 
                 </div>
@@ -229,14 +229,37 @@
             
         </div>
         <div id="pdfPreview" class="pdf-preview hidden"></div>
+        
         <div class="pdfPreview notranslate" id="popupDiv">
-            <button class="icon wave-button"><span class="material-symbols-outlined"> sort </span></button>
-            <span class="lk" style="margin: 0;"></span>
-            <button class="icon wave-button" id="prevFile"><span class="material-symbols-outlined"> arrow_back </span></button>
+            <fo>جديد</fo>
+            <button class="icon wave-button"><span class="material-symbols-outlined hello"> refresh </span></button>
+            <span class="lk"></span>
+            <button class="icon wave-button openModalBtn" data-target="modal2"><span class="material-symbols-outlined"> sort </span></button>
+            <button class="icon wave-button"><span class="material-symbols-outlined hello"> bookmark </span></button>
+            <span class="lk"></span>
+            <button class="pdfuplod wave-button">استخراج النص</button>
+
+            <!-- <button class="icon wave-button" id="prevFile"><span class="material-symbols-outlined"> arrow_back </span></button>
             <div class="namber"><span id="remainingFiles">0</span>/<span id="fileCount" style="opacity: .5;">0</span></div>
-            <button class="icon wave-button" id="nextFile"><span class="material-symbols-outlined"> arrow_forward </span></button>
+            <button class="icon wave-button" id="nextFile"><span class="material-symbols-outlined"> arrow_forward </span></button> -->
         </div>
+
+        <div id="modal2" class="cox xoo">
+            <div style="width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;">
+                <div class="window-check modal">
+                    <div class="om"><co>نص الملف</co><button class="closeModalBtn"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button></div>
+                    <hr style="margin-top: 0;">
+                </div>
+            </div>
+        </div>
+            
     </div>
+
+
+
+    <script>
+        
+    </script>
 
     <!-- window-check -->
      <div id="modal1" class="cox xoo">
