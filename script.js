@@ -830,6 +830,65 @@ document.getElementById('downloadImagesZipButton').addEventListener('click', asy
     }
 });
 
+// دالة عرض معلومات الملف
+async function showFileInfo() {
+    const fileInput = document.getElementById('pdfInput');
+    const file = fileInput.files[0];
+
+    if (file) {
+        const fileSize = (file.size / 1024).toFixed(2); // حجم الملف بالـ KB
+        const fileName = file.name;
+        const fileURL = URL.createObjectURL(file); // رابط الملف المؤقت
+        const lastModified = new Date(file.lastModified).toLocaleString(); // آخر تعديل
+
+        // قراءة ملف PDF واستخراج المعلومات
+        const typedArray = new Uint8Array(await file.arrayBuffer());
+        const pdfDoc = await pdfjsLib.getDocument(typedArray).promise;
+        const metadata = await pdfDoc.getMetadata();
+        const info = metadata.info;
+
+        // تعبئة المعلومات في العناصر المناسبة
+        document.getElementById('fileName').textContent = fileName;
+        document.getElementById('fileLastModified').textContent = lastModified;
+        document.getElementById('fileURL').textContent = fileURL;
+        document.getElementById('fileSize').textContent = `${fileSize} KB`;
+        document.getElementById('fileTitle').textContent = info.Title || '-';
+        document.getElementById('fileAuthor').textContent = info.Author || '-';
+        document.getElementById('fileSubject').textContent = info.Subject || '-';
+        document.getElementById('fileKeywords').textContent = info.Keywords || '-';
+        document.getElementById('fileCreationDate').textContent = info.CreationDate ? new Date(info.CreationDate).toLocaleString() : '-';
+        document.getElementById('fileApplication').textContent = info.Creator || '-';
+        document.getElementById('fileProducer').textContent = info.Producer || '-';
+        document.getElementById('fileVersion').textContent = info.PDFFormatVersion || '-';
+        document.getElementById('filePageCount').textContent = pdfDoc.numPages || '-';
+        document.getElementById('filePageSize').textContent = info.PageSize || '-';
+        document.getElementById('fileFastWebView').textContent = info.IsFastWebView || '-';
+
+        // عرض المنبثق
+        document.getElementById('fileInfoModal').style.display = 'flex';
+    } else {
+        alert('لم يتم تحميل أي ملف!');
+    }
+}
+
+// دالة إغلاق المنبثق
+function closeModal() {
+    document.getElementById('fileInfoModal').style.display = 'none';
+}
+
+// إغلاق المنبثق عند النقر خارج المحتوى
+window.onclick = function (event) {
+    const modal = document.getElementById('fileInfoModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+};
+
+
+
+
+
+
 
 
 // دالة مشاركة الملف
@@ -1015,333 +1074,6 @@ async function downloadPDF() {
         link.href = URL.createObjectURL(blob);
         link.download = 'modified_' + pdfInput.files[0].name;
         link.click();
-    }
-}
-
-
-
-const fileCount = document.getElementById('fileCount');
-const remainingFiles = document.getElementById('remainingFiles');
-const prevFileButton = document.getElementById('prevFile');
-const nextFileButton = document.getElementById('nextFile');
-
-let pdfDocs = [];
-let currentFileIndex = 0;
-
-// تحميل ملفات PDF
-pdfInput.addEventListener('change', (e) => {
-    const files = e.target.files;
-    pdfDocs = []; // إعادة تعيين الملفات المرفوعة
-    if (files.length > 0) {
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            if (file && file.type === 'application/pdf') {
-                const fileReader = new FileReader();
-                fileReader.onload = function() {
-                    const typedArray = new Uint8Array(this.result);
-                    pdfDocs.push({ file, typedArray });
-                    if (pdfDocs.length === files.length) {
-                        // عرض الملف الأول
-                        renderPDF(pdfDocs[0].typedArray);
-                        fileCount.textContent = `${files.length}`;
-                        remainingFiles.textContent = `${files.length - 1}`;
-                        fileNameDisplay.textContent = `${pdfDocs[0].file.name}`;
-                    }
-                };
-                fileReader.readAsArrayBuffer(file);
-            }
-        }
-    }
-});
-
-// رسم PDF
-function renderPDF(typedArray) {
-    const loadingTask = pdfjsLib.getDocument(typedArray);
-    loadingTask.promise.then(pdf => {
-        pdfDoc = pdf;
-        thumbnails.innerHTML = '';
-        pdfPreview.innerHTML = ''; // مسح الصفحات السابقة
-        pageCountDisplay.textContent = `Page 1 of ${pdf.numPages}`; // عرض عدد الصفحات
-
-        let firstThumbnailSet = false; // متغير لتحديد أول صورة مصغرة
-        let pageNumOrder = []; // لتخزين ترتيب الصفحات
-
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-            pdf.getPage(pageNum).then(page => {
-                const viewport = page.getViewport({ scale: 2 });
-                const canvas = document.createElement('canvas');
-                canvas.classList.add('pdf-page');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                canvas.id = `page-${pageNum}`;
-                canvas.setAttribute('data-original-width', viewport.width);
-                canvas.setAttribute('data-original-height', viewport.height);
-
-                const context = canvas.getContext('2d');
-                page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
-                    // إنشاء عنصر canvas للصورة المصغرة
-                    const thumbnailCanvas = document.createElement('canvas');
-                    thumbnailCanvas.classList.add('thumbnail');
-                    thumbnailCanvas.id = `thumbnail-${pageNum}`;
-                    thumbnailCanvas.width = viewport.width / 4; // تصغير العرض
-                    thumbnailCanvas.height = viewport.height / 4; // تصغير الارتفاع
-                    thumbnailCanvas.onclick = () => showPage(pageNum);
-
-                    // إذا كانت هذه هي أول صورة مصغرة، أضف التحديد
-                    if (!firstThumbnailSet) {
-                        thumbnailCanvas.classList.add('selected'); // إضافة التحديد
-                        firstThumbnailSet = true;
-                    }
-
-                    // رسم الصورة المصغرة على canvas
-                    const thumbnailContext = thumbnailCanvas.getContext('2d');
-                    thumbnailContext.drawImage(canvas, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height);
-
-                    // إنشاء div لرقم الصفحة ووضعه أسفل الصورة المصغرة
-                    const pageNumDiv = document.createElement('div');
-                    pageNumDiv.classList.add('page-number');
-                    pageNumDiv.textContent = ` ${pageNum}`;
-
-                    // إضافة الـ canvas للصورة المصغرة إلى الـ div
-                    const thumbnailWrapper = document.createElement('div');
-                    thumbnailWrapper.classList.add('thumbnail-wrapper');
-                    thumbnailWrapper.appendChild(thumbnailCanvas);
-                    thumbnailWrapper.appendChild(pageNumDiv);
-
-                    // إضافة الصورة المصغرة مع الرقم إلى thumbnails
-                    thumbnails.appendChild(thumbnailWrapper);
-
-                    // إضافة زر نسخ النص إلى الصفحة الكاملة
-                    const copyTextButton = document.createElement('button');
-                    copyTextButton.innerHTML = '<span class="material-symbols-outlined notranslate">content_copy</span>';
-                    copyTextButton.classList.add('copy-text-button');
-                    copyTextButton.style.display = 'none'; // إخفاء الزر افتراضيًا
-                    copyTextButton.onclick = () => copyTextFromPage(pageNum, copyTextButton);
-
-                    // إضافة الصفحة الكاملة وزر نسخ النص إلى pdfPreview
-                    const pageWrapper = document.createElement('div');
-                    pageWrapper.classList.add('page-wrapper');
-                    pageWrapper.appendChild(canvas);
-                    pageWrapper.appendChild(copyTextButton);
-                    pdfPreview.appendChild(pageWrapper);
-
-                    // تخزين ترتيب الصفحات
-                    pageNumOrder.push(pageNum);
-
-                    // مراقبة التمرير لتحديد العناصر
-                    observeScrollSync();
-
-                    // مراقبة الصفحات المرئية
-                    observePages();
-
-                    // التأكد من ترتيب الصفحات في thumbnails
-                    reorderThumbnails(pageNumOrder);
-                });
-            });
-        }
-    }).catch(error => {
-        console.error('Error loading PDF:', error);
-    });
-}
-
-// التنقل بين الملفات
-prevFileButton.addEventListener('click', () => {
-    if (currentFileIndex > 0) {
-        currentFileIndex--;
-        renderPDF(pdfDocs[currentFileIndex].typedArray);
-        remainingFiles.textContent = `${pdfDocs.length - currentFileIndex - 1}`;
-        fileNameDisplay.textContent = `${pdfDocs[currentFileIndex].file.name}`;
-    }
-});
-
-nextFileButton.addEventListener('click', () => {
-    if (currentFileIndex < pdfDocs.length - 1) {
-        currentFileIndex++;
-        renderPDF(pdfDocs[currentFileIndex].typedArray);
-        remainingFiles.textContent = `${pdfDocs.length - currentFileIndex - 1}`;
-        fileNameDisplay.textContent = `${pdfDocs[currentFileIndex].file.name}`;
-    }
-});
-
-// دالة عرض معلومات الملف
-async function showFileInfo() {
-    const file = pdfDocs[currentFileIndex].file;
-
-    if (file) {
-        const fileSize = (file.size / 1024).toFixed(2); // حجم الملف بالـ KB
-        const fileName = file.name;
-        const fileURL = URL.createObjectURL(file); // رابط الملف المؤقت
-        const lastModified = new Date(file.lastModified).toLocaleString(); // آخر تعديل
-
-        // قراءة ملف PDF واستخراج المعلومات
-        const typedArray = new Uint8Array(await file.arrayBuffer());
-        const pdfDoc = await pdfjsLib.getDocument(typedArray).promise;
-        const metadata = await pdfDoc.getMetadata();
-        const info = metadata.info;
-
-        // تعبئة المعلومات في العناصر المناسبة
-        document.getElementById('fileName').textContent = fileName;
-        document.getElementById('fileLastModified').textContent = lastModified;
-        document.getElementById('fileURL').textContent = fileURL;
-        document.getElementById('fileSize').textContent = `${fileSize} KB`;
-        document.getElementById('fileTitle').textContent = info.Title || '-';
-        document.getElementById('fileAuthor').textContent = info.Author || '-';
-        document.getElementById('fileSubject').textContent = info.Subject || '-';
-        document.getElementById('fileKeywords').textContent = info.Keywords || '-';
-        document.getElementById('fileCreationDate').textContent = info.CreationDate ? new Date(info.CreationDate).toLocaleString() : '-';
-        document.getElementById('fileApplication').textContent = info.Creator || '-';
-        document.getElementById('fileProducer').textContent = info.Producer || '-';
-        document.getElementById('fileVersion').textContent = info.PDFFormatVersion || '-';
-        document.getElementById('filePageCount').textContent = pdfDoc.numPages || '-';
-        document.getElementById('filePageSize').textContent = info.PageSize || '-';
-        document.getElementById('fileFastWebView').textContent = info.IsFastWebView || '-';
-
-        // عرض المنبثق
-        document.getElementById('fileInfoModal').style.display = 'flex';
-    } else {
-        alert('لم يتم تحميل أي ملف!');
-    }
-}
-
-// دالة إغلاق المنبثق
-function closeModal() {
-    document.getElementById('fileInfoModal').style.display = 'none';
-}
-
-// إغلاق المنبثق عند النقر خارج المحتوى
-window.onmousedown = function (event) {
-    const modal = document.getElementById('fileInfoModal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-};
-
-// وظيفة عرض صفحة معينة
-function showPage(pageNum) {
-    const pageCanvas = document.getElementById(`page-${pageNum}`);
-    if (pageCanvas) {
-        pageCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-// وظيفة لمزامنة ترتيب الصور المصغرة مع الصفحات
-function reorderThumbnails(pageNumOrder) {
-    const thumbnailsContainer = document.getElementById('thumbnails');
-    const allThumbnails = Array.from(thumbnailsContainer.querySelectorAll('.thumbnail-wrapper'));
-
-    // ترتيب الصور المصغرة بناءً على ترتيب الصفحات
-    pageNumOrder.forEach((pageNum) => {
-        const thumbnailWrapper = allThumbnails.find(wrapper => {
-            return wrapper.querySelector('.thumbnail').id === `thumbnail-${pageNum}`;
-        });
-
-        if (thumbnailWrapper) {
-            thumbnailsContainer.appendChild(thumbnailWrapper);
-        }
-    });
-}
-
-// مراقبة التمرير لتحديد الصفحة المرئية
-function observePages() {
-    const pages = document.querySelectorAll('.page-wrapper');
-    const observer = new IntersectionObserver(
-        entries => {
-            entries.forEach(entry => {
-                const pageNum = parseInt(entry.target.querySelector('.pdf-page').id.replace('page-', ''), 10);
-                if (entry.isIntersecting) {
-                    // إظهار زر نسخ النص للصفحة المرئية
-                    entry.target.querySelector('.copy-text-button').style.display = 'flex';
-                } else {
-                    // إخفاء زر نسخ النص للصفحات غير المرئية
-                    entry.target.querySelector('.copy-text-button').style.display = 'none';
-                }
-            });
-        },
-        {
-            root: null, // مراقبة ضمن الإطار الكامل
-            threshold: 0.5 // يعتبر الصفحة مرئية إذا كان 50% منها داخل العرض
-        }
-    );
-
-    pages.forEach(page => observer.observe(page));
-}
-
-// مراقبة التمرير لتحديد العناصر
-function observeScrollSync() {
-    const previewElement = document.getElementById('pdfPreview');
-    const thumbnailsElement = document.getElementById('thumbnails');
-
-    let isScrolling;
-
-    previewElement.addEventListener('scroll', () => {
-        // إلغاء التأخير السابق إذا كان هناك
-        window.cancelAnimationFrame(isScrolling);
-
-        // استخدام requestAnimationFrame لتحسين الأداء
-        isScrolling = window.requestAnimationFrame(() => {
-            const pages = document.querySelectorAll('.pdf-page');
-            let currentPage = 1;
-
-            // تحقق من الصفحة التي تظهر حاليًا
-            pages.forEach((page, index) => {
-                const rect = page.getBoundingClientRect();
-                if (rect.top >= 0 && rect.top < window.innerHeight) {
-                    currentPage = index + 1;
-                }
-            });
-
-            // تحديث التحديد في thumbnails
-            document.querySelectorAll('.thumbnail').forEach(thumbnail => {
-                thumbnail.classList.remove('selected');
-            });
-
-            const currentThumbnail = document.getElementById(`thumbnail-${currentPage}`);
-            if (currentThumbnail) {
-                currentThumbnail.classList.add('selected');
-                currentThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-
-            // التحقق من التمرير إلى أعلى الصفحة في وضع الهاتف
-            if (window.innerWidth <= 768 && previewElement.scrollTop === 0) {
-                const firstThumbnail = document.getElementById('thumbnail-1');
-                if (firstThumbnail) {
-                    firstThumbnail.classList.add('selected');
-                    firstThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-
-                // إلغاء تحديد أي صورة أخرى عند الوصول إلى أول صفحة
-                document.querySelectorAll('.thumbnail').forEach(thumbnail => {
-                    if (thumbnail !== firstThumbnail) {
-                        thumbnail.classList.remove('selected');
-                    }
-                });
-            }
-        });
-    });
-
-    // إضافة حدث لمراقبة تغيير التوجيه
-    window.addEventListener('orientationchange', () => {
-        checkInitialPageInMobile();
-    });
-
-    // تأكد من التحديد في وضع الهاتف عند التحميل الأول
-    checkInitialPageInMobile();
-}
-
-function checkInitialPageInMobile() {
-    const previewElement = document.getElementById('pdfPreview');
-    const pages = document.querySelectorAll('.pdf-page');
-
-    if (window.innerWidth <= 768) {
-        // تحقق من الصفحة الأولى عند التحميل الأول
-        const rect = pages[0].getBoundingClientRect();
-        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-            const firstThumbnail = document.getElementById('thumbnail-1');
-            if (firstThumbnail) {
-                firstThumbnail.classList.add('selected');
-                firstThumbnail.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
     }
 }
 
@@ -1599,7 +1331,7 @@ closeModalBtns.forEach((btn) => {
 // منع التفاعل مع العناصر خارج النافذة المنبثقة
 const coxs = document.querySelectorAll('.cox');
 coxs.forEach((cox) => {
-  cox.addEventListener('click', (e) => {
+  cox.addEventListener('mousedown', (e) => {
     if (e.target === cox) {
       cox.classList.add('xoo');
       // إخفاء أي عنصر داخلي يحتوي على class popup
@@ -1746,11 +1478,11 @@ document.addEventListener("touchstart", function (event) {
 
 
 
-// mainDiv
-const mainDiv = document.getElementById("mainDiv");
+// pdfPreview
+const pdfPrevIew = document.getElementById("pdfPreview");
         const popupDiv = document.getElementById("popupDiv");
         // إظهار الديف عند النقر بزر الفأرة الأيمن
-        mainDiv.addEventListener("contextmenu", (event) => {
+        pdfPreview.addEventListener("contextmenu", (event) => {
             event.preventDefault(); // منع القائمة الافتراضية
             popupDiv.style.opacity = "1"; // إظهار الديف
             popupDiv.style.transform = "translate(-50%) scale(1)"; // تكبيره إلى الحجم الطبيعي
