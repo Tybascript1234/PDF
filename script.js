@@ -884,13 +884,6 @@ window.onclick = function (event) {
     }
 };
 
-
-
-
-
-
-
-
 // دالة مشاركة الملف
 async function shareFile() {
     const pdfInput = document.getElementById('pdfInput');
@@ -1095,48 +1088,56 @@ showTextButton.addEventListener('click', async () => {
     }
 
     let allText = [];
+    let isTextAvailable = false; // متغير للتحقق إذا كان هناك نصوص
+
     for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
         const page = await pdfDoc.getPage(pageNum);
         const textContent = await page.getTextContent();
 
         const textItems = textContent.items.map(item => item.str);
-        const pageText = textItems.join(' ');
-        allText.push(`صفحة ${pageNum}:`);
+        if (textItems.length > 0) { // إذا كانت هناك نصوص في الصفحة
+            const pageText = textItems.join(' ');
+            allText.push(`صفحة ${pageNum}:`);
 
-        // تحويل النص إلى ديفات مع أيقونة نسخ
-        allText.push(pageText.split('\n').map(line => {
-            return `
-                <div class="text-line">
-                    <span>${line}</span>
-                    <button class="copy-btn">
-                        <span class="material-symbols-outlined">content_copy</span>
-                    </button>
-                </div>
-            `;
-        }).join(''));
+            // تحويل النص إلى ديفات مع أيقونة نسخ
+            allText.push(pageText.split('\n').map(line => {
+                return `
+                    <div class="text-line">
+                        <span>${line}</span>
+                        <button class="copy-btn">
+                            <span class="material-symbols-outlined">content_copy</span>
+                        </button>
+                    </div>
+                `;
+            }).join(''));
+
+            isTextAvailable = true; // يوجد نص
+        }
     }
 
-    // تخزين النص في متغير
-    savedText = allText.join('<br><br>');
+    // إذا كان هناك نصوص، أضفها إلى textDisplay
+    if (isTextAvailable) {
+        savedText = allText.join('<br><br>');
+        textDisplay.innerHTML = savedText;
 
-    // إضافة النص النهائي داخل textDisplay مع الفواصل بين الصفحات
-    textDisplay.innerHTML = savedText;
+        // إضافة حدث لكل زر نسخ
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                const textLine = button.previousElementSibling.textContent; // الحصول على النص من الـ span
+                copyToClipboard(textLine); // نسخ النص إلى الحافظة
 
-    // إضافة حدث لكل زر نسخ
-    const copyButtons = document.querySelectorAll('.copy-btn');
-    copyButtons.forEach((button, index) => {
-        button.addEventListener('click', () => {
-            const textLine = button.previousElementSibling.textContent; // الحصول على النص من الـ span
-            copyToClipboard(textLine); // نسخ النص إلى الحافظة
-
-            // تغيير محتوى الزر إلى علامة الصح
-            button.innerHTML = '<span class="material-symbols-outlined">check</span>';
-            setTimeout(() => {
-                // إعادة محتوى الزر إلى أيقونة النسخ بعد 1 ثانية
-                button.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
-            }, 1000);
+                // تغيير محتوى الزر إلى علامة الصح
+                button.innerHTML = '<span class="material-symbols-outlined">check</span>';
+                setTimeout(() => {
+                    // إعادة محتوى الزر إلى أيقونة النسخ بعد 1 ثانية
+                    button.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
+                }, 1000);
+            });
         });
-    });
+    } else {
+        textDisplay.innerHTML = '<span class="no-text-message" style"margin: auto; text-align: center; display: block;">لا يوجد نص لعرضه</span>'; // عرض رسالة إذا لم يكن هناك نص
+    }
 });
 
 // حدث النقر على زر "ريلود"
@@ -1144,7 +1145,7 @@ reloadButton.addEventListener('click', () => {
     if (savedText) {
         textDisplay.innerHTML = savedText; // إعادة النص المحفوظ
     } else {
-        alert('لم يتم تحميل النص بعد!');
+        textDisplay.innerHTML = '<span class="no-text-message">لم يتم تحميل النص بعد!</span>'; // إذا لم يتم تحميل النص
     }
 });
 
