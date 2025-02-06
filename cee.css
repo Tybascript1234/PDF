@@ -1129,11 +1129,12 @@ body .History {
         margin-left: 0;
     }
     body .modal-content ul {
-        max-height: 350px;
+        max-height: 345px;
         overflow: auto;
         scrollbar-width: none;
         margin-bottom: 10px;
         box-shadow: 0px 1px 0px #e7ebee;
+        padding-bottom: 5px;
     }
 }
 @media screen and (max-width: 530px) {
