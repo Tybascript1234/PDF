@@ -1078,6 +1078,88 @@ async function downloadPDF() {
 }
 
 
+
+// الحصول على العناصر
+const textDisplay = document.getElementById('textDisplay');
+const showTextButton = document.getElementById('showTextButton');
+const reloadButton = document.getElementById('reloadButton');
+
+// تعريف متغير لتخزين النص
+let savedText = '';
+
+// حدث النقر على زر "عرض النص"
+showTextButton.addEventListener('click', async () => {
+    if (!pdfDoc) {
+        alert('لم يتم تحميل ملف PDF بعد!');
+        return;
+    }
+
+    let allText = [];
+    for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+        const page = await pdfDoc.getPage(pageNum);
+        const textContent = await page.getTextContent();
+
+        const textItems = textContent.items.map(item => item.str);
+        const pageText = textItems.join(' ');
+        allText.push(`صفحة ${pageNum}:`);
+
+        // تحويل النص إلى ديفات مع أيقونة نسخ
+        allText.push(pageText.split('\n').map(line => {
+            return `
+                <div class="text-line">
+                    <span>${line}</span>
+                    <button class="copy-btn">
+                        <span class="material-symbols-outlined">content_copy</span>
+                    </button>
+                </div>
+            `;
+        }).join(''));
+    }
+
+    // تخزين النص في متغير
+    savedText = allText.join('<br><br>');
+
+    // إضافة النص النهائي داخل textDisplay مع الفواصل بين الصفحات
+    textDisplay.innerHTML = savedText;
+
+    // إضافة حدث لكل زر نسخ
+    const copyButtons = document.querySelectorAll('.copy-btn');
+    copyButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            const textLine = button.previousElementSibling.textContent; // الحصول على النص من الـ span
+            copyToClipboard(textLine); // نسخ النص إلى الحافظة
+
+            // تغيير محتوى الزر إلى علامة الصح
+            button.innerHTML = '<span class="material-symbols-outlined">check</span>';
+            setTimeout(() => {
+                // إعادة محتوى الزر إلى أيقونة النسخ بعد 1 ثانية
+                button.innerHTML = '<span class="material-symbols-outlined">content_copy</span>';
+            }, 1000);
+        });
+    });
+});
+
+// حدث النقر على زر "ريلود"
+reloadButton.addEventListener('click', () => {
+    if (savedText) {
+        textDisplay.innerHTML = savedText; // إعادة النص المحفوظ
+    } else {
+        alert('لم يتم تحميل النص بعد!');
+    }
+});
+
+// وظيفة نسخ النص إلى الحافظة
+function copyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+}
+
+
+
 // العلامة المائية
 
 let watermarkImage = null; // لتخزين صورة العلامة المائية
