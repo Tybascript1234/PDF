@@ -1097,7 +1097,7 @@ showTextButton.addEventListener('click', async () => {
         const textItems = textContent.items.map(item => item.str);
         if (textItems.length > 0) { // إذا كانت هناك نصوص في الصفحة
             const pageText = textItems.join(' ');
-            allText.push(`صفحة ${pageNum}:`);
+            allText.push(` :صفحة ${pageNum}`);
 
             // تحويل النص إلى ديفات مع أيقونة نسخ
             allText.push(pageText.split('\n').map(line => {
