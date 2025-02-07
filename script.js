@@ -809,26 +809,33 @@ document.getElementById('downloadImagesZipButton').addEventListener('click', asy
     }
 
     const confirmDownload = confirm("هل أنت متأكد أنك تريد تحميل جميع الصفحات كصور في ملف ZIP؟");
-    if (confirmDownload) {
-        const zip = new JSZip();
-        for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
-            const page = await pdfDoc.getPage(pageNum);
-            const viewport = page.getViewport({ scale: 2 });
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
+    if (!confirmDownload) return;
 
-            await page.render({ canvasContext: context, viewport: viewport }).promise;
-            const dataUrl = canvas.toDataURL('image/png');
-            zip.file(`page-${pageNum}.png`, dataUrl.split(',')[1], { base64: true });
-        }
+    const zip = new JSZip();
+    
+    for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+        const page = await pdfDoc.getPage(pageNum);
+        const viewport = page.getViewport({ scale: 2 });
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
 
-        zip.generateAsync({ type: 'blob' }).then(blob => {
-            saveAs(blob, 'pdf_pages.zip');
-        });
+        await page.render({ canvasContext: context, viewport: viewport }).promise;
+
+        // استخدام toBlob بدلاً من toDataURL
+        await new Promise(resolve => canvas.toBlob(blob => {
+            zip.file(`page-${pageNum}.png`, blob);
+            resolve();
+        }, 'image/png'));
     }
+
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+    // تنزيل الملف باستخدام FileSaver.js
+    saveAs(zipBlob, 'pdf_pages.zip');
 });
+
 
 // دالة عرض معلومات الملف
 async function showFileInfo() {
@@ -1104,7 +1111,7 @@ showTextButton.addEventListener('click', async () => {
                 return `
                     <div class="text-line">
                         <span>${line}</span>
-                        <button class="copy-btn">
+                        <button class="copy-btn notranslate">
                             <span class="material-symbols-outlined">content_copy</span>
                         </button>
                     </div>
