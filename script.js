@@ -1143,7 +1143,7 @@ showTextButton.addEventListener('click', async () => {
             });
         });
     } else {
-        textDisplay.innerHTML = '<span class="no-text-message">لا يوجد نص لعرضه</span>'; // عرض رسالة إذا لم يكن هناك نص
+        textDisplay.innerHTML = '<span class="no-text-message" style="margin: auto; text-align: center; display: block;">لا يوجد نص لعرضه</span>'; // عرض رسالة إذا لم يكن هناك نص
     }
 });
 
