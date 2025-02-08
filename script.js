@@ -892,30 +892,106 @@ window.onclick = function (event) {
 };
 
 // دالة مشاركة الملف
-async function shareFile() {
-    const pdfInput = document.getElementById('pdfInput');
-    if (!pdfInput || !pdfInput.files[0]) {
-        alert('لم يتم تحميل ملف PDF للمشاركة!');
+async function shareFile(platform) {
+    const fileInput = document.getElementById('pdfInput');
+    if (fileInput.files.length === 0) {
+        alert("يرجى اختيار ملف PDF أولاً.");
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    const fileURL = URL.createObjectURL(file);
+
+    // إذا لم يتم تحديد منصة، استخدم واجهة المشاركة
+    if (!platform) {
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+                await navigator.share({
+                    title: 'مشاركة ملف PDF',
+                    text: 'تفقد هذا الملف الرائع!',
+                    files: [file],
+                });
+                alert('تمت مشاركة الملف بنجاح!');
+            } catch (error) {
+                console.error('حدث خطأ أثناء مشاركة الملف:', error);
+                alert('تعذر مشاركة الملف.');
+            }
+        } else {
+            alert('المشاركة غير مدعومة على هذا الجهاز!');
+        }
         return;
     }
 
-    const file = pdfInput.files[0];
+    let shareURL = '';
+    switch (platform) {
+        case 'whatsapp':
+            shareURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(fileURL)}`;
+            break;
+        case 'facebook':
+            shareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fileURL)}`;
+            break;
+        case 'gmail':
+            shareURL = `mailto:?subject=Check this PDF&body=${encodeURIComponent(fileURL)}`;
+            break;
+        case 'instagram':
+            alert("لا يمكن المشاركة عبر Instagram مباشرة.");
+            return;
+        case 'twitter':
+            shareURL = `https://twitter.com/intent/tweet?url=${encodeURIComponent(fileURL)}`;
+            break;
+        case 'tiktok':
+            alert("لا يمكن المشاركة عبر TikTok مباشرة.");
+            return;
+        case 'telegram':
+            shareURL = `https://t.me/share/url?url=${encodeURIComponent(fileURL)}`;
+            break;
+        case 'kakaotalk':
+            alert("لا يمكن المشاركة عبر KakaoTalk مباشرة.");
+            return;
+        case 'reddit':
+            shareURL = `https://www.reddit.com/submit?url=${encodeURIComponent(fileURL)}`;
+            break;
+        case 'vk':
+            shareURL = `https://vk.com/share.php?url=${encodeURIComponent(fileURL)}`;
+            break;
+        case 'pinterest':
+            alert("لا يمكن المشاركة عبر Pinterest مباشرة.");
+            return;
+    }
+    
+    window.open(shareURL, '_blank');
+}
 
-    // التحقق من دعم Web Share API
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-            await navigator.share({
-                title: 'مشاركة ملف PDF',
-                text: 'تفقد هذا الملف الرائع!',
-                files: [file],
-            });
-            // تمت إزالة الرسالة "تمت مشاركة الملف بنجاح!"
-        } catch (error) {
-            console.error('حدث خطأ أثناء مشاركة الملف:', error);
-            alert('تعذر مشاركة الملف.');
-        }
-    } else {
-        alert('المشاركة غير مدعومة على هذا الجهاز!');
+async function copyFileLink() {
+    const fileInput = document.getElementById('pdfInput');
+    if (fileInput.files.length === 0) {
+        alert("يرجى اختيار ملف PDF أولاً.");
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    const fileURL = URL.createObjectURL(file);
+    
+    try {
+        await navigator.clipboard.writeText(fileURL);
+        alert('تم نسخ رابط الملف إلى الحافظة!');
+
+        // تغيير الصورة عند النقر
+        const copyButton = document.querySelector('button[onclick="copyFileLink()"]');
+        const imgElement = copyButton.querySelector('img');
+        const originalImage = imgElement.src; // حفظ الصورة الأصلية
+        
+        imgElement.src = 'image/wwe.png'; // تغيير الصورة
+        imgElement.classList.add('changed-image'); // إضافة الكلاس عند تغيير الصورة
+
+        // إعادة الصورة الأصلية بعد 1 ثانية
+        setTimeout(() => {
+            imgElement.src = originalImage; // استعادة الصورة الأصلية
+            imgElement.classList.remove('changed-image'); // إزالة الكلاس
+        }, 1000);
+    } catch (err) {
+        console.error('فشل في نسخ الرابط:', err);
+        alert('فشل في نسخ الرابط!');
     }
 }
 
