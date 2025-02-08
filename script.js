@@ -891,16 +891,37 @@ window.onclick = function (event) {
     }
 };
 
+
+const linkDisplay = document.getElementById('linkDisplay'); // عنصر لعرض الرابط
+const fileSizeDisplay = document.getElementById('fileSizeDisplay'); // عنصر لعرض حجم الملف
+
+// حدث عند تغيير ملف PDF
+pdfInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === 'application/pdf') {
+        const fileURL = URL.createObjectURL(file); // إنشاء رابط مؤقت للملف
+        linkDisplay.textContent = `${fileURL}`; // عرض رابط الملف
+
+        // عرض حجم الملف
+        const fileSizeInKB = (file.size / 1024).toFixed(2); // تحويل الحجم إلى كيلوبايت
+        fileSizeDisplay.textContent = `${fileSizeInKB} KB`; // عرض حجم الملف
+    } else {
+        linkDisplay.textContent = ''; // إخفاء الرابط إذا لم يكن ملف PDF
+        fileSizeDisplay.textContent = ''; // إخفاء حجم الملف
+    }
+});
+
 // دالة مشاركة الملف
 async function shareFile(platform) {
     const fileInput = document.getElementById('pdfInput');
+
     if (fileInput.files.length === 0) {
         alert("يرجى اختيار ملف PDF أولاً.");
         return;
     }
     
     const file = fileInput.files[0];
-    const fileURL = URL.createObjectURL(file);
+    const fileURL = URL.createObjectURL(file); // إنشاء رابط مؤقت للملف
 
     // إذا لم يتم تحديد منصة، استخدم واجهة المشاركة
     if (!platform) {
@@ -968,32 +989,53 @@ async function copyFileLink() {
         alert("يرجى اختيار ملف PDF أولاً.");
         return;
     }
-    
+
     const file = fileInput.files[0];
     const fileURL = URL.createObjectURL(file);
-    
+
     try {
-        await navigator.clipboard.writeText(fileURL);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(fileURL);
+        } else {
+            // طريقة احتياطية للنسخ في المتصفحات القديمة
+            const tempInput = document.createElement('textarea');
+            tempInput.value = fileURL;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+
         alert('تم نسخ رابط الملف إلى الحافظة!');
 
-        // تغيير الصورة عند النقر
-        const copyButton = document.querySelector('button[onclick="copyFileLink()"]');
+        // تغيير الصورة
+        const copyButton = document.getElementById('copyButton');
         const imgElement = copyButton.querySelector('img');
-        const originalImage = imgElement.src; // حفظ الصورة الأصلية
-        
-        imgElement.src = 'image/wwe.png'; // تغيير الصورة
-        imgElement.classList.add('changed-image'); // إضافة الكلاس عند تغيير الصورة
+        const originalImage = imgElement.src;
+        const newImage = 'image/wwe.png';
 
-        // إعادة الصورة الأصلية بعد 1 ثانية
-        setTimeout(() => {
-            imgElement.src = originalImage; // استعادة الصورة الأصلية
-            imgElement.classList.remove('changed-image'); // إزالة الكلاس
-        }, 1000);
+        // تحميل الصورة الجديدة قبل استبدالها
+        const tempImg = new Image();
+        tempImg.src = newImage;
+        tempImg.onload = () => {
+            imgElement.src = newImage;
+            imgElement.classList.add('changed-image');
+
+            // إعادة الصورة الأصلية بعد 1 ثانية
+            setTimeout(() => {
+                imgElement.src = originalImage;
+                imgElement.classList.remove('changed-image');
+            }, 1000);
+        };
     } catch (err) {
         console.error('فشل في نسخ الرابط:', err);
         alert('فشل في نسخ الرابط!');
+    } finally {
+        // تنظيف URL لمنع تسرب الذاكرة
+        setTimeout(() => URL.revokeObjectURL(fileURL), 5000);
     }
 }
+
 
 // دالة إغلاق المنبثق
 function closeModal() {
