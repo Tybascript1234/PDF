@@ -1156,6 +1156,7 @@ body .History {
         bottom: 0;
         top: auto;
         left: auto;
+        padding-bottom: 40px;
         border-radius: 16px 16px 0px 0px;
     }
     body .share-div2 {
@@ -1739,6 +1740,8 @@ body .nov::before {
     width: 400px;
     color: #59636e;
     margin-top: 8px;
+    overflow-y: auto;
+    scrollbar-width: none;body .share-div-pdf
     max-width: -webkit-fill-available;
 }
 .share-h {
@@ -1842,4 +1845,14 @@ body .omd img {
 }
 .uu {
     width: 83%;
+}
+.ccol {
+    text-align: center;
+    padding: 8px 0;
+    padding-bottom: 0;
+    top: 0;
+    position: sticky;
+    background: white;
+    z-index: 5;
+    box-shadow: 0px 6px 5px #fff;
 }
