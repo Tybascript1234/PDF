@@ -103,6 +103,32 @@
         </script> -->
     <!-- ------------------------------- -->
 
+    <div id="modal3" class="cox xoo">
+    <div style="width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;">
+    <div class="share-div-pdf">
+        <div style="text-align: center;padding: 8px 0;padding-bottom: 0;"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512" style="width: 26px;height: 26px;transform: scaleX(1.9);"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 184l144 144 144-144"/></svg></div>
+        <div class="share-h">Share file</div>
+        <div class="share-div">
+            <div class="share-div2" id="shareButtons">
+                <button class="wave-button" onclick="copyFileLink()"><m></m><img src="image/8.jpg" alt=""><div>Copy link</div></button>
+                <button class="wave-button" onclick="shareFile('whatsapp')"><m></m><img src="image/1.jpg" alt=""><div>WhatsApp</div></button>
+                <button class="wave-button" onclick="shareFile('facebook')"><m></m><img src="image/2.png" alt=""><div>Facebook</div></button>
+                <button class="wave-button" onclick="shareFile('gmail')"><m></m><img src="image/3.webp" alt=""><div>Gmail</div></button>
+                <button class="wave-button" onclick="shareFile('instagram')"><m></m><img src="image/4.png" alt=""><div>Instagram</div></button>
+                <button class="wave-button" onclick="shareFile('twitter')"><m></m><img src="image/5.png" alt=""><div>Twitter</div></button>
+                <button class="wave-button" onclick="shareFile('tiktok')"><m></m><img src="image/6.webp" alt=""><div>TikTok</div></button>
+                <button class="wave-button" onclick="shareFile('telegram')"><m></m><img src="image/7.webp" alt=""><div>Telegram</div></button>
+                <button class="wave-button" onclick="shareFile('kakaotalk')"><m></m><img src="image/9.svg" alt=""><div>KakaoTalk</div></button>
+                <button class="wave-button" onclick="shareFile('reddit')"><m></m><img src="image/10.webp" alt=""><div>Reddit</div></button>
+                <button class="wave-button" onclick="shareFile('vk')"><m></m><img src="image/11.png" alt=""><div>VK</div></button>
+                <button class="wave-button" onclick="shareFile('pinterest')"><m></m><img src="image/12.webp" alt=""><div>Pinterest</div></button>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+
     <div style="position: fixed; top: 0; z-index: 100;width: 100%;">
         <div class="buttons">
             <div class="olif" style="justify-content: left;">
@@ -168,7 +194,8 @@
                             <label onclick="rotatePages()" class="mmyButton wave-button dr c2"><span class="material-symbols-outlined notranslate">rotate_90_degrees_ccw</span><a>Recycle</a></label>
                             <label id="toggleCheck" class="mmyButton wave-button cod"><span id="checkIcon" class="material-symbols-outlined notranslate" style="display: none;">check</span><a>Two page view</a></label>
                             <hr>
-                            <label class="mmyButton wave-button" onclick="shareFile()"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
+                            <label class="mmyButton wave-button c2"  style="margin: 0;" onclick="shareFile()"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
+                            <label class="mmyButton wave-button dr openModalBtn" data-target="modal3"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
                             <label class="mmyButton wave-button" id="copyTextButton"><span class="material-symbols-outlined notranslate c2">content_copy</span><o class="dr" style="background-image: url(3719119.png);"></o><a>Copy file text</a></label>
                             <label class="mmyButton wave-button" id="downloadImagesZipButton"><span class="material-symbols-outlined notranslate c2">folder_zip</span><o class="dr" style="background-image: url(12180408.png);"></o><a title="Download file pages">Download file..</a></label>
                             <hr>
@@ -236,7 +263,7 @@
             <span class="lk"></span>
             <button class="icon wave-button openModalBtn" data-target="modal2"><span class="material-symbols-outlined"> sort </span></button>
             <span class="lk"></span>
-            <button class="pdfuplod wave-button" id="showTextButton">استخراج النص</button>
+            <button class="pdfuplod wave-button openModalBtn" data-target="modal2" id="showTextButton">استخراج النص</button>
 
             <!-- <button class="icon wave-button" id="prevFile"><span class="material-symbols-outlined"> arrow_back </span></button>
             <div class="namber"><span id="remainingFiles">0</span>/<span id="fileCount" style="opacity: .5;">0</span></div>
