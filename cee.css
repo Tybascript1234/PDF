@@ -1162,6 +1162,9 @@ body .History {
         justify-content: center;
         margin-bottom: 40px;
     }
+    body .uu {
+        width: 70%;
+    }
 }
 
 @media screen and (max-width: 530px) {
@@ -1739,10 +1742,39 @@ body .nov::before {
     max-width: -webkit-fill-available;
 }
 .share-h {
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 14px;
     font-family: 'Almarai';
-    margin-top: 5px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+.share-h-text {
+    overflow: hidden;
+    display: flex;
+    flex: 1 1 0%;
+    margin-right: 30px;
+}
+.share-h-text #linkDisplay {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: -webkit-fill-available;
+}
+#fileSizeDisplay {
+    font-size: 12px;
+    opacity: .8;
+}
+.share-h-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 30px;
+    background-image: url(image/13.png);
+    background-size: cover;
+    overflow: hidden;
 }
 .share-div {
     width: auto;
@@ -1792,4 +1824,22 @@ body .nov::before {
 }
 .changed-image {
     animation: rect 0.3s ease;
+}
+body .omd {
+    padding: 0 18.9px;
+    height: 36.93px;
+    /* padding: 9px 18px; */
+    border-radius: 3px;
+    border: solid #ccc 1px;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+body .omd img {
+    position: absolute;
+    height: 28px;
+}
+.uu {
+    width: 83%;
 }
