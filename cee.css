@@ -1149,6 +1149,19 @@ body .History {
         box-shadow: 0px 1px 0px #e7ebee;
         padding-bottom: 5px;
     }
+    body .share-div-pdf {
+        animation: sss 0.4s ease forwards;
+        box-shadow: 0px -11px 13px #00000021, 0px -1px 0px #42515e0d;
+        transform: none;
+        bottom: 0;
+        top: auto;
+        left: auto;
+        border-radius: 16px 16px 0px 0px;
+    }
+    body .share-div2 {
+        justify-content: center;
+        margin-bottom: 40px;
+    }
 }
 
 @media screen and (max-width: 530px) {
@@ -1701,4 +1714,82 @@ body .nov::before {
     width: 100%;
     height: 100%;
     background-color: #0000000c;
+}
+
+
+/* share-div-pdf */
+.share-div-pdf {
+    animation: popup 0.3s ease forwards;
+    user-select: none;
+    position: fixed;
+    text-align: left;
+    z-index: 1000;
+    top: 52px;
+    /* height: 120px; */
+    padding: 0 16px;
+    background-color: white;
+    border-radius: 8px;
+    left: 50%;
+    max-height: -webkit-fill-available;
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+    transform: translate(-50%);
+    width: 400px;
+    color: #59636e;
+    margin-top: 8px;
+    max-width: -webkit-fill-available;
+}
+.share-h {
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Almarai';
+    margin-top: 5px;
+}
+.share-div {
+    width: auto;
+    height: 100%;
+}
+.share-div2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 10px 0;
+    margin-top: 0;
+    height: -webkit-fill-available;
+}
+.share-div2 button {
+    position: relative;
+    text-align: center;
+    height: 100%;
+    width: 70px;
+    height: 93px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    display: grid;
+    justify-content: center;
+    padding: 10px;
+    color: #59636e;
+    background-color: #0000;
+}
+.share-div2 button:hover {
+    background-color: #59636e0c;
+}
+.share-div2 button m::before {
+    position: absolute;
+    z-index: 4;
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+.share-div2 button img {
+    height: 33px;
+    border-radius: 25%;
+    margin: 0 auto;
+    margin-bottom: 6px;
+}
+.changed-image {
+    animation: rect 0.3s ease;
 }
