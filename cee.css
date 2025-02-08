@@ -1,479 +1,1858 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title class="notranslate">عرض ملفات PDF</title>
-    <link rel="stylesheet" href="cee.css">
-    <!-- <link rel="stylesheet" href="mood.css"> -->
-    <link rel="icon" href="Text Docudent-svg.svg">
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-</head>
-<body>
-
-    <!-- الإعلانات -->
-        <div class="loka" id="dynamic-div" style="display: none;">
-            <div class="loka-1">
-                <div class="coo">
-                    <button class="icon"><span class="material-symbols-outlined">info</span></button>
-                    <div>
-                        <button>تواصل واتساب</button>
-                        <button>حول الإعلانات</button>
-                    </div>
-                </div>
-                <div>اعلان مدفوع</div>
-                <div><span id="timer">4</span> ثواني</div>
-            </div>
-            <a id="dynamic-link" href="">
-                <div class="loka-div">
-                    <img id="dynamic-image" src="" alt="">
-                </div>
-            </a>
-            <div class="loka-2"><span id="progress-bar"></span></div>
-        </div>
-
-        <!-- <script>
-            // الاعلانات
-            const dynamicDiv = document.getElementById('dynamic-div');
-    const timerSpan = document.getElementById('timer');
-    const progressBar = document.getElementById('progress-bar');
-    const dynamicImage = document.getElementById('dynamic-image');
-    const dynamicLink = document.getElementById('dynamic-link');
-
-    // Array of images and links
-    const dynamicContent = [
-        { image: '1.jpg', link: 'https://example.com/page1' },
-        { image: '2.jpg', link: 'https://example.com/page2' },
-        { image: '3.jpg', link: 'https://example.com/page3' }
-    ];
-
-    let currentIndex = 0;
-
-    function showDynamicDiv() {
-        // Update content with the next image and link
-        const content = dynamicContent[currentIndex];
-        dynamicImage.src = content.image;
-        dynamicLink.href = content.link;
-
-        // Cycle through the array
-        currentIndex = (currentIndex + 1) % dynamicContent.length;
-
-        // Reset timer and progress bar
-        timerSpan.textContent = 4;
-        progressBar.style.width = '0';
-        progressBar.setAttribute('data-progress', '0%');
-
-        // Show the div
-        dynamicDiv.style.display = 'flex';
-
-        // Animate progress bar and update progress text
-        let progress = 0;
-        const progressInterval = setInterval(() => {
-            progress += 25;
-            progressBar.style.width = `${progress}%`;
-            progressBar.setAttribute('data-progress', `${progress}%`);
-            if (progress >= 100) {
-                clearInterval(progressInterval);
-            }
-        }, 1000);
-
-        // Countdown timer
-        let remainingTime = 4;
-        const timerInterval = setInterval(() => {
-            remainingTime--;
-            timerSpan.textContent = remainingTime;
-            if (remainingTime <= 0) {
-                clearInterval(timerInterval);
-                hideDynamicDiv();
-            }
-        }, 1000);
+body {
+    font-family: Arial, sans-serif;
+    /* direction: rtl; */
+    text-align: center;
+    /* background-color: #2e2e2e; */
+    /* padding: 20px; */
+    margin: 0;
+    font-size: 14px;
+    width: 100%;
+    height: 100vh;
+}
+.xom {
+    animation: xom 0.3s ease forwards;
+}
+@keyframes xom {
+    0% {
+        transform: rotate(90deg);
     }
-
-    function hideDynamicDiv() {
-        dynamicDiv.style.display = 'none';
-    }
-
-    // Show the div every 10 minutes (600000 ms)
-    setInterval(showDynamicDiv, 600000);
-
-    // Initial display for testing
-    showDynamicDiv();
-        </script> -->
-    <!-- ------------------------------- -->
-
-    <div id="modal3" class="cox xoo">
-    <div style="width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;">
-    <div class="share-div-pdf">
-        <div class="ccol"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512" style="width: 26px;height: 26px;transform: scaleX(1.9);"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 184l144 144 144-144"/></svg></div>
-        <div class="share-h">
-            <div class="share-h-text">
-                <div class="omd"><img src="image/14.png" alt=""></div>
-                <div class="uu">
-                    <div id="linkDisplay"></div>
-                    <div id="fileSizeDisplay"></div>
-                </div> 
-            </div>
-            <div class="share-h-img"></div>
-        </div>
-        <div class="share-div">
-            <div class="share-div2" id="shareButtons">
-                <button class="wave-button" id="copyButton" onclick="copyFileLink()"><m></m><img src="image/8.jpg" alt=""><div>Copy link</div></button>
-                <button class="wave-button" onclick="shareFile('whatsapp')"><m></m><img src="image/1.jpg" alt=""><div>WhatsApp</div></button>
-                <button class="wave-button" onclick="shareFile('facebook')"><m></m><img src="image/2.png" alt=""><div>Facebook</div></button>
-                <button class="wave-button" onclick="shareFile('gmail')"><m></m><img src="image/3.webp" alt=""><div>Gmail</div></button>
-                <button class="wave-button" onclick="shareFile('instagram')"><m></m><img src="image/4.png" alt=""><div>Instagram</div></button>
-                <button class="wave-button" onclick="shareFile('twitter')"><m></m><img src="image/5.png" alt=""><div>Twitter</div></button>
-                <button class="wave-button" onclick="shareFile('tiktok')"><m></m><img src="image/6.webp" alt=""><div>TikTok</div></button>
-                <button class="wave-button" onclick="shareFile('telegram')"><m></m><img src="image/7.webp" alt=""><div>Telegram</div></button>
-                <button class="wave-button" onclick="shareFile('kakaotalk')"><m></m><img src="image/9.svg" alt=""><div>KakaoTalk</div></button>
-                <button class="wave-button" onclick="shareFile('reddit')"><m></m><img src="image/10.webp" alt=""><div>Reddit</div></button>
-                <button class="wave-button" onclick="shareFile('vk')"><m></m><img src="image/11.png" alt=""><div>VK</div></button>
-                <button class="wave-button" onclick="shareFile('pinterest')"><m></m><img src="image/12.webp" alt=""><div>Pinterest</div></button>
-            </div>
-        </div>
-    </div>
-    </div>
-</div>
-
-
-    <div style="position: fixed; top: 0; z-index: 100;width: 100%;">
-        <div class="buttons">
-            <div class="olif" style="justify-content: left;">
-                <a href=""><div class="logo-1 mmyButton"><img src="KR.png" alt=""> <span class="dis notranslate">Text Document</span><div class="" style="display: none;" onclick="toggleThumbnails()"></div></div></a>
-                <button class="icon wave-button" onclick="toggleThumbnails()"><svg xmlns="http://www.w3.org/2000/svg" height="20px" style="width: 20px;height: 20px;" viewBox="0 -960 960 960" width="20px" fill="#5f6368"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></button>
-                <!-- <button class="icon dr wave-button" onclick="showFileInfo()"><svg xmlns="http://www.w3.org/2000/svg" style="height: 20px;" class="ionicon" viewBox="0 0 512 512"><path d="M64 192v-72a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H408a40 40 0 0140 40v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M479.9 226.55L463.68 392a40 40 0 01-39.93 40H88.25a40 40 0 01-39.93-40L32.1 226.55A32 32 0 0164 192h384.1a32 32 0 0131.8 34.55z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></button> -->
-                <div style="max-width: 200px;"><div id="fileNameDisplay" class="c2 notranslate"></div></div>
-            </div>
-
-            <div class="olif">
-                <input type="file" id="pdfInput" accept="application/pdf" style="display: none;" multiple>
-                <div class="goo"><input type="text" id="pageInput" style="width: 3ch;" value="0" class="olif-input"><span style="margin-left: 4px;margin-right: 8px;">/</span><span id="pageCount">0</span></div>
-                <span class="lk c2"></span>
-                <div class="olif c2" id="" style="width: auto;margin: 0;">
-                    <button class="icon wave-button" id="decreaseSize"><span class="material-symbols-outlined notranslate">remove</span></button>
-                    <input type="text" style="margin-right: 0;" id="sizeInput" value="100%" class="olif-input">
-                    <button class="icon wave-button" id="increaseSize"><span class="material-symbols-outlined notranslate">add</span></button>
-                </div>
-                <span class="lk c2"></span>
-                <button class="icon c2 notranslate wave-button" id="toggleSizeButton"><span class="material-symbols-outlined">width</span></button>
-                <button class="icon c2 dis wave-button" onclick="rotatePages()"><span class="material-symbols-outlined notranslate">rotate_90_degrees_ccw</span></button>
-                <span class="lk c2"></span>
-                <button class="icon notranslate c2 wave-button" id="eraseButton" onclick="toggleEraseMode(event)"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;"> ink_eraser </span></button>
-                <div style="position: relative;display: flex;justify-content: right;">
-                <button class="icon c2 notranslate wave-button showButton" data-target="popup5"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;"> border_color </span></button>
-                    <div class="border_color popup" id="popup5">
-                        <div class="border-div"><zx>Font color</zx><button class="closeButton wave-button icon" onclick="closePopup(this)"><span class="material-symbols-outlined">close</span></button></div>
-                        <div class="border_color_div" id="drawingButtons">
-                            <a style="background-color: #000000;"></a>
-                            <a style="background-color: #ff3f3f;"></a>
-                            <a style="background-color: #ffd400;"></a>
-                            <a style="background-color: #ff9900;"></a>
-                            <a style="background-color: #61c911;"></a>
-                            <a style="background-color: #33b0f9;"></a>
-                            <a style="background-color: #36e9d1;"></a>
-                            <a style="background-color: #fb92ee;"></a>
-                            <a style="background-color: #cb92ff;"></a>
-                            <a style="background-color: #b57705;"></a>
-                            <!-- style="background-image: linear-gradient(135deg, #6982ff, #ff5cbd, #ff5cbd);" -->
-                            <a id="colorPickerButton" href="#" onclick="handleColorPickerClick(event)" class="wave-button" style="background: #f6f8fa;"><span class="material-symbols-outlined"> palette </span></a>
-                            <!-- مُحدد الألوان (مخفي في البداية) -->
-                            <input  type="color" id="colorPicker" style="display: none;">
-                            <a style="background: #f6f8fa;" class="wave-button"><span class="material-symbols-outlined"> colorize </span></a>
-                        </div>
-                        <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
-                    </div>
-                </div>
-            </div>
-
-            <div class="olif" style="justify-content: right;">
-                <button class="icon dis" onclick="downloadPDF()"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg></button>
-                <button class="icon c2 dis" onclick="printPDF()"><span class="material-symbols-outlined notranslate">print</span></button>
-                <div class="dropdown">
-                  <button class="icon c2 wave-button clo" id="dropdownButton" style="display: flex;position:relative; z-index: 30;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"/></svg></button>
-                    <div id="dropdownMenu" class="dropdown-content">
-                        <ul>
-                            <input type="file" id="" style="display: none;" accept=".doc,.docx">
-                            <label for="pdfInput" class="mmyButton"><a>Upload file</a></label>
-                            <!-- <label for="" class="mmyButton" id=""><a>Open lenk PDF</a></label> -->
-                            <label onclick="printPDF()" class="mmyButton dr"><span class="material-symbols-outlined notranslate c2">print</span><o class="dr" style="background-image: url(684906.png);"></o><a>Print file</a></label>
-                            <label onclick="downloadPDF()" class="mmyButton dr"><span class="material-symbols-outlined notranslate c2">download_2</span><o class="dr" style="background-image: url(6574477.png);"></o><a>Download PDF</a></label>
-                            <hr class="dr" style="display: none;">
-                            <label onclick="rotatePages()" class="mmyButton dr c2"><span class="material-symbols-outlined notranslate">rotate_90_degrees_ccw</span><a>Recycle</a></label>
-                            <label id="toggleCheck" class="mmyButton cod"><span id="checkIcon" class="material-symbols-outlined notranslate" style="display: none;">check</span><a>Two page view</a></label>
-                            <hr>
-                            <label class="mmyButton c2"  style="margin: 0;" onclick="shareFile()"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
-                            <label class="mmyButton dr openModalBtn" data-target="modal3"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
-                            <label class="mmyButton" id="copyTextButton"><span class="material-symbols-outlined notranslate c2">content_copy</span><o class="dr" style="background-image: url(3719119.png);"></o><a>Copy file text</a></label>
-                            <label class="mmyButton" id="downloadImagesZipButton"><span class="material-symbols-outlined notranslate c2">folder_zip</span><o class="dr" style="background-image: url(12180408.png);"></o><a title="Download file pages">Download file..</a></label>
-                            <hr>
-                            <label class="mmyButton openModalBtn" data-target="modal1"><span class="material-symbols-outlined notranslate c2">settings</span><o class="dr" style="background-image: url(Settings.png);"></o><a>Settings</a></label>
-                            <label onclick="showFileInfo()" class="mmyButton"><a>File information</a></label>
-                        </ul>
-                    </div> 
-                </div>
-            </div>
-
-
-             <!-- المنبثق -->
-             <div id="fileInfoModal" class="modales">
-                <div class="modal-content colorDiv">
-                    <span>خصائص</span>
-                    <ul>
-                        <div><strong>اسم الملف</strong> <div id="fileName"></div></div>
-                        <div><strong>حجم الملف</strong> <div id="fileSize"></div></div>
-                        <hr>
-                        <div><strong>آخر تعديل</strong> <div id="fileLastModified"></div></div>
-                        <div><strong>رابط الملف</strong> <div id="fileURL"></div></div>
-                        <hr>
-                        <div><strong>العنوان</strong> <div id="fileTitle"></div></div>
-                        <div><strong>المؤلف</strong> <div id="fileAuthor"></div></div>
-                        <div><strong>الموضوع</strong> <div id="fileSubject"></div></div>
-                        <div><strong>الكلمات المفتاحية</strong> <div id="fileKeywords"></div></div>
-                        <hr>
-                        <div><strong>تاريخ الإنشاء</strong> <div id="fileCreationDate"></div></div>
-                        <div><strong>التطبيق</strong> <div id="fileApplication"></div></div>
-                        <div><strong>المنتج</strong> <div id="fileProducer"></div></div>
-                        <div><strong>الإصدار</strong> <div id="fileVersion"></div></div>
-                        <hr>
-                        <div><strong>عدد الصفحات</strong> <div id="filePageCount"></div> صفحة</div>
-                        <div><strong>حجم الصفحة</strong> <div id="filePageSize"></div></div>
-                        <div style="margin-bottom: 0;"><strong>عرض ويب سريع</strong> <div id="fileFastWebView"></div></div>
-                    </ul>
-                    <button class="close c2 wave-button" onclick="closeModal()">موافق</button>
-                </div>
-            </div>      
-
-
-            <!-- -------- -->
-             <div class="buttons22 notranslate">
-                <h3 class="c2 olif" style="justify-content: left;">Click to save changes.</h3>
-                <div class="edit-textarea olif">
-                    <textarea name="" id=""></textarea>
-                </div>
-                <div class="olif" style="direction: rtl;justify-content: right;">
-                    <button class="icon c2" id=""><span class="material-symbols-outlined">close</span></button>
-                    <button class="icon" id=""><span class="material-symbols-outlined">check</span></button>
-                </div>
-             </div>
-        </div>
-    </div>
-
-    <div class="container" id="mainDiv">
-        <div class="thumbnails" id="thumbnails">
-            
-        </div>
-        <div id="pdfPreview" class="pdf-preview hidden"></div>
+    100% {
         
-        <div class="pdfPreview notranslate" id="popupDiv">
-            <fo>جديد</fo>
-            <button class="icon wave-button" id="reloadButton"><span class="material-symbols-outlined hello"> refresh </span></button>
-            <span class="lk"></span>
-            <button class="icon wave-button openModalBtn" data-target="modal2"><span class="material-symbols-outlined"> sort </span></button>
-            <span class="lk"></span>
-            <button class="pdfuplod wave-button openModalBtn" data-target="modal2" id="showTextButton">استخراج النص</button>
-
-            <!-- <button class="icon wave-button" id="prevFile"><span class="material-symbols-outlined"> arrow_back </span></button>
-            <div class="namber"><span id="remainingFiles">0</span>/<span id="fileCount" style="opacity: .5;">0</span></div>
-            <button class="icon wave-button" id="nextFile"><span class="material-symbols-outlined"> arrow_forward </span></button> -->
-        </div>
-
-        <div id="modal2" class="cox xoo">
-            <div style="width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;">
-                <div class="window-check modal">
-                    <div class="om">
-                        <co>نص الملف</co>
-                        <div style="display: flex;align-items: center;">
-                            <button class="c2"><x class="material-symbols-outlined notranslate"> fullscreen </x></button>
-                            <span class="lk c2" style="margin: 0 5px;"></span>
-                            <button class="closeModalBtn"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button>
-                        </div>
-                    </div>
-                    <hr style="margin-top: 0;">
-                    <div id="textDisplay" class="notranslate"></div>
-                </div>
-            </div>
-        </div>
-            
-    </div>
-
-
-
-    <script>
-        
-    </script>
-
-    <!-- window-check -->
-     <div id="modal1" class="cox xoo">
-        <div style="width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;">
-     <div class="window-check modal">
-        <div class="om"><co>الإعدادات</co><button class="closeModalBtn"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button></div>
-        <hr style="margin-top: 0;">
-        <div class="window-check-div">
-            <a class="recole wave-button" target="_blank" href="https://tybascript1234.github.io/settings/page1.html" data-target=""><span class="material-symbols-outlined notranslate"> arrow_back_ios </span><span>اشترك معنا</span></a>   
-            <a class="recole"><z class="" id="toggleButtons" style="padding: 4px 16px;">إخفاء</z> <span>اظهار / اخفاء زر نسخ الصفحة</span></a>
-            <a class="recole showButton wave-button" data-target="popup1"><z>جديد</z> <span>انشئ علامة مائية</span></a>
-            <a class="recole"><div class="toggle-switch" id=""></div> <span>الحفظ التلقائي</span></a> 
-            <a class="recole showButton wave-button" data-target="popup2"><span class="material-symbols-outlined notranslate"> arrow_back_ios </span><span>سياسة الخصوصية</span></a>   
-            <a class="recole showButton wave-button" data-target="popup3"><span class="material-symbols-outlined notranslate"> arrow_back_ios </span><span>الترجمة</span></a>        
-        </div>
-
-        <!-- History -->
-         <div class="History window-check popup" id="popup1">
-            <div class="om"><co>انشئ علامة مائية</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button></div>
-                <hr style="margin-top: 0;">
-                <span class="cons"> 
-                    تحذير لا تضع علامة مائية على ملف
-                    <br>
-                    ليس لك لتجنب اختراق سياسة الخصوصية
-                </span>
-                <div class="kold">
-                    <label for="watermarkInput">رفع صورة</label>
-                    <input type="file" id="watermarkInput" accept="image/*" style="display: none;">
-                    <select id="watermarkSizeSelect">
-                        <option value="100">100</option>
-                        <option value="200">200</option>
-                        <option value="300">300</option>
-                        <option value="400">400</option>
-                        <option value="600">600</option>
-                        <option value="800">800</option>
-                    </select>
-                    <input type="range" id="watermarkOpacityInput" min="1" max="100" value="100">
-                    <button id="applyWatermarkButton"> انشئ </button>
-                    <button id="removeWatermarkButton" class="long"> الغاء </button>
-                </div> 
-                
-         </div>
-
-         <!-- سياسة الخصوصية -->
-         <div class="History window-check popup" id="popup2">
-            <div class="om"><co>سياسة الخصوصية</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button></div>
-                <hr style="margin-top: 0;">
-                <div class="History-div">
-                    <h3>Text Document</h3>
-                    <ul>
-                        مع امكانية وضع علامة مائية PDF هية اداه تسهل لك عرض ملفات ال
-                    </ul>
-                    <h3>العلامة المائية</h3>
-                    <ul>
-                        يمكن وضع علامة مائية في حين ان الملف ملك لك وفي حين انه ليس لك ولا يحق لك الإضافة له علامة مائية لتجنب التعرض للمسائلة القانونية
-                    </ul>
-                    <h3>المطور والمالك</h3>
-                    <ul>
-                        <div>Eyad Omran - الإسم</div>
-                        <div>Egypt - الدولة</div>
-                        <div> <a href="" style="color: #0078d1;">تواصل معنا</a> ان كان لديك إستفسا</div>
-                        <div>.لا تنسنا من صالح دعائك</div>
-                    </ul>
-                    <br>
-                    <hr style="margin-top: 0;">
-                    <div><a style="color: #0078d1;">Text Document</a> جميع الحقوق محفوظة ل</div>
-                </div>
-         </div>
-
-         <!-- اللغة -->
-         <div class="History window-check popup" id="popup3">
-            <div class="om"><co>اللغة</co><button class="closeButton" onclick="closePopup(this)"><span class="material-symbols-outlined notranslate"> arrow_forward </span></button></div>
-                <hr style="margin-top: 0;">
-                <script src="https://tybascript1234.github.io/Languag/embed.js"></script>
-                <div id="target-container"></div>
-         </div>
-     </div>
-    </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    
-    <script src="script.js"></script>
-
-    <!-- <script type="module" src="main.js"></script> -->
-
-
-    <div class="wendow loader-container" id="loader-container">
-        <div class="progress-circle">
-            <div class="circle" style="--progress: 0%">
-              <div class="percentage">0%</div>
-              <div class="xoxo"><img src="KR.png" alt=""></div>
-            </div>
-        </div>
-        <div class="smole"><a href="https://creativecloudsit.com/?srsltid=AfmBOor0HoFKYIsC7OtjV7JM-66QCN4O1gHU2dYXnszdUJPhSvLEqhsp">Creative Cloud IT</a> <span>SA</span></div>
-    </div>
-
-    <script>
-          const loaderContainer = document.getElementById('loader-container');
-  const circle = document.querySelector('.circle');
-  const percentage = document.querySelector('.percentage');
-
-  let progress = 0;
-
-  function updateProgress() {
-    if (progress <= 100) {
-      circle.style.setProperty('--progress', `${progress}%`);
-      percentage.textContent = `${progress}%`;
-      progress++;
-      setTimeout(updateProgress, 30); // Adjust the speed here
-    } else {
-      loaderContainer.classList.add('hidden');
     }
+}
+
+
+/* wendow */
+
+.wendow {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 10000000000000000;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    z-index: 9999;
+  }
+body .auto-size {
+    transition: ease 0.2s;
+    height: auto;
+}
+body .auto-size .copy-text-button {
+    margin-right: 10px;
+}
+  .progress-circle {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 106px;
   }
 
-  window.addEventListener('load', () => {
-    // Start updating the progress only after all content is loaded
-    progress = 0;
-    updateProgress();
-  });
-    </script>
+  .progress-circle .circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(#297ae7 var(--progress, 0%), #e0e0e000 0%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .progress-circle .percentage {
+    position: absolute;
+    font-family: cursive;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    /* margin-top: 200px; */
+  }
+
+  .loader-container.hidden {
+    display: none;
+  }
+  .xoxo {
+    position: absolute;
+    z-index: 10;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: white;
+  }
+  .xoxo::before {
+    position: absolute;
+    content: '';
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  .xoxo img {
+    height: 71px;
+    margin-bottom: 6px;
+  }
+  .smole {
+    position: absolute;
+    bottom: 40px;
+  }
+  .smole a {
+    opacity: .7;
+  }
+  .smole a:hover {
+    opacity: 1;
+  }
+  .smole span {
+    padding: 5px 8px;
+    border-radius: 8px;
+    background: #f6f8fa;
+    color: #59636e;
+    margin-left: 4px;
+  }
+
+/* wendow// */
+
+.good {
+    animation: rect 0.3s ease;
+}
+@keyframes rect {
+    0% {
+        transform: scale(0.50);
+    }
+    100% {
+        
+    }
+}
+ul {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+.material-symbols-outlined {
+    user-select: none;
+    display: block;
+}
+button {
+    cursor: pointer;
+}
+a {
+    color: #4f4f4f;
+    text-decoration: none;
+}
+hr {
+padding: 0;
+margin: 5px 0;
+border: none;
+background: #d1d9e0;
+height: 1px;
+}
+img {
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.container {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: -webkit-fill-available;
+}
+.pdf-preview {
+    text-align: -webkit-center;
+    overflow-y: scroll;
+    /* border-left: 1px solid #ffffff63; */
+    background-color: rgb(255 255 255);
+    /* padding: 10px; */
+    /* flex: 1; */
+    flex: 1 1 auto;
+    margin-top: 56px;
+    height: -webkit-fill-available;
+}
+.pdf-preview canvas {
+display: block;
+margin: 0px auto;
+/*outline: solid 1px #0000001f; */
+box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 2px 3px 0px #25292e1f;
+height: 100%;
+background-size: cover;
+}
+.pdfPreview {
+    user-select: none;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: max-content;
+    padding: 0px 5px;
+    height: 48px;
+    background: #f6f8fa;
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 2px 3px 0px #25292e1f;
+    border-radius: 30px;
+    z-index: 800;
+    left: 50%;
+    scrollbar-width: none;
+    transform: translate(-50%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    margin-bottom: 60px;
+}
+.pdfPreview .icon {
+    margin: 0;
+    width: 38px;
+    height: 38px;
+}
+.pdfPreview .lk {
+    margin: 0 5px;
+}
+.pdfuplod {
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 25px;
+    border: none;
+    font-family: 'Almarai';
+    font-size: 12px;
+    color: #59636e;
+    background-color: #00000000;
+}
+.pdfuplod:hover {
+    background-color: #818b981a;
+}
+/* --------------- */
+fo {
+    position: absolute;
+    user-select: none;
+    z-index: 40;
+    right: 0;
+    top: 0;
+    padding: 5px 11px;
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+    background: white;
+    border-radius: 8px;
+    font-family: 'Almarai';
+    font-size: 12px;
+    margin: -14px -6px;
+}
+/* --------------- */
+.namber {
+    display: flex;
+    align-items: center;
+}
+.namber span {
+    margin: 0 5px;
+}
+.thumbnail-wrapper {
+    position: relative;
+    max-width: -webkit-fill-available;
+    width: max-content;
+    padding-top: 24px;
+}
+.thumbnail-wrapper::before {
+    position: absolute;
+    content: '';
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.page-number {
+    user-select: none;
+    color: #59636e;
+    line-height: 1;
+}
+.thumbnail {
+    counter-increment: myCounter;
+    position: relative;
+    height: 152px;
+    max-height: -webkit-fill-available;
+    width: fit-content;
+    cursor: pointer;
+    margin-bottom: 12px;
+    /* border: 1px solid #ffffff00; */
+    border-radius: 0;
+    /* overflow: hidden; */
+    display: inline-block;
+    transition: border 0.3s;
+    display: flex;
+    justify-content: center;
+    z-index: 7;
+    max-width: -webkit-fill-available;
+}
+.thumbnail-wrapper:hover .thumbnail {
+filter: brightness(1);
+}
+.thumbnail-wrapper .thumbnail {
+filter: brightness(0.9);
+}
+.thumbnail:hover {
+    outline: 5px solid #b5d5ff00;
+}
+#fileNameDisplay {
+    font-family: Almarai;
+    text-align: left;
+}
+/* .thumbnail-wrapper .thumbnail {
+    user-select: none;
+    height: 100%;
+} */
+/* .thumbnail::before {
+    position: absolute;
+    z-index: 5;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+} */
+/* .thumbnail:hover img {
+    filter: contrast(0.9);
+} */
+.thumbnail.selected {
+    filter: brightness(1);
+    outline: 6px solid #a8cdff; /* لون الحدود للصفحة المحددة */
+    border-color: #d1d9e000;
+}
+.thumbnail.selected:hover::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+}
+.thumbnail-wrapper.selected .thumbnail {
+    filter: brightness(1);
+}
+.thumbnails {
+    animation: rre 0.3s ease forwards;
+    overflow-y: scroll;
+    background-color: #f6f8fa;
+    text-align: -webkit-center;
+    height: -webkit-fill-available;
+    width: 300px;
+    counter-reset: myCounter;
+    /* display: flex; */
+    flex-wrap: wrap;
+    /* max-height: 869px; */
+    margin-top: 56px;
+    padding-bottom: 24px;
+}
+.buttons {
+z-index: 5;
+height: 56px;
+position: relative;
+padding: 0 16px;
+background: #f6f8fa;
+box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 2px 3px 0px #25292e1f;
+outline: solid 1px #cccccc00;
+color: #4f4f4f;
+display: flex;
+align-items: center;
+justify-content: space-between;
+overflow-x: auto;
+scrollbar-width: none;
+}
+.buttons22 {
+width: -webkit-fill-available;
+z-index: 15;
+height: 56px;
+position: absolute;
+top: 0;
+left: 0;
+padding: 0 16px;
+background: rgb(50, 54, 57);
+outline: solid 1px #cccccc00;
+color: white;
+display: none;
+align-items: center;
+justify-content: space-between;
+}
+.olif {
+width: -webkit-fill-available;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.icon {
+    margin-left: 4px;
+    user-select: none;
+    overflow: hidden;
+    cursor: pointer;
+    color: #59636e;
+    background-color: #00000000;
+    width: 32px;
+    height: 32px;
+    border-radius: 50px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon:hover {
+background-color: #818b981a;
+}
+.icon span {
+font-size: 20px;
+}
+.icon svg {
+    width: 22px;
+    height: 22px;
+}
+body .icone {
+    background: #d3e4ff;
+    color: #3482ff;
+}
+body .icone:hover {
+    background: #bfd6fb;
+}
+.material-symbols-outlined {
+font-variation-settings:
+'FILL' 0,
+'wght' 400,
+'GRAD' 0,
+'opsz' 24
+}
+.icon .material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 3,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+.icon .hello {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+.c2 {
+margin-left: 4px;
+}
+.lk {
+display: inline-block;
+height: 20px;
+width: 1px;
+margin-left: 4px;
+/* margin: 0 8px; */
+background-color: #d1d9e0;
+}
+.clo.active {
+background-color: #656e7b33; /* لون الزر عند الضغط */
+}
+.dropdown {
+position: relative;
+}
+.dropdown-content {
+    animation: popup 0.3s ease forwards;
+    overflow: auto;
+    scrollbar-width: none;
+    z-index: 10;
+    display: none;
+    position: fixed;
+    right: 10px;
+    padding: 8px 0;
+    width: 175px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+    background-color: rgb(255 255 255);
+    max-height: -webkit-fill-available;
+    margin-bottom: 8px;
+}
+.dropdown-content div,label {
+    position: relative;
+    user-select: none;
+    padding: 0px 10px;
+    padding-left: 38px;
+    display: flex;
+    align-items: center;
+    flex: auto;
+    height: 35px;
+    /* color: #4f4f4f; */
+    cursor: pointer;
+    text-decoration: none;
+    overflow: hidden;
+}
+.dropdown-content div:hover {
+    background-color: #818b981a;
+}
+.dropdown-content label:hover {
+    background-color: #818b981a;
+}
+.dropdown-content div,label::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+.dropdown-content div,label a {
+    width: max-width;
+    height: 16px;
+    text-align: left;
+    font-family: 'Almarai';
+    /* overflow: hidden; */
+}
+.dropdown-content o {
+    animation: rect 0.3s ease;
+    left: 0;
+    height: 21px;
+    width: 21px;
+    background-size: cover;
+    margin-left: 9px;
+    position: absolute;
+}
+.dropdown-content div,label .material-symbols-outlined {
+    animation: rect 0.3s ease;
+left: 0;
+font-size: 21px;
+margin-left: 9px;
+position: absolute;
+}
+.olif-input {
+border: solid 1px #ccc;
+background: rgb(0 0 0 / 0%);
+/* border: none; */
+caret-color: currentColor;
+color: inherit;
+font-family: inherit;
+line-height: inherit;
+margin: 0 4px;
+outline: 0;
+height: 23px;
+padding: 0 4px;
+text-align: center;
+width: 5ch;
+}
+.olif-input:focus {
+border: solid 1px #0089ff;
+outline: 2px solid #a8cdff;
+}
+.goo { 
+align-items: center;
+/* color: #fff; */
+direction: ltr;
+display: flex;
+justify-content: left;
+font-size: .81rem;
+text-align: center;
+margin-right: 20px;
+width: auto;
+}
+.edit-textarea {
+display: flex;
+justify-content: center;
+align-items: flex-start;
+}
+.edit-textarea input {
+position: absolute;
+width: 620px;
+font-size: 18px;
+color: white;
+height: 550px;
+padding: 8px 15px;
+border-radius: 4px;
+box-shadow: 0 -2px 8px rgba(0, 0, 0, .09), 0 4px 8px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .3), 0 2px 6px rgba(0, 0, 0, .15);
+background-color: rgb(54 58 61);
+outline: none;
+}
+.logo-1 {
+text-align: left;
+position: relative;
+cursor: pointer;
+user-select: none;
+display: flex;
+align-items: center;
+margin-right: 8px;
+}
+.logo-1 img {
+    height: 24px;
+    margin-right: 5px;
+}
+.ooo {
+    display: none;
+}
+.dr {
+    display: none;
+}
+.mmyButton {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform; /* تحسين الأداء */
+    backface-visibility: hidden; /* تقليل البكسلة */
+    transform-style: preserve-3d; /* الحفاظ على التحويل ثلاثي الأبعاد */
+}
+
+
+/* loka */
+.loka {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000ba;
+    backdrop-filter: blur(2px);
+}
+.coo {
+    position: relative;
+}
+.coo div {
+    display: none;
+    position: absolute;
+    z-index: 40;
+    width: 166px;
+    background: #ffffff2e;
+    padding: 8px 0px;
+    border-radius: 4px;
+    box-shadow: 0px 1px 8px #0000008c;
+}
+.coo:hover div {
+    display: block;
+}
+.coo div button {
+    display: block;
+    width: -webkit-fill-available;
+    border: none;
+    padding: 8px 16px;
+    text-align: right;
+    background: #0000;
+    color: white;
+    font-family: system-ui;
+}
+.coo div button:hover {
+    background-color: rgba(255, 255, 255, 0.137);
+}
+.loka-1 {
+    position: absolute;
+    top: 0;
+    width: -webkit-fill-available;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-size: 16px;
+    font-family: system-ui;
+    padding: 0 16px;
+}
+.loka-1 .material-symbols-outlined {
+    color: white;
+}
+.loka-1 .icon:hover {
+    background-color: #ffffff30;
+}
+.loka-2 {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    text-align: left;
+}
+.loka-2 span {
+    transition: ease 1s;
+    height: 3px;
+    width: 0;
+    display: block;
+    background-color: #ffdd00;
+}
+.loka-div {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 300px;
+    /* height: 350px; */
+    box-shadow: 0px 1px 3px #00000079;
+    background-color: #ffffff70;
+}
+.loka-div img {
+    width: 100%;
+}
+
+@keyframes popup {
+    0% {
+        margin-top: -16px;
+        box-shadow: none;
+        background: #0000;
+    }
+    100% {
+        box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+    }
+}
+@keyframes rre {
+    0% {
+        margin-left: -300px;
+        box-shadow: none;
+    }
+    100% {
+        
+    }
+}
+
+
+/* window-check */
+.window-check {
+    user-select: none;
+    font-family: Almarai;
+    line-height: 1.4;
+    overflow-y: auto;
+    animation: popup 0.3s ease forwards;
+    transition: ease 0.3s;
+    text-align: left;
+    position: fixed;
+    width: 600px;
+    height: 500px;
+    border-radius: 4px;
+    background-color: white;
+    z-index: 5000;
+    top: 50%;
+    left: 50%;
+    scrollbar-width: none;
+    transform: translate(-50%, -50%);
+    max-height: -webkit-fill-available;
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+}
+.window-check co {
+    margin: 0px 24px;
+    padding: 0px 0;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    opacity: .8;
+    font-weight: 600;
+}
+.window-check-div {
+    overflow: hidden;
+}
+.recole {
+    width: -webkit-fill-available;
+    margin: 8px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    margin-top: 6px;
+    cursor: pointer;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 8px;
+}
+.recole:hover {
+    background-color: #818b9809;
+}
+.recole .material-symbols-outlined {
+    transition: ease 0.3s;
+    font-size: 18px;
+    margin-left: 18px;
+}
+.recole:active .material-symbols-outlined {
+    transition: ease 0.1s;
+    margin-left: 10px;
+    transform: rotateY(30deg);
+}
+z {
+    user-select: none;
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 21px;
+    border: solid 1px #5da0ff;
+    background: #f4f8ff;
+}
+.file-item {
+    width: -webkit-fill-available;
+    margin: 8px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    margin-top: 6px;
+    cursor: pointer;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 8px;
+}
+.file-item:hover {
+    background-color: #818b9809;
+}
+.om {
+    animation: option 0.3s ease forwards;
+    top: 0;
+    z-index: 70;
+    background: white;
+    position: sticky;
+    padding-right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 1px 0px #d1d9e0;
+}
+.om button {
+    position: relative;
+    opacity: .8;
+    overflow: hidden;
+    border: none;
+    display: flex;
+    height: 34px;
+    align-items: center;
+    width: 40px;
+    justify-content: center;
+    background: #0000;
+}
+.om button span {
+    transition: ease 0.3s;
+}
+.om button:active span {
+    transition: ease 0.1s;
+    margin-left: 8px;
+    transform: rotateY(30deg);
+}
+.om button::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+.xoo {
+    display: none;
+}
+.cox {
+    animation: option 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    /*#f6f8fa7d */
+    background-color: #e0e1e27d;
+}
+.cox::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+@keyframes option {
+    0% {
+        background: #0000;
+    }
+    100% {
+        
+    }
+}
+
+/* History */
+body .History {
+    animation: option 0.3s ease forwards;
+    display: none;
+    position: absolute;
+    z-index: 80;
+    width: 100%;
+    height: 100%;
+    scrollbar-width: none;
+}
+.kold {
+    animation: rect 0.2s ease;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding: 0 16px;
+    justify-content: center;
+}
+.kold label {
+    font-family: sans-serif;
+    padding: 0 20px;
+    /* width: 80px; */
+    justify-content: center;
+    /* padding: initial; */
+    flex: none;
+    border-radius: 8px;
+    margin-right: 8px;
+    border: solid 1px #ccc;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+.kold select {
+    border: none;
+    background: #7b889a21;
+    padding: 0px 6px;
+    height: 37px;
+    border-radius: 8px;
+    outline: none;
+}
+.kold input {
+    margin: 0 8px;
+}
+.kold button {
+    transition: ease 0.2s;
+    font-family: system-ui;
+    height: 40px;
+    border-radius: 30px;
+    padding: 0 19px;
+    margin-right: 8px;
+    border: solid 1px #5da0ff;
+    background: #f4f8ff;
+    font-size: 13px;
+}
+.kold button:hover {
+    background: #e8f0ff;
+}
+#removeWatermarkButton {
+    border: #0000;
+    background-color: #0089ff;
+    color: white;
+}
+#removeWatermarkButton:hover {
+    background-color: #0079e4;
+}
+.History-div {
+    animation: rect 0.2s ease;
+    margin-top: 16px;
+    padding: 0 16px;
+    text-align: right;
+    font-size: 16px;
+}
+.History-div h3 {
+    margin-bottom: 4px;
+}
 
 
 
-    <div class="Site-ads" style="display: none;">
-        <div class="Site-ads-list">
-            <div class="Site-img"><img src="download.png" alt=""><span>Creative Cloud IT</span></div>
-            <div class="Site-ads-open">
-                <button class="wave-button showButton" data-target="popup4" id="toggleActionButton"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path d="M384 224v184a40 40 0 01-40 40H104a40 40 0 01-40-40V168a40 40 0 0140-40h167.48M336 64h112v112M224 288L440 72" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/></svg></button>
-                <span>4 more</span>
-            </div>
-        </div>
-        <div class="popup" id="contentToggleDiv" style="display: none;">
-        <div class="Site-ads-div">
-            <div class="on-open wave-button">
-                <div class="on-img">
-                    <img src="download.png" alt="">
-                    <div><span>Creative Cloud IT</span><a>نقدم تجربة فريدة لتحويل فكرتك إلى واقع رقمي مذهل . اجعلنا شريكك في رحلة الإبداع والابتكار</a></div>
-                </div>
-                <ion-icon name="trending-up-outline"></ion-icon>
-            </div>
-            <div class="on-open wave-button">
-                <div class="on-img">
-                    <img src="xx2.png" alt="">
-                    <div><span>Taibah Cart</span><a>المنتجات الجديدة، ابق على اطلاع، المنتجات الأعلى تقييمًا، احصل على الأفضل بأفضل الأسعار، عروض ضخمة، عرض الكل، منتهية الصلاحية، توصيل مجاني + استرداد نقدي بنسبة 15%.</a></div>
-                </div>
-                <ion-icon name="trending-up-outline"></ion-icon>
-            </div>
-            <div class="on-open wave-button">
-                <div class="on-img">
-                    <img src="KR.png" alt="">
-                    <div><span>Text Document</span><a>مع امكانية وضع علامة مائية PDF هية اداه تسهل لك عرض ملفات ال</a></div>
-                </div>
-                <ion-icon name="trending-up-outline"></ion-icon>
-            </div>
-            <div class="on-open wave-button nov">
-                <div class="on-img">
-                    <img src="https://github.com/Tybascript1234/Qr-1/blob/main/logo-no-background22.png?raw=true" alt="">
-                    <div><span>Quran recited</span><a>قراءة وإستماع وتنزيل نص او فيديو القرآن الكريم ومعرفة اوقات الصلاة ومسابقات دينية من الكتاب والسنة</a></div>
-                </div>
-                <ion-icon name="trending-up-outline"></ion-icon>
-            </div>
-        </div>
-        <div class="omyn">
-            <span>Text Document</span>
-            <a href="">اعلان مدفوع</a>
-        </div>
-        </div>
-        <xx></xx>
-    </div>
-</body>
-</html>
+
+
+
+
+
+
+@media screen and (max-width: 800px) {
+    body {
+        user-select: none;
+    }
+    body .dis {
+        display: none;
+    }
+    body .ooo {
+        display: block;
+        position: absolute;
+        z-index: 4;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+    body .dr {
+        display: flex;
+    }
+    body .thumbnails {
+        position: fixed;
+        z-index: 99;
+        display: none;
+        height: -webkit-fill-available;
+        scrollbar-width: none;
+        box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 18px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+        width: 254px;
+    }
+    body .pdf-preview {
+        height: auto;
+    } 
+    body .pdf-preview canvas {
+        height: auto;
+        margin: 8px 0;
+        width: -webkit-fill-available;
+    }
+    body .logo-1 {
+        margin: 0;
+        display: block;
+    }
+    body .c2 {
+        display: none;
+    }
+    .icon,body .logo-1,.thumbnail,.recole,body .copy-text-button,body .toggle-switch,body button,.dropdown-content div, label {
+        cursor: context-menu;
+    }
+    body .goo {
+        margin: 0;
+        width: max-content;
+    }
+    body .cod {
+        display: none;
+    }
+    body .dropdown-content div, label:active {
+        background-color: #818b981a;
+    }
+    @keyframes rre {
+        0% {
+            margin-left: -255px;
+            box-shadow: none;
+        }
+        100% {
+            
+        }
+    }
+    #thumbnails {
+        transition: transform 0.1s ease, opacity 0.1s ease; /* انتقال سلس */
+        will-change: transform, opacity;
+    }
+    
+    #thumbnails.hidden {
+        transform: translateX(-100%); /* إزاحة العنصر بالكامل إلى اليسار */
+        opacity: 0; /* شفافية العنصر */
+        pointer-events: none; /* تعطيل التفاعل أثناء الإخفاء */
+    }
+    .window-check {
+        width: -webkit-fill-available;
+        max-height: -webkit-fill-available;
+        height: -webkit-fill-available;
+        /* margin: 16px 16px; */
+        border-radius: 0;
+        /* box-shadow: none; */
+        top: auto;
+        left: auto;
+        /* transform: none; */
+        transform: none;
+    }
+    body .History {
+        margin: 0;
+        height: 100%;
+        top: 0;
+    }
+
+    body .page-wrapper {
+        height: auto;
+        width: -webkit-fill-available;
+        margin: 0 4px;
+    }
+    body .copy-text-button {
+        padding: 8px;
+    }
+    body .copy-text-button span {
+        font-size: 21px;
+    }
+    body .copy-text-button:hover:before {
+        margin-right: 50px;
+    }
+    body .copy-text-button::before {
+        margin-right: 30px;
+    }
+    body .xoxo {
+        width: 84px;
+        height: 84px;
+    }
+    body .progress-circle {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 50px;
+    }
+    body .xoxo img {
+        height: 46px;
+    }        
+    /* body .smole {
+        bottom: 20px;
+    } */
+    .progress-circle .percentage {
+        position: absolute;
+        font-family: cursive;
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #333;
+        margin-top: 0;
+    }
+    /* .olif:hover #fileNameDisplay {
+        animation: popup 0.3s ease forwards;
+        position: absolute;
+        width: max-content;
+        left: 84px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+        z-index: 10;
+        box-shadow: 10px 0px 10px #f6f8fa, 0px 1px 2px #ccc;
+        background: #f6f8fa;
+    } */
+    body a {
+        cursor: context-menu;
+    }
+    body .modal-content {
+        animation: sss 0.4s ease forwards;
+        top: auto;
+        bottom: 0;
+        width: 80%;
+        max-height: -webkit-fill-available;
+        margin-bottom: 40px;
+        width: -webkit-fill-available;
+        margin: 0;
+        border-radius: 16px 16px 0px 0px;
+        box-shadow: 0px -11px 13px #00000021, 0px -1px 0px #42515e0d;
+        padding-bottom: 10px;
+    }
+    body .modal-content div  {
+        margin: 10px 0;
+    }
+    body .close {
+        cursor: context-menu;
+    } 
+    body .Site-ads {
+        bottom: 0;
+        /* width: 80%; */
+        margin-bottom: 40px;
+        /* width: -webkit-fill-available; */
+        max-width: -webkit-fill-available;
+        margin: 0;
+        border-radius: 16px 16px 0px 0px;
+        /* box-shadow: 0px -11px 13px #00000021, 0px -1px 0px #42515e0d; */
+        /* padding-bottom: 60px; */
+        transform: none;
+        left: 0;
+        right: 0;
+        margin: 0 13px;
+    }
+    body .olif-input {
+        margin-left: 0;
+    }
+    body .modal-content ul {
+        max-height: 345px;
+        overflow: auto;
+        scrollbar-width: none;
+        margin-bottom: 10px;
+        box-shadow: 0px 1px 0px #e7ebee;
+        padding-bottom: 5px;
+    }
+    body .share-div-pdf {
+        animation: sss 0.4s ease forwards;
+        box-shadow: 0px -11px 13px #00000021, 0px -1px 0px #42515e0d;
+        transform: none;
+        bottom: 0;
+        top: auto;
+        left: auto;
+        padding-bottom: 40px;
+        border-radius: 16px 16px 0px 0px;
+    }
+    body .share-div2 {
+        justify-content: center;
+        margin-bottom: 40px;
+    }
+    body .uu {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 530px) {
+    body .on-open a {
+        max-width: -webkit-fill-available;
+        width: auto;
+    }
+}
+
+/* تغيير اللون في الوضع الليلي */
+@media (prefers-color-scheme: dark) {
+    body .modal-content {
+        background-color: rgb(50 54 57);
+        color: #e9e9e9;
+        box-shadow: 0px -11px 13px #00000045, 0px -1px 0px #42515e0d;
+    }
+    html body .close {
+        color: #1667e5;
+        background: #c7daff;
+    }
+    html body .modal-content ul {
+        box-shadow: 0px 1px 0px #aec3d542;
+    }
+    html body .modal-content ul hr {
+        background-color: #aec3d542;
+    }
+}
+
+@keyframes sss {
+    0% {
+        margin-bottom: -200px;
+        opacity: .0;
+    }
+    100% {
+        
+    }
+}
+
+
+/* --------------------------------------------------------------------------------------------------- */
+.toggle-switch {
+    outline: solid 1px #acacac;
+    width: 46px;
+    height: 22px;
+    background-color: #f7f7f7;
+    border-radius: 25px;
+    position: relative;
+    transition: 0.3s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .toggle-switch::before {
+    content: '';
+    padding: 7px;
+    background-color: #616161;
+    border-radius: 50%;
+    position: absolute;
+    /* top: 2.9px; */
+    left: 4px;
+    transition: 0.2s;
+    display: block;
+    box-shadow: 0px 1px 3px #00000040;
+  }
+
+.toggle-switch:hover::before {
+    transform: scale(1.1);
+}
+.toggle-switch:active::before {
+    transform: scale(1.1);
+}
+
+  .toggle-switch:active::before {
+      padding: 7px 8px;
+      border-radius: 45%;
+  }
+
+  .toggle-switch.active {
+    background-color: #3a8cf7;
+    outline-color: #ffffff00;
+  }
+
+  .toggle-switch.active::before {
+    right: 4px;
+    left: auto;
+    background-color: white;
+  }
+  #responsiveDiv {
+    display: none;
+  }
+#responsiveDiv.visible {
+    display: block; /* عرض الديف عند إضافة الكلاس */
+}
+
+.cons {
+    margin: auto;
+    font-family: system-ui;
+    margin-top: 16px;
+    display: block;
+    width: max-content;
+    text-align: center;
+    user-select: none;
+}
+
+
+.copy-text-button {
+    animation: rect 0.3s ease;
+    transition: ease 0.2s;
+    margin: 4px;
+    display: none;
+    align-items: center;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #ffffff;
+    box-shadow: 0px 1px 3px #0000001c;
+    color: #6b6b6b;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.copy-text-button:hover {
+    color: #383838;
+}
+.copy-text-button::before {
+    transition: ease 0.3s;
+    opacity: .0;
+    content: 'Copy Text';
+    position: absolute;
+    right: 0;
+    margin-right: 35px;
+    width: max-content;
+    padding: 5px 8px;
+    border-radius: 7px;
+    font-size: 12px;
+    color: white;
+    background: #000000b3;
+    box-shadow: 0px 1px 2px #676767;
+}
+.copy-text-button:hover:before {
+    opacity: 1;
+    margin-right: 57px;
+}
+.page-wrapper {
+    position: relative;
+    width: max-content;
+    height: 100%;
+    max-width: -webkit-fill-available;
+}
+
+
+
+
+/* Lang */
+body .links-Translate-search {
+    margin-right: 12px;
+    margin-left: 12px;
+}
+body .links-Translate-div {
+    animation: option 0.3s ease forwards;
+    width: auto;
+    box-shadow: none;
+    border-radius: 0;
+}
+body #translation_buttons {
+    height: -webkit-fill-available;
+    max-height: -webkit-fill-available;
+}
+body .Translate-div {
+    padding: 0 12px;
+    height: 40px;
+    border-radius: 0;
+    width: 100%;
+    margin: 0;
+}
+body .links-Translate-search {
+    padding: 8px 1px;
+}
+body .Fy0Xbe  {
+    margin-right: 10px;
+}
+body .links-Translate-search input:focus {
+    box-shadow: 0 0 0 1px #1884ff, 0 0 0 4px #f3f9ff;
+}
+
+
+
+/* تنسيق المنبثق */
+.modales {
+    user-select: none;
+    z-index: 10000;
+    animation: option 0.3s ease;
+    display: none;
+    position: fixed;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #e0e1e27d;
+}
+.modal-content strong {
+    margin-left: 6px;
+    user-select: none;
+}
+
+.modal-content {
+    font-family: Almarai;
+    animation: popup 0.3s ease forwards;
+    background-color: #fefefe;
+    margin: 40px auto;
+    padding: 20px;
+    /* border: 1px solid #888; */
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+    width: 30%;
+    max-width: 500px;
+    text-align: right;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    padding-bottom: 0px;
+    /* padding-bottom: 60px; */
+}
+
+body .close {
+    height: 36px;
+    color: #1f63cd;
+    background: #7daaff33;
+    border: none;
+    float: right;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    font-family: 'Almarai';
+    padding: 0 20px;
+    border-radius: 25px;
+    margin: 16px;
+    margin-right: 0;
+    margin-bottom: 20px;
+}
+body .modal-content .ripple {
+    background-color: #0058ff33;
+}
+
+#fileInfoText {
+    white-space: pre-line; /* للحفاظ على تنسيق الأسطر الجديدة */
+    user-select: text; /* تمكين تحديد النص */
+}
+.modal-content div {
+    direction: rtl;
+    font-family: Almarai;
+    margin: 10px 0;
+    user-select: text;
+    justify-content: right;
+    text-align: right;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    /* margin-bottom: 0; */
+}
+.modal-content div div {
+    user-select: all;
+    margin: 3px 0;
+    position: relative;
+}
+.modal-content div div::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+.modal-content ul span-x {
+    margin-right: 6px;
+}
+
+
+/* Site ads */
+.Site-ads {
+    position: fixed;
+    user-select: none;
+    /* overflow: hidden; */
+    z-index: 1000;
+    width: 580px;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%);
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -1px #25292e0a, 0px 2px 3px 0px #25292e1f;
+    background: white;
+    border-radius: 16px 16px 0px 0px;
+}
+.Site-ads::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    bottom: 0px;
+    left: -23px;
+    padding: 11px;
+    background: #ffffff00;
+    border-radius: 14px 0px 11px 0px;
+    border-right: solid 1px #e7ebee;
+    box-shadow: 14px 6px 0px #ffffff, 0px 1px 0px #ccc;
+}
+.Site-ads xx {
+    position: absolute;
+    right: -13px;
+    bottom: 0;
+    width: 13px;
+    height: 12px;
+    background-image: url(download\ \(2\).png);
+}
+.Site-ads-list {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-shadow: 0px 1px 0px #e7ebee;
+}
+.Site-img,.Site-ads-open {
+    color: rgb(95, 99, 104);
+    display: flex;
+    align-items: center;
+}
+.Site-img img {
+    height: 21px;
+    margin-right: 10px;
+}
+.Site-ads-open button {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 20px;
+    margin-right: 5px;
+    background: #0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Site-ads-open button:hover {
+    background: #818b981a;
+}
+.Site-ads-open button:focus {
+    background: #818b981a;
+}
+.Site-ads-open button svg {
+    height: 20px;
+    color: rgb(95, 99, 104);
+}
+.Site-ads-div {
+    position: relative;
+    z-index: 2;
+    overflow: auto;
+    scrollbar-width: none;
+    max-height: 300px;
+    animation: rected 0.4s ease;
+}
+@keyframes rected {
+    0% {
+        max-height: 0px;
+        /* filter: opacity(0.0); */
+    }
+    100% {
+        
+    }
+}
+.on-open {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    /* height: 58px; */
+    padding: 0 16px;
+}
+.on-open ion-icon {
+    position: absolute;
+    right: 16px;
+}
+.on-open:hover {
+    background: #818b980c;
+}
+.on-open::before {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    width: -webkit-fill-available;
+    height: 1px;
+    background: #e7ebee;
+    margin-left: 31px;
+}
+.on-open img {
+    
+}
+.on-open span {
+    display: block;
+    font-weight: 600;
+    color: #3d3d3d;
+}
+.on-open a {
+    font-size: 13px;
+    font-family: 'Almarai';
+    width: 430px;
+    display: block;
+}
+.on-img {
+    display: flex;
+    align-items: center;
+    line-height: 1.4;
+    padding: 10px 0;
+    margin-right: 16px;
+}
+.on-img img {
+    width: 21px;
+    margin-right: 11px;
+}
+body .nov::before {
+    content: '';
+    display: none;
+}
+.omyn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    font-family: 'Almarai';
+    font-size: 13px;
+    box-shadow: 0px -1px 0px #e7ebee;
+}
+.omyn a {
+    color: #0070ff;
+    font-size: 12px;
+}
+
+/* border_color */
+.border_color {
+    animation: popup 0.3s ease forwards;
+    overflow: auto;
+    text-align: left;
+    scrollbar-width: none;
+    z-index: 10;
+    display: none;
+    /* display: none; */
+    position: fixed;
+    padding: 8px 0;
+    width: 175px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+    background-color: rgb(255 255 255);
+    max-height: -webkit-fill-available;
+    top: 45px;
+    margin-bottom: 8px;
+}
+.border-div {
+    display: flex;
+    padding-right: 5px;
+    align-items: center;
+    justify-content: space-between;
+}
+.border_color_div {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 7.5px;
+    justify-content: left;
+}
+.border_color zx {
+    margin-left: 8px;
+}
+.border_color_div a {
+    transition: ease 0.3s;
+    padding: 11px;
+    margin: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.border_color_div a:hover {
+    transition: ease 0.1s;
+    transform: scale(0.90);
+}
+.border_color_div a .material-symbols-outlined {
+    position: absolute;
+    font-size: 18px;
+}
+#drawingButtons a.active {
+    box-shadow: 0 0 0 3px #93beff;
+    /* outline: 2px solid #93beff; */
+    transform: scale(0.85);
+}
+.kol {
+    padding: 5px 14px;
+}
+
+
+/* goob-div */
+#textDisplay {
+    padding: 5px 20px;
+    line-height: 2;
+    cursor: context-menu;
+    overflow-y: scroll;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    overflow-x: hidden;
+    margin-bottom: 5px;
+}
+.text-line {
+    position: relative;
+    user-select: text;
+}
+.copy-btn {
+    position: absolute;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: -57px;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 25px;
+    border: none;
+    color: #59636e;
+    background: #fffffff0;
+}
+.copy-btn span {
+    animation: rect 0.3s ease;
+}
+.copy-btn:focus {
+    background-color: #00000007;
+}
+.copy-btn::before {
+    transition: ease 0.0s;
+    position: absolute;
+    content: '';
+    width: 40%;
+    height: 40%;
+    border-radius: 50%;
+    opacity: 0;
+    display: block;
+}
+.copy-btn:active:before {
+    transition: ease 0.2s;
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+    background-color: #0000000c;
+}
+
+
+/* share-div-pdf */
+.share-div-pdf {
+    animation: popup 0.3s ease forwards;
+    user-select: none;
+    position: fixed;
+    text-align: left;
+    z-index: 1000;
+    top: 52px;
+    /* height: 120px; */
+    padding: 0 16px;
+    background-color: white;
+    border-radius: 8px;
+    left: 50%;
+    max-height: -webkit-fill-available;
+    box-shadow: 0px 0px 0px 1px #d1d9e080, 0px 6px 12px -3px #25292e0a, 0px 6px 18px 0px #25292e1f;
+    transform: translate(-50%);
+    width: 400px;
+    color: #59636e;
+    margin-top: 8px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    max-width: -webkit-fill-available;
+}
+.share-h {
+    font-size: 14px;
+    font-family: 'Almarai';
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+.share-h-text {
+    overflow: hidden;
+    display: flex;
+    flex: 1 1 0%;
+    margin-right: 30px;
+}
+.share-h-text #linkDisplay {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: -webkit-fill-available;
+}
+#fileSizeDisplay {
+    font-size: 12px;
+    opacity: .8;
+}
+.share-h-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 30px;
+    background-image: url(image/13.png);
+    background-size: cover;
+    overflow: hidden;
+}
+.share-div {
+    width: auto;
+    height: 100%;
+}
+.share-div2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 10px 0;
+    margin-top: 0;
+    height: -webkit-fill-available;
+}
+.share-div2 button {
+    position: relative;
+    text-align: center;
+    height: 100%;
+    width: 70px;
+    height: 93px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    display: grid;
+    justify-content: center;
+    padding: 10px;
+    color: #59636e;
+    background-color: #0000;
+}
+.share-div2 button:hover {
+    background-color: #59636e0c;
+}
+.share-div2 button m::before {
+    position: absolute;
+    z-index: 4;
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+.share-div2 button img {
+    height: 33px;
+    border-radius: 25%;
+    margin: 0 auto;
+    margin-bottom: 6px;
+}
+.changed-image {
+    animation: rect 0.3s ease;
+}
+body .omd {
+    padding: 0 18.9px;
+    height: 36.93px;
+    /* padding: 9px 18px; */
+    border-radius: 3px;
+    border: solid #ccc 1px;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+body .omd img {
+    position: absolute;
+    height: 28px;
+}
+.uu {
+    width: 83%;
+}
+.ccol {
+    text-align: center;
+    padding: 8px 0;
+    padding-bottom: 0;
+    top: 0;
+    position: sticky;
+    background: white;
+    z-index: 5;
+    box-shadow: 0px 6px 5px #fff;
+}
