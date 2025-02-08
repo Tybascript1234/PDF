@@ -107,10 +107,19 @@
     <div style="width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;">
     <div class="share-div-pdf">
         <div style="text-align: center;padding: 8px 0;padding-bottom: 0;"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512" style="width: 26px;height: 26px;transform: scaleX(1.9);"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 184l144 144 144-144"/></svg></div>
-        <div class="share-h">Share file</div>
+        <div class="share-h">
+            <div class="share-h-text">
+                <div class="omd"><img src="image/14.png" alt=""></div>
+                <div class="uu">
+                    <div id="linkDisplay"></div>
+                    <div id="fileSizeDisplay"></div>
+                </div> 
+            </div>
+            <div class="share-h-img"></div>
+        </div>
         <div class="share-div">
             <div class="share-div2" id="shareButtons">
-                <button class="wave-button" onclick="copyFileLink()"><m></m><img src="image/8.jpg" alt=""><div>Copy link</div></button>
+                <button class="wave-button" id="copyButton" onclick="copyFileLink()"><m></m><img src="image/8.jpg" alt=""><div>Copy link</div></button>
                 <button class="wave-button" onclick="shareFile('whatsapp')"><m></m><img src="image/1.jpg" alt=""><div>WhatsApp</div></button>
                 <button class="wave-button" onclick="shareFile('facebook')"><m></m><img src="image/2.png" alt=""><div>Facebook</div></button>
                 <button class="wave-button" onclick="shareFile('gmail')"><m></m><img src="image/3.webp" alt=""><div>Gmail</div></button>
