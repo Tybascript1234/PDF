@@ -887,8 +887,36 @@ const fileSizeDisplay = document.getElementById('fileSizeDisplay'); // عنصر 
 // تحميل ملف PDF أو صورة أو فيديو
 pdfInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
+    const pdfPreview = document.getElementById('pdfPreview');
+    const thumbnails = document.getElementById('thumbnails');
+    const pageCountDisplay = document.getElementById('pageCountDisplay');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const fileSizeDisplay = document.getElementById('fileSizeDisplay');
+    const linkDisplay = document.getElementById('linkDisplay');
+    const fileTypeIcon = document.getElementById('fileTypeIcon');
+
     if (file) {
-        fileNameDisplay.textContent = `${file.name}`;
+        const fileSize = (file.size / 1024).toFixed(2); // حجم الملف بالـ KB
+        const fileURL = URL.createObjectURL(file); // رابط الملف المؤقت
+
+        if (fileNameDisplay) fileNameDisplay.textContent = `${file.name}`;
+        if (fileSizeDisplay) fileSizeDisplay.textContent = `${fileSize} KB`;
+        if (linkDisplay) linkDisplay.textContent = fileURL;
+
+        // تحديث صورة الأيقونة بناءً على نوع الملف
+        if (fileTypeIcon) {
+            if (file.type === 'application/pdf') {
+                fileTypeIcon.src = 'image/14.png';
+            } else if (file.type.startsWith('image/')) {
+                // عرض الصورة نفسها كأيقونة
+                fileTypeIcon.src = fileURL;
+            } else if (file.type.startsWith('video/')) {
+                fileTypeIcon.src = 'image/video.png';
+            } else {
+                fileTypeIcon.src = 'image/file.png';
+            }
+        }
+
         const fileReader = new FileReader();
 
         if (file.type === 'application/pdf') {
@@ -899,9 +927,9 @@ pdfInput.addEventListener('change', (e) => {
             fileReader.readAsArrayBuffer(file);
         } else if (file.type.startsWith('image/')) {
             fileReader.onload = function() {
-                pdfPreview.innerHTML = `<img src="${this.result}" alt="Image Preview" style="max-width: 100%; height: auto;">`;
-                thumbnails.innerHTML = ''; // مسح الصور المصغرة
-                pageCountDisplay.textContent = '1 of 1'; // عرض عدد الصفحات
+                if (pdfPreview) pdfPreview.innerHTML = `<img src="${this.result}" alt="Image Preview" style="max-width: 100%; height: auto;">`;
+                if (thumbnails) thumbnails.innerHTML = ''; // مسح الصور المصغرة
+                if (pageCountDisplay) pageCountDisplay.textContent = '1 of 1'; // عرض عدد الصفحات
 
                 // إضافة الصورة إلى thumbnails داخل ديف
                 const thumbnailWrapper = document.createElement('div');
@@ -914,14 +942,14 @@ pdfInput.addEventListener('change', (e) => {
                 thumbnailImg.style.height = 'auto';
 
                 thumbnailWrapper.appendChild(thumbnailImg);
-                thumbnails.appendChild(thumbnailWrapper);
+                if (thumbnails) thumbnails.appendChild(thumbnailWrapper);
             };
             fileReader.readAsDataURL(file);
         } else if (file.type.startsWith('video/')) {
             fileReader.onload = function() {
-                pdfPreview.innerHTML = `<video controls style="width: 874px; max-width: -webkit-fill-available; height: auto;"><source src="${this.result}" type="${file.type}">Your browser does not support the video tag.</video>`;
-                thumbnails.innerHTML = ''; // مسح الصور المصغرة
-                pageCountDisplay.textContent = '1 of 1'; // عرض عدد الصفحات
+                if (pdfPreview) pdfPreview.innerHTML = `<video controls style="width: 874px; max-width: -webkit-fill-available; height: auto;"><source src="${this.result}" type="${file.type}">Your browser does not support the video tag.</video>`;
+                if (thumbnails) thumbnails.innerHTML = ''; // مسح الصور المصغرة
+                if (pageCountDisplay) pageCountDisplay.textContent = '1 of 1'; // عرض عدد الصفحات
 
                 // إضافة الفيديو إلى thumbnails داخل ديف
                 const thumbnailWrapper = document.createElement('div');
@@ -933,11 +961,11 @@ pdfInput.addEventListener('change', (e) => {
                 thumbnailVideo.style.width = '100px'; // عرض الفيديو المصغر
                 thumbnailVideo.style.height = 'auto';
                 thumbnailVideo.onclick = () => {
-                    pdfPreview.innerHTML = `<video controls style="max-width: 100%; height: auto;"><source src="${this.result}" type="${file.type}">Your browser does not support the video tag.</video>`;
+                    if (pdfPreview) pdfPreview.innerHTML = `<video controls style="max-width: 100%; height: auto;"><source src="${this.result}" type="${file.type}">Your browser does not support the video tag.</video>`;
                 };
 
                 thumbnailWrapper.appendChild(thumbnailVideo);
-                thumbnails.appendChild(thumbnailWrapper);
+                if (thumbnails) thumbnails.appendChild(thumbnailWrapper);
             };
             fileReader.readAsDataURL(file);
         } else {
@@ -946,12 +974,14 @@ pdfInput.addEventListener('change', (e) => {
     }
 });
 
+
+
 // دالة مشاركة الملف
 async function shareFile(platform) {
     const fileInput = document.getElementById('pdfInput');
 
     if (fileInput.files.length === 0) {
-        alert("يرجى اختيار ملف PDF أولاً.");
+        alert("يرجى اختيار ملف أولاً.");
         return;
     }
     
@@ -963,7 +993,7 @@ async function shareFile(platform) {
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
             try {
                 await navigator.share({
-                    title: 'مشاركة ملف PDF',
+                    title: 'مشاركة ملف',
                     text: 'تفقد هذا الملف الرائع!',
                     files: [file],
                 });
@@ -987,7 +1017,7 @@ async function shareFile(platform) {
             shareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fileURL)}`;
             break;
         case 'gmail':
-            shareURL = `mailto:?subject=Check this PDF&body=${encodeURIComponent(fileURL)}`;
+            shareURL = `mailto:?subject=Check this file&body=${encodeURIComponent(fileURL)}`;
             break;
         case 'instagram':
             alert("لا يمكن المشاركة عبر Instagram مباشرة.");
@@ -1023,6 +1053,7 @@ async function shareFile(platform) {
     
     window.open(shareURL, '_blank');
 }
+
 
 
 
