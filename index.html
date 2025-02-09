@@ -110,7 +110,7 @@
         <div class="ccol"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512" style="width: 26px;height: 26px;transform: scaleX(1.9);"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 184l144 144 144-144"/></svg></div>
         <div class="share-h">
             <div class="share-h-text">
-                <div class="omd"><img src="image/14.png" alt=""></div>
+                <div class="omd" id="fileTypeDisplay"><img id="fileTypeIcon" src="image/14.png" alt=""></div>
                 <div class="uu">
                     <div id="linkDisplay"></div>
                     <div id="fileSizeDisplay"></div>
@@ -241,8 +241,8 @@ document.addEventListener("click", function(event) {
                             <label onclick="rotatePages()" class="mmyButton dr c2"><span class="material-symbols-outlined notranslate">rotate_90_degrees_ccw</span><a>Recycle</a></label>
                             <label id="toggleCheck" class="mmyButton cod"><span id="checkIcon" class="material-symbols-outlined notranslate" style="display: none;">check</span><a>Two page view</a></label>
                             <hr>
-                            <label class="mmyButton" style="margin: 0;" onclick="shareFile()"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
-                            <!-- <label class="mmyButton openModalBtn" data-target="modal3"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label> -->
+                            <label class="mmyButton" style="margin: 0;display: none;" onclick="shareFile()"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
+                            <label class="mmyButton openModalBtn" data-target="modal3"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
                             <label class="mmyButton" id="copyTextButton"><span class="material-symbols-outlined notranslate c2">content_copy</span><o class="dr" style="background-image: url(3719119.png);"></o><a>Copy file text</a></label>
                             <label class="mmyButton" id="downloadImagesZipButton"><span class="material-symbols-outlined notranslate c2">folder_zip</span><o class="dr" style="background-image: url(12180408.png);"></o><a title="Download file pages">Download file..</a></label>
                             <hr>
