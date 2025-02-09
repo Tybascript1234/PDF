@@ -990,6 +990,9 @@ async function shareFile(platform) {
 }
 
 
+
+
+
 async function copyFileLink() {
     const fileInput = document.getElementById('pdfInput');
     if (fileInput.files.length === 0) {
@@ -1019,7 +1022,7 @@ async function copyFileLink() {
         const copyButton = document.getElementById('copyButton');
         const imgElement = copyButton.querySelector('img');
         const originalImage = imgElement.src;
-        const newImage = 'image/wwe.png';
+        const newImage = 'image/18.gif';
 
         // تحميل الصورة الجديدة قبل استبدالها
         const tempImg = new Image();
@@ -1032,7 +1035,7 @@ async function copyFileLink() {
             setTimeout(() => {
                 imgElement.src = originalImage;
                 imgElement.classList.remove('changed-image');
-            }, 1000);
+            }, 1600);
         };
     } catch (err) {
         console.error('فشل في نسخ الرابط:', err);
