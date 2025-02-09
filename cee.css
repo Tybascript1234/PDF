@@ -188,6 +188,9 @@ img {
     margin-top: 56px;
     height: -webkit-fill-available;
 }
+.pdf-preview img {
+    
+}
 .pdf-preview canvas {
 display: block;
 margin: 0px auto;
