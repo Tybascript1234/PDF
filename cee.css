@@ -1877,6 +1877,10 @@ body .nov::before {
     left: 0;
     top: 0;
 }
+.share-div2 button div {
+    white-space: nowrap;
+    margin: 0 auto;
+}
 .share-div2 button img {
     height: 33px;
     border-radius: 25%;
