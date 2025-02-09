@@ -8,26 +8,14 @@ const pageInput = document.getElementById('pageInput');
 let pdfDoc = null;
 let isFullSize = false;
 
-// تحميل ملف PDF
-pdfInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file && file.type === 'application/pdf') {
-        fileNameDisplay.textContent = `${file.name}`;
-        const fileReader = new FileReader();
-        fileReader.onload = function() {
-            const typedArray = new Uint8Array(this.result);
-            renderPDF(typedArray);
-        };
-        fileReader.readAsArrayBuffer(file);
-    }
-});
+
 
 // رسم PDF
 function renderPDF(typedArray) {
     const loadingTask = pdfjsLib.getDocument(typedArray);
     loadingTask.promise.then(pdf => {
         pdfDoc = pdf;
-        thumbnails.innerHTML = '';
+        thumbnails.innerHTML = ''; // مسح الصور المصغرة السابقة
         pdfPreview.innerHTML = ''; // مسح الصفحات السابقة
         pageCountDisplay.textContent = `Page 1 of ${pdf.numPages}`; // عرض عدد الصفحات
 
@@ -111,6 +99,7 @@ function renderPDF(typedArray) {
         console.error('Error loading PDF:', error);
     });
 }
+
 
   // الحصول على الزر الجديد
   const toggleButtons = document.getElementById('toggleButtons');
@@ -895,19 +884,65 @@ window.onclick = function (event) {
 const linkDisplay = document.getElementById('linkDisplay'); // عنصر لعرض الرابط
 const fileSizeDisplay = document.getElementById('fileSizeDisplay'); // عنصر لعرض حجم الملف
 
-// حدث عند تغيير ملف PDF
+// تحميل ملف PDF أو صورة أو فيديو
 pdfInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
-    if (file && file.type === 'application/pdf') {
-        const fileURL = URL.createObjectURL(file); // إنشاء رابط مؤقت للملف
-        linkDisplay.textContent = `${fileURL}`; // عرض رابط الملف
+    if (file) {
+        fileNameDisplay.textContent = `${file.name}`;
+        const fileReader = new FileReader();
 
-        // عرض حجم الملف
-        const fileSizeInKB = (file.size / 1024).toFixed(2); // تحويل الحجم إلى كيلوبايت
-        fileSizeDisplay.textContent = `${fileSizeInKB} KB`; // عرض حجم الملف
-    } else {
-        linkDisplay.textContent = ''; // إخفاء الرابط إذا لم يكن ملف PDF
-        fileSizeDisplay.textContent = ''; // إخفاء حجم الملف
+        if (file.type === 'application/pdf') {
+            fileReader.onload = function() {
+                const typedArray = new Uint8Array(this.result);
+                renderPDF(typedArray);
+            };
+            fileReader.readAsArrayBuffer(file);
+        } else if (file.type.startsWith('image/')) {
+            fileReader.onload = function() {
+                pdfPreview.innerHTML = `<img src="${this.result}" alt="Image Preview" style="max-width: 100%; height: auto;">`;
+                thumbnails.innerHTML = ''; // مسح الصور المصغرة
+                pageCountDisplay.textContent = '1 of 1'; // عرض عدد الصفحات
+
+                // إضافة الصورة إلى thumbnails داخل ديف
+                const thumbnailWrapper = document.createElement('div');
+                thumbnailWrapper.classList.add('thumbnail-wrapper');
+
+                const thumbnailImg = document.createElement('img');
+                thumbnailImg.src = this.result;
+                thumbnailImg.alt = "Thumbnail Image";
+                thumbnailImg.style.width = '100px'; // عرض الصورة المصغرة
+                thumbnailImg.style.height = 'auto';
+
+                thumbnailWrapper.appendChild(thumbnailImg);
+                thumbnails.appendChild(thumbnailWrapper);
+            };
+            fileReader.readAsDataURL(file);
+        } else if (file.type.startsWith('video/')) {
+            fileReader.onload = function() {
+                pdfPreview.innerHTML = `<video controls style="width: 874px; max-width: -webkit-fill-available; height: auto;"><source src="${this.result}" type="${file.type}">Your browser does not support the video tag.</video>`;
+                thumbnails.innerHTML = ''; // مسح الصور المصغرة
+                pageCountDisplay.textContent = '1 of 1'; // عرض عدد الصفحات
+
+                // إضافة الفيديو إلى thumbnails داخل ديف
+                const thumbnailWrapper = document.createElement('div');
+                thumbnailWrapper.classList.add('thumbnail-wrapper');
+
+                const thumbnailVideo = document.createElement('video');
+                thumbnailVideo.src = this.result;
+                thumbnailVideo.controls = true;
+                thumbnailVideo.style.width = '100px'; // عرض الفيديو المصغر
+                thumbnailVideo.style.height = 'auto';
+                thumbnailVideo.onclick = () => {
+                    pdfPreview.innerHTML = `<video controls style="max-width: 100%; height: auto;"><source src="${this.result}" type="${file.type}">Your browser does not support the video tag.</video>`;
+                };
+
+                thumbnailWrapper.appendChild(thumbnailVideo);
+                thumbnails.appendChild(thumbnailWrapper);
+            };
+            fileReader.readAsDataURL(file);
+        } else {
+            alert('نوع الملف غير مدعوم. يرجى تحميل PDF أو صورة أو فيديو.');
+        }
     }
 });
 
