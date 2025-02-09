@@ -1766,6 +1766,17 @@ body .nov::before {
     scrollbar-width: none;
     max-width: -webkit-fill-available;
 }
+.share-div-pdf::before {
+    position: absolute;
+    z-index: 2;
+    font-size: 12px;
+    content: 'قد لا تعمل بعض خيارات المشاركة';
+    bottom: 14px;
+    left: 50%;
+    transform: translate(-50%);
+    font-family: 'Almarai';
+    opacity: .7;
+}
 .share-h {
     font-size: 14px;
     font-family: 'Almarai';
