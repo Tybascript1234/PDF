@@ -152,7 +152,7 @@
             // إظهار الأزرار واحدة تلو الأخرى
             hopyButtons.forEach((button, index) => {
                 setTimeout(() => {
-                    button.style.display = "inline-block"; // إظهار الزر
+                    button.style.display = "grid"; // إظهار الزر
                 }, index * 200); // الفاصل الزمني بين الأزرار (500 ميلي ثانية)
             });
         });
@@ -237,8 +237,8 @@
                             <label onclick="rotatePages()" class="mmyButton dr c2"><span class="material-symbols-outlined notranslate">rotate_90_degrees_ccw</span><a>Recycle</a></label>
                             <label id="toggleCheck" class="mmyButton cod"><span id="checkIcon" class="material-symbols-outlined notranslate" style="display: none;">check</span><a>Two page view</a></label>
                             <hr>
-                            <label class="mmyButton c2"  style="margin: 0;" onclick="shareFile()"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
-                            <label class="mmyButton dr openModalBtn" data-target="modal3"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
+                            <label class="mmyButton" style="margin: 0;display: none;" onclick="shareFile()"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
+                            <label class="mmyButton openModalBtn" data-target="modal3"><span class="material-symbols-outlined notranslate c2">share</span><o class="dr" style="background-image: url(10904481.png);"></o><a>Share file</a></label>
                             <label class="mmyButton" id="copyTextButton"><span class="material-symbols-outlined notranslate c2">content_copy</span><o class="dr" style="background-image: url(3719119.png);"></o><a>Copy file text</a></label>
                             <label class="mmyButton" id="downloadImagesZipButton"><span class="material-symbols-outlined notranslate c2">folder_zip</span><o class="dr" style="background-image: url(12180408.png);"></o><a title="Download file pages">Download file..</a></label>
                             <hr>
