@@ -1225,6 +1225,10 @@ body .History {
     body .share-div2 button:hover {
         background-color: #ffffff0c;
     }
+    body .share-div-pdf::before {
+        background: rgb(50 54 57);
+        box-shadow: 0px -12px 7px rgb(50 54 57);
+    }
 }
 
 @keyframes sss {
@@ -1776,17 +1780,27 @@ body .nov::before {
     overflow-y: auto;
     scrollbar-width: none;
     max-width: -webkit-fill-available;
+    padding-bottom: 36px;
 }
 .share-div-pdf::before {
-    position: absolute;
+    position: fixed;
     z-index: 2;
     font-size: 12px;
     content: 'قد لا تعمل بعض خيارات المشاركة';
-    bottom: 14px;
+    padding-bottom: 14px;
+    bottom: 0;
     left: 50%;
     transform: translate(-50%);
     font-family: 'Almarai';
-    opacity: .7;
+    /* opacity: .7; */
+    background: #fff;
+    color: #a7adb2;
+    padding-top: 4px;
+    width: 390px;
+    margin: 0 0px;
+    text-align: center;
+    max-width: 100%;
+    box-shadow: 0px -12px 7px #fff;
 }
 .share-h {
     font-size: 14px;
@@ -1796,7 +1810,7 @@ body .nov::before {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    margin-bottom: 16px;
+    padding-bottom: 23px;
     line-height: 1.4;
 }
 .share-h-text {
