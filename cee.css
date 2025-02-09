@@ -21,6 +21,10 @@ body {
     }
 }
 
+button {
+    outline-color: #1667e5;
+}
+
 
 /* wendow */
 
@@ -1192,6 +1196,24 @@ body .History {
     html body .modal-content ul hr {
         background-color: #aec3d542;
     }
+    html body .omd {
+        border: solid #636363 1px;
+        background: #ffffff14;
+    }
+    body .ccol {
+        background: rgb(50 54 57);
+        box-shadow: 0px 6px 5px rgb(50 54 57);
+    }
+    body .share-div-pdf {
+        background-color: rgb(50 54 57);
+        color: #ebebeb;
+    }
+    body .share-div2 button {
+        color: #ebebeb;
+    }
+    body .share-div2 button:hover {
+        background-color: #ffffff0c;
+    }
 }
 
 @keyframes sss {
@@ -1834,7 +1856,7 @@ body .omd {
     /* padding: 9px 18px; */
     border-radius: 3px;
     border: solid #ccc 1px;
-    margin-right: 5px;
+    margin-right: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
