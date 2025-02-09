@@ -978,10 +978,17 @@ async function shareFile(platform) {
         case 'pinterest':
             alert("لا يمكن المشاركة عبر Pinterest مباشرة.");
             return;
+        case 'chrome':
+            window.open(fileURL, '_blank');
+            return;
+        case 'edge':
+            window.open(`microsoft-edge:${fileURL}`, '_blank');
+            return;
     }
     
     window.open(shareURL, '_blank');
 }
+
 
 async function copyFileLink() {
     const fileInput = document.getElementById('pdfInput');
