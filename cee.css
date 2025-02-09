@@ -21,8 +21,13 @@ body {
     }
 }
 
-button {
+button,a,label {
     outline-color: #1667e5;
+}
+
+img {
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 
