@@ -140,16 +140,20 @@
     </div>
     </div>
     <script>
- // تحديد العناصر
- const toggleButton = document.getElementById("toggleButton");
+  // تحديد العناصر
+  const toggleButton = document.getElementById("toggleButton");
         const hopyButtons = document.querySelectorAll(".hopy");
         const cocoDiv = document.querySelector(".coco");
 
         // عند النقر على زر toggleButton
         toggleButton.addEventListener("click", function() {
             toggleButton.style.display = "none"; // إخفاء الزر
-            hopyButtons.forEach(button => {
-                button.style.display = "inline-block"; // إظهار الأزرار
+            
+            // إظهار الأزرار واحدة تلو الأخرى
+            hopyButtons.forEach((button, index) => {
+                setTimeout(() => {
+                    button.style.display = "inline-block"; // إظهار الزر
+                }, index * 250); // الفاصل الزمني بين الأزرار (500 ميلي ثانية)
             });
         });
 
