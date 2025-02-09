@@ -104,6 +104,7 @@
     <!-- ------------------------------- -->
 
     <div id="modal3" class="cox xoo">
+    <div class="coco">
     <div style="width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;">
     <div class="share-div-pdf">
         <div class="ccol"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512" style="width: 26px;height: 26px;transform: scaleX(1.9);"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 184l144 144 144-144"/></svg></div>
@@ -119,23 +120,50 @@
         </div>
         <div class="share-div">
             <div class="share-div2" id="shareButtons">
+                <button class="wave-button" id="toggleButton"><m></m><img src="image/17.png" alt=""><div>More</div></button>
                 <button class="wave-button" id="copyButton" onclick="copyFileLink()"><m></m><img src="image/8.jpg" alt=""><div>Copy link</div></button>
                 <button class="wave-button" onclick="shareFile('chrome')"><m></m><img src="image/15.png" alt=""><div>Chrome</div></button>
                 <button class="wave-button" onclick="shareFile('edge')"><m></m><img src="image/16.png" alt=""><div>Edge</div></button>
                 <button class="wave-button" onclick="shareFile('whatsapp')"><m></m><img src="image/1.jpg" alt=""><div>WhatsApp</div></button>
-                <button class="wave-button" onclick="shareFile('facebook')"><m></m><img src="image/2.png" alt=""><div>Facebook</div></button>
-                <button class="wave-button" onclick="shareFile('gmail')"><m></m><img src="image/3.webp" alt=""><div>Gmail</div></button>
-                <button class="wave-button" onclick="shareFile('instagram')"><m></m><img src="image/4.png" alt=""><div>Instagram</div></button>
-                <button class="wave-button" onclick="shareFile('twitter')"><m></m><img src="image/5.png" alt=""><div>Twitter</div></button>
-                <button class="wave-button" onclick="shareFile('tiktok')"><m></m><img src="image/6.webp" alt=""><div>TikTok</div></button>
-                <button class="wave-button" onclick="shareFile('telegram')"><m></m><img src="image/7.webp" alt=""><div>Telegram</div></button>
-                <button class="wave-button" onclick="shareFile('kakaotalk')"><m></m><img src="image/9.svg" alt=""><div>KakaoTalk</div></button>
-                <button class="wave-button" onclick="shareFile('reddit')"><m></m><img src="image/10.webp" alt=""><div>Reddit</div></button>
-                <button class="wave-button" onclick="shareFile('vk')"><m></m><img src="image/11.png" alt=""><div>VK</div></button>
-                <button class="wave-button" onclick="shareFile('pinterest')"><m></m><img src="image/12.webp" alt=""><div>Pinterest</div></button>
+                <button class="wave-button hopy" onclick="shareFile('facebook')"><m></m><img src="image/2.png" alt=""><div>Facebook</div></button>
+                <button class="wave-button hopy" onclick="shareFile('gmail')"><m></m><img src="image/3.webp" alt=""><div>Gmail</div></button>
+                <button class="wave-button hopy" onclick="shareFile('instagram')"><m></m><img src="image/4.png" alt=""><div>Instagram</div></button>
+                <button class="wave-button hopy" onclick="shareFile('twitter')"><m></m><img src="image/5.png" alt=""><div>Twitter</div></button>
+                <button class="wave-button hopy" onclick="shareFile('tiktok')"><m></m><img src="image/6.webp" alt=""><div>TikTok</div></button>
+                <button class="wave-button hopy" onclick="shareFile('telegram')"><m></m><img src="image/7.webp" alt=""><div>Telegram</div></button>
+                <button class="wave-button hopy" onclick="shareFile('kakaotalk')"><m></m><img src="image/9.svg" alt=""><div>KakaoTalk</div></button>
+                <button class="wave-button hopy" onclick="shareFile('reddit')"><m></m><img src="image/10.webp" alt=""><div>Reddit</div></button>
+                <button class="wave-button hopy" onclick="shareFile('vk')"><m></m><img src="image/11.png" alt=""><div>VK</div></button>
+                <button class="wave-button hopy" onclick="shareFile('pinterest')"><m></m><img src="image/12.webp" alt=""><div>Pinterest</div></button>
             </div>
         </div>
     </div>
+    </div>
+    <script>
+ // تحديد العناصر
+ const toggleButton = document.getElementById("toggleButton");
+        const hopyButtons = document.querySelectorAll(".hopy");
+        const cocoDiv = document.querySelector(".coco");
+
+        // عند النقر على زر toggleButton
+        toggleButton.addEventListener("click", function() {
+            toggleButton.style.display = "none"; // إخفاء الزر
+            hopyButtons.forEach(button => {
+                button.style.display = "inline-block"; // إظهار الأزرار
+            });
+        });
+
+        // عند النقر على أي مكان في المستند
+        document.addEventListener("click", function(event) {
+            // التحقق إذا كان النقر خارج ديف coco
+            if (!cocoDiv.contains(event.target) && toggleButton.style.display === "none") {
+                toggleButton.style.display = "inline-block"; // إظهار الزر مرة أخرى
+                hopyButtons.forEach(button => {
+                    button.style.display = "none"; // إخفاء الأزرار
+                });
+            }
+        });
+    </script>
     </div>
 </div>
 
