@@ -1013,41 +1013,44 @@ async function shareFile(platform) {
         case 'whatsapp':
             shareURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(fileURL)}`;
             break;
-        case 'facebook':
-            shareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fileURL)}`;
+        case 'linkedin':
+            shareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(fileURL)}`;
             break;
         case 'gmail':
             shareURL = `mailto:?subject=Check this file&body=${encodeURIComponent(fileURL)}`;
             break;
-        case 'instagram':
-            alert("لا يمكن المشاركة عبر Instagram مباشرة.");
-            return;
+        case 'tumblr':
+            shareURL = `https://www.tumblr.com/share/link?url=${encodeURIComponent(fileURL)}`;
+            break;
         case 'twitter':
             shareURL = `https://twitter.com/intent/tweet?url=${encodeURIComponent(fileURL)}`;
             break;
-        case 'tiktok':
-            alert("لا يمكن المشاركة عبر TikTok مباشرة.");
-            return;
+        case 'slack':
+            shareURL = `https://slack.com/intl/en-gb/share?url=${encodeURIComponent(fileURL)}`;
+            break;
         case 'telegram':
             shareURL = `https://t.me/share/url?url=${encodeURIComponent(fileURL)}`;
             break;
-        case 'kakaotalk':
-            alert("لا يمكن المشاركة عبر KakaoTalk مباشرة.");
-            return;
+        case 'messenger':
+            shareURL = `https://www.messenger.com/t/?link=${encodeURIComponent(fileURL)}`;
+            break;
         case 'reddit':
             shareURL = `https://www.reddit.com/submit?url=${encodeURIComponent(fileURL)}`;
             break;
         case 'vk':
             shareURL = `https://vk.com/share.php?url=${encodeURIComponent(fileURL)}`;
             break;
-        case 'pinterest':
-            alert("لا يمكن المشاركة عبر Pinterest مباشرة.");
-            return;
+        case 'skype':
+            shareURL = `https://web.skype.com/share?url=${encodeURIComponent(fileURL)}`;
+            break;
         case 'chrome':
             window.open(fileURL, '_blank');
             return;
         case 'edge':
             window.open(`microsoft-edge:${fileURL}`, '_blank');
+            return;
+         case 'firefox':
+            window.open(`https://firefox.mozilla.org/share?url=${encodeURIComponent(fileURL)}`, '_blank');
             return;
     }
     
