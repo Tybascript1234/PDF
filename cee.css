@@ -1192,7 +1192,7 @@ body .History {
     body .share-div {
         width: auto;
         height: 100%;
-        max-height: 380px;
+        max-height: 350px;
         overflow: auto;
     }
     body .uu {
