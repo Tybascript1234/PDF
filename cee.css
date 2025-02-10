@@ -1852,6 +1852,7 @@ body .nov::before {
 .share-div {
     width: auto;
     height: 100%;
+    overflow: hidden;
 }
 .share-div2 {
     display: flex;
