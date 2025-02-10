@@ -1282,12 +1282,12 @@ body .History {
     body .jokar-link input::placeholder {
         color: rgb(169 207 255);
     }
-    /* body .cox {
+    body .cox {
         background-color: #42505e7d;
     }
     body .modales {
         background-color: #42505e7d;
-    } */
+    }
     body .share-h-text #linkDisplay a {
         color: #ebebeb;
     }
