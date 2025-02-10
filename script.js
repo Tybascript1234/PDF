@@ -9,6 +9,72 @@ let pdfDoc = null;
 let isFullSize = false;
 
 
+// دالة تحميل رابط الصورة أو الفيديو
+const urlInput = document.getElementById('urlInput');
+const loadUrlButton = document.getElementById('loadUrlButton');
+const fileTypeIcon = document.getElementById('fileTypeIcon'); // عنصر لعرض أيقونة النوع
+
+loadUrlButton.addEventListener('click', () => {
+    const url = urlInput.value.trim();
+    if (!url) {
+        alert('يرجى إدخال رابط.');
+        return;
+    }
+
+    if (url.match(/\.(jpeg|jpg|gif|png)$/)) {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+            pdfPreview.innerHTML = `<img src="${url}" alt="Image Preview">`;
+            thumbnails.innerHTML = `<div class="thumbnail-wrapper"><img src="${url}" alt="Thumbnail"></div>`;
+            linkDisplay.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+            fileSizeDisplay.textContent = `أبعاد الصورة: ${img.width} × ${img.height} بكسل`;
+
+            // تحديث الأيقونة
+            if (fileTypeIcon) {
+                fileTypeIcon.src = url; // عرض الصورة نفسها كأيقونة
+            }
+        };
+    } else if (url.match(/\.(mp4|webm|ogg)$/)) {
+        const video = document.createElement('video');
+        video.src = url;
+        video.onloadedmetadata = () => {
+            pdfPreview.innerHTML = `<video controls><source src="${url}" type="video/mp4">Your browser does not support the video tag.</video>`;
+            thumbnails.innerHTML = `<div class="thumbnail-wrapper"><video controls style="width: 100px; height: auto;"><source src="${url}" type="video/mp4"></video></div>`;
+            linkDisplay.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+            fileSizeDisplay.textContent = `أبعاد الفيديو: ${video.videoWidth} × ${video.videoHeight} بكسل`;
+
+            // الحصول على حجم الفيديو من السيرفر
+            fetch(url, { method: 'HEAD' }).then(response => {
+                const size = response.headers.get('content-length');
+                if (size) {
+                    fileSizeDisplay.textContent += ` | الحجم: ${(size / 1024 / 1024).toFixed(2)} MB`;
+                }
+            });
+
+            // تحديث الأيقونة للفيديو
+            if (fileTypeIcon) {
+                fileTypeIcon.src = 'image/video.png'; // أيقونة الفيديو
+            }
+        };
+    } else if (url.includes('youtube.com/watch?v=') || url.includes('youtu.be/')) {
+        const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
+        const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        pdfPreview.innerHTML = `<iframe width="560" height="315" src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        thumbnails.innerHTML = `<div class="thumbnail-wrapper"><iframe width="100" height="auto" src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+        linkDisplay.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+        fileSizeDisplay.textContent = `المصدر: YouTube (غير متاح الحجم والأبعاد)`;
+
+        // تحديث الأيقونة لفيديو YouTube
+        if (fileTypeIcon) {
+            fileTypeIcon.src = 'image/video.png'; // أيقونة الفيديو
+        }
+    } else {
+        alert('يرجى إدخال رابط صورة أو فيديو صحيح.');
+    }
+});
+
+
 
 // رسم PDF
 function renderPDF(typedArray) {
@@ -978,24 +1044,28 @@ pdfInput.addEventListener('change', (e) => {
 
 // دالة مشاركة الملف
 async function shareFile(platform) {
+    const urlInput = document.getElementById('urlInput');
     const fileInput = document.getElementById('pdfInput');
+    let fileURL = '';
 
-    if (fileInput.files.length === 0) {
-        alert("يرجى اختيار ملف أولاً.");
+    if (fileInput && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        fileURL = URL.createObjectURL(file); // إنشاء رابط مؤقت للملف
+    } else if (urlInput && urlInput.value) {
+        fileURL = urlInput.value.trim(); // استخدام رابط الصورة أو الفيديو
+    } else {
+        alert("يرجى إدخال رابط أو اختيار ملف.");
         return;
     }
-    
-    const file = fileInput.files[0];
-    const fileURL = URL.createObjectURL(file); // إنشاء رابط مؤقت للملف
 
     // إذا لم يتم تحديد منصة، استخدم واجهة المشاركة
     if (!platform) {
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        if (navigator.canShare && navigator.canShare({ files: [fileInput.files[0]] })) {
             try {
                 await navigator.share({
                     title: 'مشاركة ملف',
                     text: 'تفقد هذا الملف الرائع!',
-                    files: [file],
+                    files: [fileInput.files[0]],
                 });
                 alert('تمت مشاركة الملف بنجاح!');
             } catch (error) {
@@ -1049,11 +1119,14 @@ async function shareFile(platform) {
         case 'edge':
             window.open(`microsoft-edge:${fileURL}`, '_blank');
             return;
-         case 'firefox':
+        case 'firefox':
             window.open(`https://firefox.mozilla.org/share?url=${encodeURIComponent(fileURL)}`, '_blank');
             return;
+        default:
+            alert('منصة المشاركة غير مدعومة');
+            return;
     }
-    
+
     window.open(shareURL, '_blank');
 }
 
@@ -1062,15 +1135,24 @@ async function shareFile(platform) {
 
 
 
+// دالة نسخ رابط الملف
 async function copyFileLink() {
     const fileInput = document.getElementById('pdfInput');
-    if (fileInput.files.length === 0) {
-        alert("يرجى اختيار ملف PDF أولاً.");
+    const urlInput = document.getElementById('urlInput'); // إدخال الرابط للصور والفيديوهات
+    let fileURL = "";
+
+    // إذا تم اختيار ملف PDF
+    if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        fileURL = URL.createObjectURL(file);
+    } 
+    // إذا تم إدخال رابط صورة أو فيديو
+    else if (urlInput.value.trim()) {
+        fileURL = urlInput.value.trim();
+    } else {
+        alert("يرجى اختيار ملف PDF أو إدخال رابط صورة/فيديو.");
         return;
     }
-
-    const file = fileInput.files[0];
-    const fileURL = URL.createObjectURL(file);
 
     try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1087,7 +1169,7 @@ async function copyFileLink() {
 
         alert('تم نسخ رابط الملف إلى الحافظة!');
 
-        // تغيير الصورة
+        // تغيير الصورة عند النسخ
         const copyButton = document.getElementById('copyButton');
         const imgElement = copyButton.querySelector('img');
         const originalImage = imgElement.src;
@@ -1111,7 +1193,9 @@ async function copyFileLink() {
         alert('فشل في نسخ الرابط!');
     } finally {
         // تنظيف URL لمنع تسرب الذاكرة
-        setTimeout(() => URL.revokeObjectURL(fileURL), 5000);
+        if (fileInput.files.length > 0) {
+            setTimeout(() => URL.revokeObjectURL(fileURL), 5000);
+        }
     }
 }
 
