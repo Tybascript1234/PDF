@@ -1264,6 +1264,33 @@ body .History {
         background: rgb(50 54 57);
         box-shadow: 0px -12px 7px rgb(50 54 57);
     }
+    body .jokar-uplod label {
+        background: #5169874a;
+        color: rgb(169 207 255);
+        border: solid 1px rgb(218 220 224 / 7%);
+    }
+    body .jokar-link input {
+        background: #5169874a;
+        color: rgb(169 207 255);
+        border: solid 1px rgb(218 220 224 / 7%);
+    }
+    body .jokar-link button {
+        background: #5169874a;
+        color: rgb(169 207 255);
+        border: solid 1px rgb(218 220 224 / 7%);
+    }
+    body .jokar-link input::placeholder {
+        color: rgb(169 207 255);
+    }
+    /* body .cox {
+        background-color: #42505e7d;
+    }
+    body .modales {
+        background-color: #42505e7d;
+    } */
+    body .share-h-text #linkDisplay a {
+        color: #ebebeb;
+    }
 }
 
 @keyframes sss {
