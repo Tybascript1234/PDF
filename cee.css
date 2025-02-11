@@ -1282,7 +1282,7 @@ body .History {
     body .jokar-link input::placeholder {
         color: rgb(169 207 255);
     }
-/*     body .cox {
+    /* body .cox {
         background-color: #42505e7d;
     }
     body .modales {
@@ -2006,24 +2006,36 @@ body .jokar {
 }
 .jokar-uplod label {
     padding: 0px 24px;
-    border: solid 1px rgb(218, 220, 224);
     border-radius: 22px;
     /* margin-left: 8px; */
-    background: white;
     margin-top: 16px;
-    height: 40px;
+    height: 166px;
     display: flex;
     justify-content: center;
     color: rgb(26, 115, 232);
+    background: rgb(248, 249, 250);
+    border: 1px dashed #c0c0c0;
 }
-.jokar-uplod label:hover {
+/* .jokar-uplod label:hover {
     background-color: rgb(25 103 210 / 8%);
 }
 .jokar-uplod label:active {
     background-color: rgb(25 103 210 / 14%);
+} */
+.jokar-uplod label div {
+    display: flex;
+    align-items: center;
+}
+.jokar-uplod label div ks {
+    background-image: url(image/2716054.png);
+    background-size: cover;
+    margin-right: 10px;
+    display: block;
+    width: 40px;
+    height: 33px;
 }
 .jokar-link {
-    margin-top: 16px;
+    margin-top: 10px;
     display: flex;
 }
 .jokar-link button {
@@ -2050,11 +2062,61 @@ body .jokar {
     border-radius: 25px;
     outline: none;
     color: rgb(60,64,67);
+    transition: ease 0.2s;
     border: solid 1px rgb(218,220,224);
 }
 .jokar-link input:hover {
     border: solid 1px rgb(67, 70, 77);
 }
 .jokar-link input:focus {
-    border: solid 1px rgb(25,103,210);
+    box-shadow: 0 0 0 1px #1884ff, 0 0 0 5px #e5f2ff;
+    border: solid 1px rgb(25 103 210 / 0%);
+}
+.jokar-uplod {
+    margin-bottom: 10px;
+}
+.onlye {
+    height: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px 20px;
+    background: #dadce094;
+}
+.onlye span {
+    background-color: white;
+    padding: 0 8px;
+    color: #59636e;
+}
+.lokay {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+}
+.lokay .closeModalBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: -8px;
+    color: #59636e;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 20px;
+    font-size: 20px;
+    background-color: #0000;
+}
+.lokay .closeModalBtn:hover {
+    background-color: #59636e0a;
+}
+.lokay .closeModalBtn:active {
+    background-color: #59636e21;
+}
+.lokay .closeModalBtn span {
+    font-size: 20px;
 }
