@@ -483,28 +483,61 @@ document.addEventListener("click", function(event) {
     </div>
 
     <script>
-          const loaderContainer = document.getElementById('loader-container');
-  const circle = document.querySelector('.circle');
-  const percentage = document.querySelector('.percentage');
+ document.addEventListener("DOMContentLoaded", () => {
+            const loaderContainer = document.getElementById('loader-container');
+            const circle = document.querySelector('.circle');
+            const percentage = document.querySelector('.percentage');
 
-  let progress = 0;
+            let loadedResources = 0;
+            let totalResources = 0;
 
-  function updateProgress() {
-    if (progress <= 100) {
-      circle.style.setProperty('--progress', `${progress}%`);
-      percentage.textContent = `${progress}%`;
-      progress++;
-      setTimeout(updateProgress, 30); // Adjust the speed here
-    } else {
-      loaderContainer.classList.add('hidden');
-    }
-  }
+            function updateProgress() {
+                let progress = Math.min((loadedResources / totalResources) * 100, 100);
+                circle.style.setProperty('--progress', `${progress}%`);
+                percentage.textContent = `${Math.round(progress)}%`;
 
-  window.addEventListener('load', () => {
-    // Start updating the progress only after all content is loaded
-    progress = 0;
-    updateProgress();
-  });
+                if (progress >= 100) {
+                    setTimeout(() => {
+                        loaderContainer.classList.add('hidden');
+                    }, 500); // تأخير بسيط لجمالية الإخفاء
+                }
+            }
+
+            function trackResourceLoading(resources) {
+                totalResources += resources.length;
+
+                for (let res of resources) {
+                    if (res.complete || res.readyState === "complete") {
+                        loadedResources++;
+                    } else {
+                        res.addEventListener('load', () => { loadedResources++; updateProgress(); });
+                        res.addEventListener('error', () => { loadedResources++; updateProgress(); });
+                    }
+                }
+            }
+
+            function checkResources() {
+                trackResourceLoading(document.images); // تتبع تحميل الصور
+                trackResourceLoading(document.scripts); // تتبع تحميل السكريبتات
+                trackResourceLoading(document.styleSheets); // تتبع تحميل ملفات CSS
+
+                // تتبع تحميل الفيديوهات
+                const videos = document.querySelectorAll("video, iframe");
+                totalResources += videos.length;
+                videos.forEach(video => {
+                    if (video.readyState >= 3) { // إذا تم تحميل الفيديو
+                        loadedResources++;
+                    } else {
+                        video.addEventListener("loadeddata", () => { loadedResources++; updateProgress(); });
+                        video.addEventListener("error", () => { loadedResources++; updateProgress(); });
+                    }
+                });
+
+                updateProgress(); // تحديث التقدم الأولي
+            }
+
+            window.addEventListener('load', checkResources);
+        });
     </script>
 
 
