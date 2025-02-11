@@ -483,63 +483,28 @@ document.addEventListener("click", function(event) {
     </div>
 
     <script>
-const loaderContainer = document.getElementById('loader-container');
-const circle = document.querySelector('.circle');
-const percentage = document.querySelector('.percentage');
+  const loaderContainer = document.getElementById('loader-container');
+  const circle = document.querySelector('.circle');
+  const percentage = document.querySelector('.percentage');
 
-let progress = 0;
-let estimatedTime = 5000; // تقدير زمني افتراضي 5 ثوانٍ (يمكن تعديله)
+  let progress = 0;
 
-function updateProgress() {
-  if (progress < 100) {
-    circle.style.setProperty('--progress', `${progress}%`);
-    percentage.textContent = `${progress}%`;
-
-    // حساب المدة الزمنية ديناميكياً حسب سرعة التقدم
-    let speed = Math.max(10, estimatedTime / 100); // ضمان أن السرعة ليست بطيئة جداً
-
-    progress++;
-    setTimeout(updateProgress, speed);
-  } else {
-    loaderContainer.classList.add('hidden');
-  }
-}
-
-// حساب سرعة التحميل الفعلية من أداء المتصفح
-function calculateLoadingSpeed() {
-  const resources = window.performance.getEntriesByType('resource');
-  let totalTime = 0;
-  let loadedResources = 0;
-
-  resources.forEach((resource) => {
-    if (resource.responseEnd > 0) {
-      totalTime += resource.responseEnd - resource.startTime;
-      loadedResources++;
+  function updateProgress() {
+    if (progress <= 100) {
+      circle.style.setProperty('--progress', ${progress}%);
+      percentage.textContent = ${progress}%;
+      progress++;
+      setTimeout(updateProgress, 25); // Adjust the speed here
+    } else {
+      loaderContainer.classList.add('hidden');
     }
+  }
+
+  window.addEventListener('load', () => {
+    // Start updating the progress only after all content is loaded
+    progress = 0;
+    updateProgress();
   });
-
-  if (loadedResources > 0) {
-    estimatedTime = (totalTime / loadedResources) * 2; // جعل الوقت أكثر واقعية
-  }
-}
-
-// متابعة التقدم أثناء التحميل
-function monitorLoading() {
-  let resourcesLoaded = document.readyState === "complete";
-  
-  if (!resourcesLoaded) {
-    calculateLoadingSpeed();
-    setTimeout(monitorLoading, 500);
-  } else {
-    progress = 100; // إنهاء التحميل
-  }
-}
-
-window.addEventListener('load', () => {
-  progress = 0;
-  monitorLoading();
-  updateProgress();
-});
     </script>
 
 
