@@ -62,9 +62,11 @@
         <div id="modal4" class="cox xoo">
             <div style="width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;">
                 <div class="share-div-pdf jokar">
+                    <div class="lokay"><span>Image Video File</span><button class="closeModalBtn"><span class="material-symbols-outlined"> close </span></button></div>
                     <div class="jokar-uplod">
-                        <label for="pdfInput" class="wave-button">Upload from device</label>
+                        <label for="pdfInput" class="wave-button"><div><ks></ks><span>Upload from device</span></div></label>
                     </div>
+                    <div class="onlye"><span>Or</span></div>
                     <div class="jokar-link">
                         <input type="text" id="urlInput" placeholder="Enter the link">
                         <button class="wave-button" id="loadUrlButton">Open</button>
@@ -344,7 +346,7 @@ document.addEventListener("click", function(event) {
         <div class="thumbnails" id="thumbnails">
             
         </div>
-        <div id="pdfPreview" class="pdf-preview hidden"></div>
+            <div id="pdfPreview" class="pdf-preview hidden"></div>
         
         <div class="pdfPreview notranslate" id="popupDiv">
             <fo>جديد</fo>
@@ -494,7 +496,7 @@ const loaderContainer = document.getElementById('loader-container');
       circle.style.setProperty('--progress', `${progress}%`);
       percentage.textContent = `${progress}%`;
       progress++;
-      setTimeout(updateProgress, 30); // Adjust the speed here
+      setTimeout(updateProgress, 10); // Adjust the speed here
     } else {
       loaderContainer.classList.add('hidden');
     }
