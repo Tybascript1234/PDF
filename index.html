@@ -483,46 +483,55 @@ document.addEventListener("click", function(event) {
     </div>
 
     <script>
- const loaderContainer = document.getElementById('loader-container');
+const loaderContainer = document.getElementById('loader-container');
 const circle = document.querySelector('.circle');
 const percentage = document.querySelector('.percentage');
 
 let progress = 0;
+let estimatedTime = 5000; // تقدير زمني افتراضي 5 ثوانٍ (يمكن تعديله)
 
 function updateProgress() {
-  if (progress <= 100) {
+  if (progress < 100) {
     circle.style.setProperty('--progress', `${progress}%`);
     percentage.textContent = `${progress}%`;
+
+    // حساب المدة الزمنية ديناميكياً حسب سرعة التقدم
+    let speed = Math.max(10, estimatedTime / 100); // ضمان أن السرعة ليست بطيئة جداً
+
     progress++;
-    setTimeout(updateProgress, 30); // Adjust the speed here
+    setTimeout(updateProgress, speed);
   } else {
     loaderContainer.classList.add('hidden');
   }
 }
 
-// Function to calculate the percentage of resources loaded
-function calculateLoadingProgress() {
+// حساب سرعة التحميل الفعلية من أداء المتصفح
+function calculateLoadingSpeed() {
   const resources = window.performance.getEntriesByType('resource');
+  let totalTime = 0;
   let loadedResources = 0;
-  let totalResources = resources.length;
 
   resources.forEach((resource) => {
     if (resource.responseEnd > 0) {
+      totalTime += resource.responseEnd - resource.startTime;
       loadedResources++;
     }
   });
 
-  return (loadedResources / totalResources) * 100;
+  if (loadedResources > 0) {
+    estimatedTime = (totalTime / loadedResources) * 2; // جعل الوقت أكثر واقعية
+  }
 }
 
+// متابعة التقدم أثناء التحميل
 function monitorLoading() {
-  let loadingProgress = calculateLoadingProgress();
+  let resourcesLoaded = document.readyState === "complete";
   
-  if (loadingProgress < 100) {
-    progress = Math.floor(loadingProgress);
-    setTimeout(monitorLoading, 100);
+  if (!resourcesLoaded) {
+    calculateLoadingSpeed();
+    setTimeout(monitorLoading, 500);
   } else {
-    progress = 100;
+    progress = 100; // إنهاء التحميل
   }
 }
 
