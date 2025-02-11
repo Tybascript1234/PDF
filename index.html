@@ -484,48 +484,53 @@ document.addEventListener("click", function(event) {
 
     <script>
  const loaderContainer = document.getElementById('loader-container');
-        const percentageText = document.querySelector('.percentage');
+const circle = document.querySelector('.circle');
+const percentage = document.querySelector('.percentage');
 
-        let totalSize = 0;
-        let loadedSize = 0;
+let progress = 0;
 
-        function updateProgress() {
-            let progress = (loadedSize / totalSize) * 100;
-            percentageText.textContent = `${Math.min(progress, 100).toFixed(0)}%`;
-            
-            if (progress >= 100) {
-                setTimeout(() => {
-                    loaderContainer.classList.add('hidden');
-                }, 500);
-            }
-        }
+function updateProgress() {
+  if (progress <= 100) {
+    circle.style.setProperty('--progress', `${progress}%`);
+    percentage.textContent = `${progress}%`;
+    progress++;
+    setTimeout(updateProgress, 30); // Adjust the speed here
+  } else {
+    loaderContainer.classList.add('hidden');
+  }
+}
 
-        function calculateTotalSize() {
-            const resources = performance.getEntriesByType("resource");
-            totalSize = resources.reduce((sum, res) => sum + (res.transferSize || 0), 0);
-        }
+// Function to calculate the percentage of resources loaded
+function calculateLoadingProgress() {
+  const resources = window.performance.getEntriesByType('resource');
+  let loadedResources = 0;
+  let totalResources = resources.length;
 
-        function trackLoadingProgress() {
-            const observer = new PerformanceObserver((list) => {
-                list.getEntries().forEach((entry) => {
-                    loadedSize += entry.transferSize || 0;
-                    updateProgress();
-                });
-            });
-            observer.observe({ type: "resource", buffered: true });
+  resources.forEach((resource) => {
+    if (resource.responseEnd > 0) {
+      loadedResources++;
+    }
+  });
 
-            window.addEventListener('load', () => {
-                loadedSize = totalSize;
-                updateProgress();
-            });
-        }
+  return (loadedResources / totalResources) * 100;
+}
 
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                calculateTotalSize();
-                trackLoadingProgress();
-            }, 500);
-        });
+function monitorLoading() {
+  let loadingProgress = calculateLoadingProgress();
+  
+  if (loadingProgress < 100) {
+    progress = Math.floor(loadingProgress);
+    setTimeout(monitorLoading, 100);
+  } else {
+    progress = 100;
+  }
+}
+
+window.addEventListener('load', () => {
+  progress = 0;
+  monitorLoading();
+  updateProgress();
+});
     </script>
 
 
